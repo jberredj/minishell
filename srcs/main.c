@@ -6,10 +6,11 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 16:01:23 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/03 17:48:36 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/04 16:26:41 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <readline/readline.h>
@@ -32,7 +33,6 @@ typedef struct s_command
 #ifndef VERSION_NUMBER
 # define VERSION_NUMBER "ALPHA 0.0"
 #endif
-#define DEBUG
 
 void	print_motd(void)
 {
@@ -64,10 +64,22 @@ char	*get_prompt()
 	return (prompt);
 }
 
+typedef struct s_sh_dat
+{
+	t_env	env;
+}				t_sh_dat;
+
+void	prompt(void)
+{
+}
+
 int	main(int argc, char **argv, char **envp)
 {
-	char	*prompt;
+	char		*prompt;
+	t_sh_dat	sh_dat;
 
+	ft_bzero(&sh_dat, sizeof(t_sh_dat));
+	parse_herited_envp(&sh_dat.env, envp);
 	print_motd();
 	prompt = get_prompt();
 	readline(prompt);

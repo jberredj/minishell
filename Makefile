@@ -6,7 +6,7 @@
 #    By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 15:10:49 by jberredj          #+#    #+#              #
-#    Updated: 2021/11/04 06:51:11 by jberredj         ###   ########.fr        #
+#    Updated: 2021/11/04 16:27:04 by jberredj         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ LIBS			=	libft.a
 ##								Source files								 ##
 ###############################################################################
 
-MAIN			=	main.c
+MAIN			=	main.c environement/env.c
 
 SRCS			=	$(addprefix srcs/, $(MAIN)) \
 
@@ -95,7 +95,7 @@ libft.a:
 no_opti: OPTI =
 no_opti: debug
 
-debug: CFLAGS = -g 
+debug: CFLAGS = -g -D DEBUG 
 debug: all
 
 $(OBJ_DIR):
