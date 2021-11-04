@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 16:01:23 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/01 21:24:40 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/03 17:48:36 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,12 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "../libft/includes/libft.h"
+#include <stdbool.h>
 #include <stdint.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <signal.h>
 
 typedef struct s_command
 {
@@ -24,7 +29,48 @@ typedef struct s_command
 	char		**argv;
 }				t_command;
 
-int	main(int argc, char **argv)
-{	
+#ifndef VERSION_NUMBER
+# define VERSION_NUMBER "ALPHA 0.0"
+#endif
+#define DEBUG
+
+void	print_motd(void)
+{
+	printf("\033[0;32m|\\/| .  _  .  _ |_   _ | |\033[0;0m");
+	printf(" Version : " VERSION_NUMBER);
+	printf("\n");
+	printf("\033[0;32m|  | | | | | _) | | (- | |\033[0;0m");
+	printf(" Authors : ddiakova & jberredj\n");
+	#ifdef DEBUG
+	printf("\033[1;33m/!\\ WARNING THIS A DEBUG BUILD, PERFORMANCE MAY BE BAD /!\\\033[0;0m\n");
+	#endif
+}
+
+char	*get_prompt()
+{
+	char	*pwd;
+	char	*user;
+	char	*tmp_prompt;
+	char	*prompt;
+
+	pwd = getenv("PWD");
+	tmp_prompt = ft_strjoin("\033[1;32mminishell\033[0;0m:\033[1;34m", pwd);
+	user = getenv("USER");
+	if (ft_strncmp(user, "root", 5) == 0)
+		prompt = ft_strjoin(tmp_prompt, "\033[0;31m#\033[0;0m ");
+	else
+		prompt = ft_strjoin(tmp_prompt, "\033[0;0m$ ");
+	free(tmp_prompt);
+	return (prompt);
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	char	*prompt;
+
+	print_motd();
+	prompt = get_prompt();
+	readline(prompt);
+	free(prompt);
 	return (0);
 }

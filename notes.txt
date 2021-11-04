@@ -1,0 +1,11 @@
+Readline related functions:
+	- char *readline(char *prompt), create an interactive prompt for us
+	- void rl_clear_history(void), pretty obvious on what it does
+	- int rl_on_new_line(void), need to search
+	- rl_replace_line, need to search
+	- rl_redisplay, need to search
+	- add_history(char *line), need to search
+
+File related functions:
+	- access(const char *pathname, int mode), check if tge process can access a file
+
