@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 11:42:34 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/04 16:29:12 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/04 18:17:36 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,6 @@ int	update_env_elem_value(t_env_elem *elem, char *value)
 	if (elem->value)
 		free(elem->value);
 	elem->value = tmp;
-	if (elem->name)
-		return (_update_envp_str(elem));
 	return (0);
 }
 
@@ -90,34 +88,62 @@ t_env_elem	*create_en_elem_from_str(char *str, int id)
 	return (elem);
 }
 
-
 #ifdef DEBUG
 void	debug_print(t_env *env)
 {
 	int i;
+	char	*value;
+	char	*name;
+	t_list	*elem;
+	t_env_elem	*env_elem;
 
+	elem = env->elems;
 	i = -1;
 	while (++i < env->nbr_entry)
-		printf("name : %s\tvalue : %s\n", env->elems[i]->name, env->elems[i]->value);
+	{
+		env_elem = (t_env_elem *)elem->content;
+		name = env_elem->name;
+		value = env_elem->value;
+		printf("name : %s\tvalue : %s\n", name, value);
+		elem = elem->next;
+	}
 }
 #endif
 
+void  free_env_elem(void *elem)
+{
+	t_env_elem	*env_elem;
+
+	env_elem = (t_env_elem *)elem;
+	if (env_elem)
+	{
+		if (env_elem->name)
+			free(env_elem->name);
+		if (env_elem->value)
+			free(env_elem->value);
+		free(env_elem);
+	}
+}
+
 int	parse_herited_envp(t_env *env, char **envp)
 {
-	size_t	nbr_var;
-	int		i;
+	size_t		nbr_var;
+	t_list		*lst_elem;
+	t_env_elem	*env_elem;
+	int			i;
 
 	nbr_var = 0;
 	while (envp[nbr_var])
 		nbr_var++;
 	env->nbr_entry = nbr_var;
-	env->elems = (t_env_elem **)ft_calloc(nbr_var, sizeof(t_env_elem *));
-	if (!env->elems)
-		return (-1);
 	i = -1;
 	while (++i < nbr_var)
-		env->elems[i] = create_en_elem_from_str(envp[i], i); // TODO, PROTEGE LE CODE SALE MACAQUE
+	{
+		env_elem = create_en_elem_from_str(envp[i], i); // TODO, PROTEGE LE CODE SALE MACAQUE
+		lst_elem = ft_lstnew(env_elem);
+		ft_lstadd_back(&env->elems, lst_elem);
+	}
 	#ifdef DEBUG
-		debug_print(env);
+	debug_print(env);
 	#endif
 }

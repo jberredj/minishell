@@ -1,6 +1,7 @@
 {
 	"files.associations": {
 		"history.h": "c",
-		"libft.h": "c"
+		"libft.h": "c",
+		"ft_lst.h": "c"
 	}
 }

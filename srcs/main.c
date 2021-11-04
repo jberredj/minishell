@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 16:01:23 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/04 16:26:41 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/04 18:04:35 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ int	main(int argc, char **argv, char **envp)
 	print_motd();
 	prompt = get_prompt();
 	readline(prompt);
+	ft_lstclear(&sh_dat.env.elems, free_env_elem);
 	free(prompt);
 	return (0);
 }

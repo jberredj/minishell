@@ -6,7 +6,7 @@
 #    By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 15:10:49 by jberredj          #+#    #+#              #
-#    Updated: 2021/11/04 16:27:04 by jberredj         ###   ########.fr        #
+#    Updated: 2021/11/04 18:12:51 by jberredj         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -100,6 +100,9 @@ debug: all
 
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
+
+valgrind:
+	valgrind --suppressions=./ignoreliberror --leak-check=full ./$(NAME)
 
 .SILENT:
 
