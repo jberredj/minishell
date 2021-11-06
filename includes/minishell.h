@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 16:19:05 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/04 18:03:39 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/06 16:40:35 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,13 @@ typedef struct s_env
 
 }				t_env;
 
+#ifdef DEBUG
+void	debug_print(t_env *env);
+#endif
+
+int	pop_env_elem(t_env *env, char *name);
+int	add_env_elem(t_env *env, t_env_elem *elem);
+t_env_elem *create_env_elem(char *name, char *value, int id);
 int	parse_herited_envp(t_env *env, char **envp);
 void  free_env_elem(void *elem);
 #endif

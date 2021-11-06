@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 16:01:23 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/04 18:04:35 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/06 17:06:34 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,21 +69,29 @@ typedef struct s_sh_dat
 	t_env	env;
 }				t_sh_dat;
 
-void	prompt(void)
+void prompt(t_sh_dat *sh_dat)
 {
+	char		*prompt_str;
+	
+	prompt_str = get_prompt();
+	readline(prompt_str);
+	free(prompt_str);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	char		*prompt;
+	
 	t_sh_dat	sh_dat;
+	t_env_elem	*test;
 
 	ft_bzero(&sh_dat, sizeof(t_sh_dat));
 	parse_herited_envp(&sh_dat.env, envp);
 	print_motd();
-	prompt = get_prompt();
-	readline(prompt);
+	prompt(&sh_dat);
+	pop_env_elem(&sh_dat.env, "USER");
+	#ifdef DEBUG
+	debug_print(&sh_dat.env);
+	#endif
 	ft_lstclear(&sh_dat.env.elems, free_env_elem);
-	free(prompt);
 	return (0);
 }

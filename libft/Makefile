@@ -6,7 +6,7 @@
 #    By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 15:10:49 by jberredj          #+#    #+#              #
-#    Updated: 2021/09/20 17:01:06 by jberredj         ###   ########.fr        #
+#    Updated: 2021/11/06 16:16:47 by jberredj         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ FT_CTYPE_OBJS	=	$(addprefix objs/, $(FT_CTYPE:.c=.o))
 
 FT_LST			= 	ft_lstadd_back.c ft_lstadd_front.c ft_lstclear.c \
 					ft_lstdelone.c ft_lstiter.c ft_lstlast.c ft_lstmap.c \
-					ft_lstnew.c ft_lstsize.c
+					ft_lstnew.c ft_lstpop.c ft_lstsize.c
 FT_LST_SRCS		=	$(addprefix srcs/ft_lst/, $(FT_LST))
 FT_LST_OBJS		=	$(addprefix objs/, $(FT_LST:.c=.o))
 

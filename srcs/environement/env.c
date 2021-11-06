@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 11:42:34 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/04 18:17:36 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/06 16:57:59 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ t_env_elem	*create_en_elem_from_str(char *str, int id)
 		return (NULL);
 	equal_loc = (size_t)((value - str));
 	value++;
-	name = ft_calloc(equal_loc, sizeof(char));
+	name = ft_calloc(equal_loc + 1, sizeof(char));
 	if (!name)
 		return (NULL);
 	ft_strlcpy(name, str, equal_loc + 1);
@@ -89,6 +89,7 @@ t_env_elem	*create_en_elem_from_str(char *str, int id)
 }
 
 #ifdef DEBUG
+#include <stdio.h>
 void	debug_print(t_env *env)
 {
 	int i;
@@ -99,7 +100,7 @@ void	debug_print(t_env *env)
 
 	elem = env->elems;
 	i = -1;
-	while (++i < env->nbr_entry)
+	while (++i < env->nbr_entry && elem)
 	{
 		env_elem = (t_env_elem *)elem->content;
 		name = env_elem->name;
@@ -125,6 +126,45 @@ void  free_env_elem(void *elem)
 	}
 }
 
+t_list	*find_env_elem(t_list **env_lst, char *name)
+{
+	t_list *lst_elem;
+	t_env_elem	*env_elem;
+
+	lst_elem = *env_lst;
+	env_elem = (t_env_elem *)lst_elem->content;
+	while (lst_elem && ft_strncmp(env_elem->name, name, ft_strlen(name)) != 0)
+	{
+		lst_elem = lst_elem->next;
+		env_elem = (t_env_elem *)lst_elem->content;
+	}
+	return (lst_elem);
+}
+
+int	pop_env_elem(t_env *env, char *name)
+{
+	t_list	*elem_to_pop;
+
+	elem_to_pop = find_env_elem(&env->elems, name);
+	if (!elem_to_pop)
+		return (1);
+	env->nbr_entry--;
+	ft_lstpop(&env->elems, elem_to_pop, free_env_elem);
+	return (0);
+}
+
+int	add_env_elem(t_env *env, t_env_elem *elem)
+{
+	t_list	*lst_elem;
+
+	lst_elem = ft_lstnew(elem);
+	if (!lst_elem)
+		return (-1);
+	ft_lstadd_back(&env->elems, lst_elem);
+	env->nbr_entry++;
+	return (0);
+}
+
 int	parse_herited_envp(t_env *env, char **envp)
 {
 	size_t		nbr_var;
@@ -135,6 +175,7 @@ int	parse_herited_envp(t_env *env, char **envp)
 	nbr_var = 0;
 	while (envp[nbr_var])
 		nbr_var++;
+	char	*_debug = envp[nbr_var];
 	env->nbr_entry = nbr_var;
 	i = -1;
 	while (++i < nbr_var)
@@ -146,4 +187,5 @@ int	parse_herited_envp(t_env *env, char **envp)
 	#ifdef DEBUG
 	debug_print(env);
 	#endif
+	return (0);
 }
