@@ -6,14 +6,14 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 11:42:34 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/06 16:57:59 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/08 15:28:00 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft/includes/libft.h"
 #include "minishell.h"
 
-int	_update_envp_str(t_env_elem *elem)
+int	_update_envp_str(t_env_var *elem)
 {
 	char	*tmp;
 
@@ -24,11 +24,12 @@ int	_update_envp_str(t_env_elem *elem)
 	ft_gnljoin(&tmp, elem->value);
 	if (!tmp)
 		return (-1); // CF AU DESSUS
+	free(elem->envp_str);
 	elem->envp_str = tmp;
 	return (0); 
 }
 
-int	update_env_elem_name(t_env_elem *elem, char *name)
+int	update_env_var_name(t_env_var *elem, char *name)
 {
 	char	*tmp;
 
@@ -41,7 +42,7 @@ int	update_env_elem_name(t_env_elem *elem, char *name)
 	return (0);
 }
 
-int	update_env_elem_value(t_env_elem *elem, char *value)
+int	update_env_var_value(t_env_var *elem, char *value)
 {
 	char	*tmp;
 
@@ -54,22 +55,22 @@ int	update_env_elem_value(t_env_elem *elem, char *value)
 	return (0);
 }
 
-t_env_elem *create_env_elem(char *name, char *value, int id)
+t_env_var *create_env_var(char *name, char *value, int id)
 {
-	t_env_elem	*elem;
+	t_env_var	*elem;
 
-	elem = (t_env_elem *)ft_calloc(1, sizeof(t_env_elem));
+	elem = (t_env_var *)ft_calloc(1, sizeof(t_env_var));
 	if (!elem)
 		return (NULL);
 	elem->id = id;
-	update_env_elem_name(elem, name);
-	update_env_elem_value(elem, value);
+	update_env_var_name(elem, name);
+	update_env_var_value(elem, value);
 	return (elem);
 }
 
-t_env_elem	*create_en_elem_from_str(char *str, int id)
+t_env_var	*create_env_var_from_str(char *str, int id)
 {
-	t_env_elem	*elem;
+	t_env_var	*elem;
 	size_t		equal_loc;
 	char		*name;
 	char		*value;
@@ -83,7 +84,7 @@ t_env_elem	*create_en_elem_from_str(char *str, int id)
 	if (!name)
 		return (NULL);
 	ft_strlcpy(name, str, equal_loc + 1);
-	elem = create_env_elem(name, value, id);
+	elem = create_env_var(name, value, id);
 	free(name);
 	return (elem);
 }
@@ -96,13 +97,13 @@ void	debug_print(t_env *env)
 	char	*value;
 	char	*name;
 	t_list	*elem;
-	t_env_elem	*env_elem;
+	t_env_var	*env_elem;
 
 	elem = env->elems;
 	i = -1;
 	while (++i < env->nbr_entry && elem)
 	{
-		env_elem = (t_env_elem *)elem->content;
+		env_elem = (t_env_var *)elem->content;
 		name = env_elem->name;
 		value = env_elem->value;
 		printf("name : %s\tvalue : %s\n", name, value);
@@ -111,11 +112,11 @@ void	debug_print(t_env *env)
 }
 #endif
 
-void  free_env_elem(void *elem)
+void  free_env_var(void *elem)
 {
-	t_env_elem	*env_elem;
+	t_env_var	*env_elem;
 
-	env_elem = (t_env_elem *)elem;
+	env_elem = (t_env_var *)elem;
 	if (env_elem)
 	{
 		if (env_elem->name)
@@ -126,34 +127,42 @@ void  free_env_elem(void *elem)
 	}
 }
 
-t_list	*find_env_elem(t_list **env_lst, char *name)
+t_list	*find_env_var(t_list **env_lst, char *name)
 {
 	t_list *lst_elem;
-	t_env_elem	*env_elem;
+	t_env_var	*env_elem;
 
 	lst_elem = *env_lst;
-	env_elem = (t_env_elem *)lst_elem->content;
+	env_elem = (t_env_var *)lst_elem->content;
 	while (lst_elem && ft_strncmp(env_elem->name, name, ft_strlen(name)) != 0)
 	{
 		lst_elem = lst_elem->next;
-		env_elem = (t_env_elem *)lst_elem->content;
+		env_elem = (t_env_var *)lst_elem->content;
 	}
 	return (lst_elem);
 }
 
-int	pop_env_elem(t_env *env, char *name)
+int	pop_env_var(t_env *env, char *name)
 {
-	t_list	*elem_to_pop;
+	t_list		*elem_to_pop;
+	t_list		*lst_elem;
+	t_env_var	*env_elem;
 
-	elem_to_pop = find_env_elem(&env->elems, name);
-	if (!elem_to_pop)
+	lst_elem = find_env_var(&env->elems, name);
+	if (!lst_elem)
 		return (1);
 	env->nbr_entry--;
-	ft_lstpop(&env->elems, elem_to_pop, free_env_elem);
+	env_elem = lst_elem->content;
+	if (env_elem->flags & ENV_VAR_EXPORTED)
+	{
+		env->_update_envp = true;
+		env->envp[env_elem->id] = NULL;
+	}
+	ft_lstpop(&env->elems, elem_to_pop, free_env_var);
 	return (0);
 }
 
-int	add_env_elem(t_env *env, t_env_elem *elem)
+int	add_env_var(t_env *env, t_env_var *elem)
 {
 	t_list	*lst_elem;
 
@@ -165,22 +174,27 @@ int	add_env_elem(t_env *env, t_env_elem *elem)
 	return (0);
 }
 
+void	export_env_var(t_env *env, t_env_var *env_var)
+{
+	_update_envp_str(env_var);
+	env_var->flags ^= ENV_VAR_EXPORTED;
+}
+
 int	parse_herited_envp(t_env *env, char **envp)
 {
 	size_t		nbr_var;
 	t_list		*lst_elem;
-	t_env_elem	*env_elem;
+	t_env_var	*env_elem;
 	int			i;
 
 	nbr_var = 0;
 	while (envp[nbr_var])
 		nbr_var++;
-	char	*_debug = envp[nbr_var];
 	env->nbr_entry = nbr_var;
 	i = -1;
 	while (++i < nbr_var)
 	{
-		env_elem = create_en_elem_from_str(envp[i], i); // TODO, PROTEGE LE CODE SALE MACAQUE
+		env_elem = create_env_var_from_str(envp[i], i); // TODO, PROTEGE LE CODE SALE MACAQUE
 		lst_elem = ft_lstnew(env_elem);
 		ft_lstadd_back(&env->elems, lst_elem);
 	}

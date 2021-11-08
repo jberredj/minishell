@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 16:01:23 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/06 17:38:15 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/08 14:57:43 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ typedef struct s_sh_dat
 
 void prompt(t_sh_dat *sh_dat)
 {
-	t_env_elem	*elem;
+	t_env_var	*elem;
 	char		*prompt_str;
 	char		*str;
 	bool		running;
@@ -96,12 +96,12 @@ void prompt(t_sh_dat *sh_dat)
 				char **split;
 
 				split = ft_split(str, ' ');
-				pop_env_elem(&sh_dat->env, split[1]);
+				pop_env_var(&sh_dat->env, split[1]);
 				ft_free_split(split, ft_split_size(split));
 				continue ;
 			}
-			elem = create_en_elem_from_str(str, sh_dat->env.nbr_entry + 1);
-			add_env_elem(&sh_dat->env, elem);
+			elem = create_env_var_from_str(str, sh_dat->env.nbr_entry + 1);
+			add_env_var(&sh_dat->env, elem);
 		}
 		free(str);
 	}
@@ -111,16 +111,15 @@ int	main(int argc, char **argv, char **envp)
 {
 	
 	t_sh_dat	sh_dat;
-	t_env_elem	*test;
+	t_env_var	*test;
 
 	ft_bzero(&sh_dat, sizeof(t_sh_dat));
 	parse_herited_envp(&sh_dat.env, envp);
 	print_motd();
 	prompt(&sh_dat);
-	pop_env_elem(&sh_dat.env, "USER");
 	#ifdef DEBUG
 	debug_print(&sh_dat.env);
 	#endif
-	ft_lstclear(&sh_dat.env.elems, free_env_elem);
+	ft_lstclear(&sh_dat.env.elems, free_env_var);
 	return (0);
 }
