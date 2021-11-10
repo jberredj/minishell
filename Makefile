@@ -6,7 +6,7 @@
 #    By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 15:10:49 by jberredj          #+#    #+#              #
-#    Updated: 2021/11/06 17:08:39 by jberredj         ###   ########.fr        #
+#    Updated: 2021/11/10 10:53:46 by jberredj         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,14 +29,19 @@ LIBS			=	libft.a
 ##								Source files								 ##
 ###############################################################################
 
-MAIN			=	main.c environement/env.c
+ENV				=	var/create.c var/free.c var/update.c var/utils.c env.c \
+					parse_herited.c
 
-SRCS			=	$(addprefix srcs/, $(MAIN)) \
+MAIN			=	main.c 
+
+
 
 STRUCTS			=	
-HEADERS			=	
+HEADERS			=
 
-OBJS			=	$(addprefix objs/, $(notdir $(SRCS:.c=.o)))
+SRCS			=	$(addprefix srcs/, $(MAIN)) \
+					$(addprefix srcs/env/, $(ENV))
+OBJS			=	$(addprefix objs/, $(subst /,., $(subst srcs/,, $(SRCS:.c=.o))))
 
 ###############################################################################
 ##							Color output char								 ##
@@ -82,9 +87,11 @@ $(OBJS): $(SRCS)
 	printf "$(BLUE)Compiling $(LIGHT_PURPLE)$(NAME) $(BLUE)sources$(NC)\n"
 	find ./objs/ -type f -exec touch {} +
 	$(foreach source,$?, \
-	$(CC) -I $(INC_DIR) $(CFLAGS) $(CODE_VERSION) -c $(source);printf "Compiling $(LIGHT_PURPLE) \
-	$(notdir $(source) $(NC)\n");)
-	mv -f $(notdir $(?:.c=.o)) objs/
+	OUTPUT_NAME="$(subst /,., $(subst srcs/,, $(source:.c=.o)))"; \
+	printf "Compiling $(LIGHT_PURPLE) $(subst srcs/,, $(source)) $(NC)\n"; \
+	$(CC) -I $(INC_DIR) $(CFLAGS) $(CODE_VERSION) -c $(source) -o $$OUTPUT_NAME; \
+	if [ $$? -ne "0" ];then exit 1; fi;)
+	mv -f *.o objs/
 
 $(SRCS): $(addprefix $(INC_DIR)/, $(HEADERS))
  

@@ -6,22 +6,23 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 16:01:23 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/08 14:57:43 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/10 10:48:22 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include "../libft/includes/libft.h"
 #include <stdbool.h>
 #include <stdint.h>
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <signal.h>
+#include "../libft/includes/libft.h"
+#include "env.h"
+#include "minishell.h"
 
 typedef struct s_command
 {
@@ -30,10 +31,6 @@ typedef struct s_command
 	char		**argv;
 }				t_command;
 
-#ifndef VERSION_NUMBER
-# define VERSION_NUMBER "ALPHA 0.0"
-#endif
-
 void	print_motd(void)
 {
 	printf("\033[0;32m|\\/| .  _  .  _ |_   _ | |\033[0;0m");
@@ -41,9 +38,9 @@ void	print_motd(void)
 	printf("\n");
 	printf("\033[0;32m|  | | | | | _) | | (- | |\033[0;0m");
 	printf(" Authors : ddiakova & jberredj\n");
-	#ifdef DEBUG
+#ifdef DEBUG
 	printf("\033[1;33m/!\\ WARNING THIS A DEBUG BUILD, PERFORMANCE MAY BE BAD /!\\\033[0;0m\n");
-	#endif
+#endif
 }
 
 char	*get_prompt()
@@ -100,7 +97,7 @@ void prompt(t_sh_dat *sh_dat)
 				ft_free_split(split, ft_split_size(split));
 				continue ;
 			}
-			elem = create_env_var_from_str(str, sh_dat->env.nbr_entry + 1);
+			elem = create_env_var_from_str(str, sh_dat->env.nbr_vars + 1);
 			add_env_var(&sh_dat->env, elem);
 		}
 		free(str);
@@ -117,9 +114,6 @@ int	main(int argc, char **argv, char **envp)
 	parse_herited_envp(&sh_dat.env, envp);
 	print_motd();
 	prompt(&sh_dat);
-	#ifdef DEBUG
-	debug_print(&sh_dat.env);
-	#endif
 	ft_lstclear(&sh_dat.env.elems, free_env_var);
 	return (0);
 }
