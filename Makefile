@@ -6,7 +6,7 @@
 #    By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 15:10:49 by jberredj          #+#    #+#              #
-#    Updated: 2021/11/10 10:53:46 by jberredj         ###   ########.fr        #
+#    Updated: 2021/11/10 13:53:13 by jberredj         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -87,9 +87,8 @@ $(OBJS): $(SRCS)
 	printf "$(BLUE)Compiling $(LIGHT_PURPLE)$(NAME) $(BLUE)sources$(NC)\n"
 	find ./objs/ -type f -exec touch {} +
 	$(foreach source,$?, \
-	OUTPUT_NAME="$(subst /,., $(subst srcs/,, $(source:.c=.o)))"; \
-	printf "Compiling $(LIGHT_PURPLE) $(subst srcs/,, $(source)) $(NC)\n"; \
-	$(CC) -I $(INC_DIR) $(CFLAGS) $(CODE_VERSION) -c $(source) -o $$OUTPUT_NAME; \
+	printf "Compiling $(LIGHT_PURPLE)$(subst srcs/,,$(source)) $(NC)\n"; \
+	$(CC) -I $(INC_DIR) $(CFLAGS) $(CODE_VERSION) -c $(source) -o $(subst /,.,$(subst srcs/,,$(source:.c=.o))); \
 	if [ $$? -ne "0" ];then exit 1; fi;)
 	mv -f *.o objs/
 

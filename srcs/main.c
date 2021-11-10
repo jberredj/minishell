@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 16:01:23 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/10 10:48:22 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/10 11:36:42 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,10 +106,10 @@ void prompt(t_sh_dat *sh_dat)
 
 int	main(int argc, char **argv, char **envp)
 {
-	
 	t_sh_dat	sh_dat;
-	t_env_var	*test;
 
+	(void)argc;
+	(void)argv;
 	ft_bzero(&sh_dat, sizeof(t_sh_dat));
 	parse_herited_envp(&sh_dat.env, envp);
 	print_motd();

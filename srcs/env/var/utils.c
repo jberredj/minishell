@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 12:39:31 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/10 10:47:19 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/10 11:38:30 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ t_list	*find_env_var(t_list **env_lst, char *name)
 
 int	pop_env_var(t_env *env, char *name)
 {
-	t_list		*elem_to_pop;
 	t_list		*lst_elem;
 	t_env_var	*env_elem;
 
@@ -46,7 +45,7 @@ int	pop_env_var(t_env *env, char *name)
 		env->_update_envp = true;
 		env->envp[env_elem->id] = NULL;
 	}
-	ft_lstpop(&env->elems, elem_to_pop, free_env_var);
+	ft_lstpop(&env->elems, lst_elem, free_env_var);
 	return (0);
 }
 
