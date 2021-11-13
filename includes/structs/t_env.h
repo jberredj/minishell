@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 12:51:28 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/10 10:46:46 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/12 16:14:53 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,10 @@ typedef struct s_env
 	size_t		nbr_vars;
 	size_t		nbr_exported;
 	t_list		*elems;
+	t_env_var	*path;
+	t_env_var	*pwd;
+	t_env_var	*old_pwd;
+	t_env_var	*home;
 	char		**envp;
 }				t_env;
 

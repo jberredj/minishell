@@ -1,28 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   error_codes.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/09 12:47:43 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/12 15:45:14 by jberredj         ###   ########.fr       */
+/*   Created: 2021/11/12 15:55:31 by jberredj          #+#    #+#             */
+/*   Updated: 2021/11/12 15:59:57 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "structs/t_env.h"
-
-void	free_env_var(void *elem)
-{
-	t_env_var	*env_var;
-
-	env_var = (t_env_var *)elem;
-	if (env_var)
-	{
-		if (env_var->name)
-			free(env_var->name);
-		if (env_var->value)
-			free(env_var->value);
-		free(env_var);
-	}
-}
+#ifndef ERROR_CODES_H
+# define ERROR_CODES_H
+# define ERR_MALLOC 1
+#endif

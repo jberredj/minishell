@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 12:38:50 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/10 10:48:40 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/12 15:46:39 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,20 @@
 
 t_env_var	*create_env_var(char *name, char *value, int id)
 {
-	t_env_var	*elem;
+	t_env_var	*env_var;
 
-	elem = (t_env_var *)ft_calloc(1, sizeof(t_env_var));
-	if (!elem)
+	env_var = (t_env_var *)ft_calloc(1, sizeof(t_env_var));
+	if (!env_var)
 		return (NULL);
-	elem->id = id;
-	update_env_var_name(elem, name);
-	update_env_var_value(elem, value);
-	return (elem);
+	env_var->id = id;
+	update_env_var_name(env_var, name);
+	update_env_var_value(env_var, value);
+	return (env_var);
 }
 
 t_env_var	*create_env_var_from_str(char *str, int id)
 {
-	t_env_var	*elem;
+	t_env_var	*env_var;
 	size_t		equal_loc;
 	char		*name;
 	char		*value;
@@ -43,7 +43,7 @@ t_env_var	*create_env_var_from_str(char *str, int id)
 	if (!name)
 		return (NULL);
 	ft_strlcpy(name, str, equal_loc + 1);
-	elem = create_env_var(name, value, id);
+	env_var = create_env_var(name, value, id);
 	free(name);
-	return (elem);
+	return (env_var);
 }

@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 12:39:31 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/10 11:38:30 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/12 16:30:57 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "../libft/includes/ft_lst.h"
 #include "../libft/includes/ft_string.h"
 
-t_list	*find_env_var(t_list **env_lst, char *name)
+t_list	*find_env_var_in_lst(t_list **env_lst, char *name)
 {
 	t_list		*lst_elem;
 	t_env_var	*env_elem;
@@ -25,17 +25,18 @@ t_list	*find_env_var(t_list **env_lst, char *name)
 	while (lst_elem && ft_strncmp(env_elem->name, name, ft_strlen(name)) != 0)
 	{
 		lst_elem = lst_elem->next;
-		env_elem = (t_env_var *)lst_elem->content;
+		if (lst_elem)
+			env_elem = (t_env_var *)lst_elem->content;
 	}
 	return (lst_elem);
 }
 
-int	pop_env_var(t_env *env, char *name)
+int	pop_env_var_from_env(t_env *env, char *name)
 {
 	t_list		*lst_elem;
 	t_env_var	*env_elem;
 
-	lst_elem = find_env_var(&env->elems, name);
+	lst_elem = find_env_var_in_lst(&env->elems, name);
 	if (!lst_elem)
 		return (1);
 	env->nbr_vars--;

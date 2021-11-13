@@ -1,28 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/09 12:47:43 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/12 15:45:14 by jberredj         ###   ########.fr       */
+/*   Created: 2021/11/12 15:30:51 by jberredj          #+#    #+#             */
+/*   Updated: 2021/11/12 15:39:24 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "structs/t_env.h"
 
-void	free_env_var(void *elem)
+t_env	init_env(void)
 {
-	t_env_var	*env_var;
-
-	env_var = (t_env_var *)elem;
-	if (env_var)
-	{
-		if (env_var->name)
-			free(env_var->name);
-		if (env_var->value)
-			free(env_var->value);
-		free(env_var);
-	}
+	return ((t_env){0});
 }
