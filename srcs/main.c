@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 16:01:23 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/12 17:00:15 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/13 18:42:34 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,44 +81,46 @@ char	*get_prompt(t_env *env)
 	return (prompt);
 }
 
-typedef struct s_sh_dat
-{
-	t_env	env;
-}				t_sh_dat;
-
 void prompt(t_sh_dat *sh_dat)
 {
+	char		**split;
 	t_env_var	*elem;
 	char		*prompt_str;
 	char		*str;
 	bool		running;
-	
+
 	running = true;
 	while (running)
 	{
 		prompt_str = get_prompt(&sh_dat->env);
 		str = readline(prompt_str);
 		free(prompt_str);
-		add_history(str);
-		if (*str)
+		if (str)
 		{
-			if (ft_strncmp(str, "exit", 4) == 0)
+			if (*str)
 			{
-				running = false;
-				rl_clear_history();
-				continue ;
+				add_history(str);
+				if (ft_strncmp(str, "exit", 4) == 0)
+				{
+					running = false;
+					rl_clear_history();
+					continue ;
+				}
+				else if (ft_strncmp(str, "unset", 4) == 0)
+				{
+					split = ft_split(str, ' ');
+					pop_env_var_from_env(&sh_dat->env, split[1]);
+					ft_free_split(split, ft_split_size(split));
+					continue ;
+				}
+				elem = create_env_var_from_str(str, sh_dat->env.nbr_vars + 1);
+				add_env_var(&sh_dat->env, elem);
 			}
-			else if (ft_strncmp(str, "unset", 4) == 0)
-			{
-				char **split;
-
-				split = ft_split(str, ' ');
-				pop_env_var_from_env(&sh_dat->env, split[1]);
-				ft_free_split(split, ft_split_size(split));
-				continue ;
-			}
-			elem = create_env_var_from_str(str, sh_dat->env.nbr_vars + 1);
-			add_env_var(&sh_dat->env, elem);
+		}
+		else
+		{
+			write(1, "exit\n", 5);
+			running = false;
 		}
 		free(str);
 	}
@@ -126,10 +128,15 @@ void prompt(t_sh_dat *sh_dat)
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_sh_dat	sh_dat;
+	struct sigaction	sigquit_act;
+	t_sh_dat			sh_dat;
 
 	(void)argc;
 	(void)argv;
+	ft_bzero(&sigquit_act, sizeof(struct sigaction));
+	sigquit_act.sa_sigaction = NULL;
+	sigquit_act.sa_handler = SIG_IGN;
+	sigaction(SIGQUIT, &sigquit_act, NULL);
 	ft_bzero(&sh_dat, sizeof(t_sh_dat));
 	parse_herited_envp(&sh_dat.env, envp);
 	print_motd();

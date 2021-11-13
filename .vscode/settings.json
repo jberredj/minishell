@@ -2,6 +2,7 @@
 	"files.associations": {
 		"stdlib.h": "c",
 		"libft.h": "c",
-		"t_env.h": "c"
+		"t_env.h": "c",
+		"minishell.h": "c"
 	}
 }
