@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenise_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ddiakova <ddiakova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/13 18:21:55 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/13 19:26:29 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/14 20:59:51 by ddiakova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,19 @@ int	new_token(t_token **tokens)
 int	search_word(char *line, t_token **tokens)
 {
 	int	i;
+	t_token *new;
 
 	if (is_quote(line[0]))
 		return (0);
-	while (!ft_isspace(line[i]) && !is_quote(line[i] && line[i])
+	while (!ft_isspace(line[i]) && !is_quote(line[i]) && line[i])
 	{
-		
+		new = new_token(tokens);
+		if (new == NULL)
+			return (1);
+		new->content = ft_strdup(line[i]); //FAIRE FREE 
+		i++;
 	}
-	
+	return (0);
 }
 
 int	search_separator(char *line, t_token **tokens)
@@ -84,6 +89,15 @@ t_token	*tokenise_line(t_sh_dat *shdat, char *line)
 			i++;
 		if (search_word(line, &tokens))
 			return (NULL); // handle error fallback
+		if (search_separator(line, &tokens))
+			return (NULL);
+		if (search_s_quote(line, &tokens))
+			return (NULL);
+		if (search_d_quote(line, &tokens))
+			return (NULL);
+		if (search_backslash(line, &tokens))
+			return (NULL);
+		i++;
 	}
 	return (tokens);
 }
