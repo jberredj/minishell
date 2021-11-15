@@ -6,7 +6,7 @@
 #    By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 15:10:49 by jberredj          #+#    #+#              #
-#    Updated: 2021/11/10 13:53:13 by jberredj         ###   ########.fr        #
+#    Updated: 2021/11/15 11:06:17 by jberredj         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -112,14 +112,16 @@ valgrind:
 
 .SILENT:
 
+commit_all_files: ffclean
+	git add .
+	git commit
+
 ###############################################################################
 ## 								Norm recipe									 ##
 ###############################################################################
 
 norm:
 	printf "$(BLUE)Checking norm$(NC)\n"
-#		   Removing mlx.h, because it's not normed and cause norminette to fail
-#												↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
-	norminette $(SRCS) $(addprefix $(INC_DIR)/, $(filter-out mlx.h, $(HEADERS))) \
-	libs/libft ; if [ "$$?" -ne "0" ]; then printf "$(RED)NORM ERROR$(NC)\n"; \
+	norminette $(SRCS) $(addprefix $(INC_DIR)/, $(HEADERS)) \
+	libft ; if [ "$$?" -ne "0" ]; then printf "$(RED)NORM ERROR$(NC)\n"; \
 	else printf "$(GREEN)NORM OK$(NC)\n";fi
