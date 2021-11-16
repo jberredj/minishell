@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 10:01:28 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/16 15:11:43 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/16 15:34:17 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define FT_IDLLST_H
 # include <stdlib.h>
 # include <stddef.h>
+# include <stdbool.h>
 # include "ft_string.h"
 
 /*
@@ -36,4 +37,7 @@ typedef struct s_idllist
 }				t_idllist;
 t_idllist	ft_init_idllst(t_idllist *list, void *struct_addr);
 void		ft_idllst_add_after(t_idllist *new, t_idllist *head);
+void		ft_idllst_add_before(t_idllist *new, t_idllist *head);
+bool		ft_idllst_is_head(t_idllist *node);
+t_idllist	*ft_idllst_get_head(t_idllist *node);
 #endif
