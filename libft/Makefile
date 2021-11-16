@@ -6,7 +6,7 @@
 #    By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 15:10:49 by jberredj          #+#    #+#              #
-#    Updated: 2021/11/06 16:16:47 by jberredj         ###   ########.fr        #
+#    Updated: 2021/11/16 17:48:50 by jberredj         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,18 @@ FT_LST			= 	ft_lstadd_back.c ft_lstadd_front.c ft_lstclear.c \
 					ft_lstnew.c ft_lstpop.c ft_lstsize.c
 FT_LST_SRCS		=	$(addprefix srcs/ft_lst/, $(FT_LST))
 FT_LST_OBJS		=	$(addprefix objs/, $(FT_LST:.c=.o))
+
+FT_IDLLST		= 	ft_idllst_add_after.c ft_idllst_add_before.c \
+					ft_idllst_clear.c ft_idllst_clear_before.c \
+					ft_idllst_get_content.c ft_idllst_get_tail.c \
+					ft_idllst_is_head.c ft_idllst_nbr_to_head.c \
+					ft_idllst_pop.c ft_idllst_add_back.c ft_idllst_add_front.c \
+					ft_idllst_clear_after.c ft_idllst_del.c \
+					ft_idllst_get_head.c ft_idllst_init.c \
+					ft_idllst_is_tail.c ft_idllst_nbr_to_tail.c \
+					ft_idllst_size.c
+FT_IDLLST_SRCS	=	$(addprefix srcs/ft_idllst/, $(FT_IDLLST))
+FT_IDLLST_OBJS	=	$(addprefix objs/, $(FT_IDLLST:.c=.o))
 
 FT_IO			=	ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c \
 					ft_putnbr_fd.c ft_putnbr_base_fd.c ft_put_unbr_fd.c
@@ -70,16 +82,16 @@ GNL_OBJS		=	$(addprefix objs/, $(GET_NEXT_LINE:.c=.o))
 
 LIBS_OBJS		=	$(FT_CTYPE_OBJS) $(FT_LST_OBJS) $(FT_IO_OBJS) \
 					$(FT_STRING_OBJS) $(FT_TO_OBJS) $(FT_UTILS_OBJS) \
-					$(GNL_OBJS)
+					$(GNL_OBJS) $(FT_IDLLST_OBJS)
 LIBS_SRCS		=	$(FT_CTYPE_SRCS) $(FT_LST_SRCS) $(FT_IO_SRCS) \
 					$(FT_STRING_SRCS) $(FT_TO_SRCS) $(FT_UTILS_SRCS) \
-					$(GNL_SRCS)
+					$(GNL_SRCS) $(FT_IDLLST_SRCS)
 
 LIBS			=	ft_ctype ft_lst ft_io ft_string ft_to ft_utils \
 					get_next_line
 
 HEADERS			=	ft_ctype.h ft_io.h ft_lst.h ft_string.h ft_to.h \
-					ft_utils.h get_next_line.h libft.h
+					ft_utils.h get_next_line.h ft_idllst.h libft.h
 
 ###############################################################################
 ##							Color output char								 ##
@@ -152,6 +164,15 @@ $(FT_UTILS_OBJS): $(FT_UTILS_SRCS)
 ft_lst: ft_string $(OBJ_DIR) $(FT_LST_OBJS)
 $(FT_LST_OBJS): $(FT_LST_SRCS)
 	printf "$(BLUE)Compiling $(LIGHT_PURPLE)ft_lst $(BLUE)functions$(NC)\n"
+	find ./objs/ -type f -exec touch {} +
+	$(foreach source,$?, \
+	$(CC) -I $(INC_DIR) $(CFLAGS) -c $(source);printf "Compiling $(LIGHT_PURPLE) \
+	$(notdir $(source) $(NC)\n");)
+	mv -f $(notdir $(?:.c=.o)) objs/
+
+ft_idllst: ft_string $(OBJ_DIR) $(FT_IDLLST_OBJS)
+$(FT_IDLLST_OBJS): $(FT_IDLLST_SRCS)
+	printf "$(BLUE)Compiling $(LIGHT_PURPLE)ft_idllst $(BLUE)functions$(NC)\n"
 	find ./objs/ -type f -exec touch {} +
 	$(foreach source,$?, \
 	$(CC) -I $(INC_DIR) $(CFLAGS) -c $(source);printf "Compiling $(LIGHT_PURPLE) \
