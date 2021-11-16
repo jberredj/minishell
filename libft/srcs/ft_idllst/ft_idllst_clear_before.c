@@ -1,36 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_idllst_pop.c                                    :+:      :+:    :+:   */
+/*   ft_idllst_clear_before.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/16 16:15:49 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/16 17:05:57 by jberredj         ###   ########.fr       */
+/*   Created: 2021/11/16 16:56:54 by jberredj          #+#    #+#             */
+/*   Updated: 2021/11/16 17:38:33 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_idllst.h"
 
-t_idllist	*ft_idllst_pop(t_idllist *node, void (*del)(void*))
+void	ft_idllst_clear_before(t_idllist *node, void (*del)(void*),
+		bool include_current)
 {
-	t_idllist	*poped;
+	t_idllist	*prev;
+	t_idllist	*to_pop;
 
-	if (!node)
-		return (NULL);
-	poped = node;
-	if (ft_idllst_is_head(node))
-		node->next->prev = node->next;
+	if (!node || !del)
+		return ;
+	if (include_current)
+		to_pop = node;
 	else
-		node->next->prev = node->prev;
-	if (ft_idllst_is_tail(node))
-		node->prev->next = node->prev;
-	else
-		node->prev->next = node->next;
-	if (del)
+		to_pop = node->prev;
+	while (!ft_idllst_is_head(to_pop))
 	{
-		del(poped);
-		poped = NULL;
+		prev = to_pop->prev;
+		ft_idllst_pop(to_pop, del);
+		to_pop = prev;
 	}
-	return (poped);
+	ft_idllst_pop(to_pop, del);
 }
