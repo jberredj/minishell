@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 10:01:28 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/16 16:08:52 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/16 16:34:08 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,5 @@ void		ft_idllst_add_front(t_idllist *new, t_idllist *list);
 void		ft_idllst_add_back(t_idllist *new, t_idllist *list);
 size_t		ft_idllst_nbr_to_tail(t_idllist *node);
 size_t		ft_idllst_nbr_to_head(t_idllist *node);
+t_idllist	*ft_idllst_pop(t_idllist *node, void (*del)(void*));
 #endif

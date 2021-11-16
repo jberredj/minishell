@@ -1,29 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_idllst_nbr_to_tail.c                            :+:      :+:    :+:   */
+/*   ft_idllst_pop.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/16 15:55:21 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/16 16:33:02 by jberredj         ###   ########.fr       */
+/*   Created: 2021/11/16 16:15:49 by jberredj          #+#    #+#             */
+/*   Updated: 2021/11/16 16:32:41 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_idllst.h"
-#include <stdlib.h>
 
-size_t	ft_idllst_nbr_to_tail(t_idllist *node)
+t_idllist	*ft_idllst_pop(t_idllist *node, void (*del)(void*))
 {
-	size_t	i;
+	t_idllist	*poped;
 
-	if (!node)
-		return (0);
-	i = 0;
-	while (node != node->next)
+	poped = node;
+	if (ft_idllst_is_head(node))
+		node->next->prev = node->next;
+	else
+		node->next->prev = node->prev;
+	if (ft_idllst_is_tail(node))
+		node->prev->next = node->prev;
+	else
+		node->prev->next = node->next;
+	if (del)
 	{
-		i++;
-		node = node->next;
+		del(poped);
+		poped = NULL;
 	}
-	return (i);
+	return (poped);
 }
