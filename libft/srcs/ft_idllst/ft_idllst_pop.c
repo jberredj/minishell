@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 16:15:49 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/16 16:32:41 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/16 16:47:22 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ t_idllist	*ft_idllst_pop(t_idllist *node, void (*del)(void*))
 {
 	t_idllist	*poped;
 
+	if (!node)
+		return (NULL);	
 	poped = node;
 	if (ft_idllst_is_head(node))
 		node->next->prev = node->next;

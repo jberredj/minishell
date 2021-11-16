@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 15:21:43 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/16 15:32:45 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/16 16:46:04 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 t_idllist	*ft_idllst_get_head(t_idllist *node)
 {
+	if (!node)
+		return (NULL);
 	if (!ft_idllst_is_head(node))
 		while (node != node->prev)
 			node = node->prev;

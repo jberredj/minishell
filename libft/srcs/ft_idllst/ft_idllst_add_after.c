@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 12:19:33 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/16 15:46:47 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/16 16:44:44 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	ft_idllst_add_after(t_idllist *new, t_idllist *node)
 	t_idllist	*prev;
 	t_idllist	*next;
 
+	if (!node || !new)
+		return ;
 	prev = node;
 	next = node->next;
 	if (next != prev)
