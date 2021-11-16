@@ -1,23 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_idllst_init.c                                   :+:      :+:    :+:   */
+/*   ft_idllst_nbr_to_tail.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/16 12:08:43 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/16 15:50:14 by jberredj         ###   ########.fr       */
+/*   Created: 2021/11/16 15:55:21 by jberredj          #+#    #+#             */
+/*   Updated: 2021/11/16 16:08:29 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
 #include "ft_idllst.h"
+#include <stdlib.h>
 
-t_idllist	ft_idllst_init(t_idllist *list, void *struct_addr)
+size_t	ft_idllst_nbr_to_tail(t_idllist *node)
 {
-	return ((t_idllist){
-		.prev = list,
-		.next = list,
-		.struct_offset = ((ptrdiff_t)list - (ptrdiff_t)struct_addr)
-	});
+	size_t	i;
+
+	if (!node)
+		return (0);
+	i = 0;
+	while (node != node->next)
+	{
+		i++;
+		node = node->next;
+	}
+	return (i);
 }
