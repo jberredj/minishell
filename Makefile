@@ -6,7 +6,7 @@
 #    By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 15:10:49 by jberredj          #+#    #+#              #
-#    Updated: 2021/11/17 10:29:46 by jberredj         ###   ########.fr        #
+#    Updated: 2021/11/17 16:55:01 by jberredj         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,8 +29,9 @@ LIBS			=	libft.a
 ##								Source files								 ##
 ###############################################################################
 
-ENV				=	var/create.c var/free.c var/update.c var/utils.c env.c \
-					parse_herited.c
+ENV				=	var/create.c var/free.c var/update.c var/utils.c \
+					parse_herited.c envp/update.c env_var_to_envp.c \
+					envp/free.c
 
 MAIN			=	main.c 
 

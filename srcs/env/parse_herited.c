@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 12:41:15 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/17 12:07:18 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/17 16:11:10 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,13 @@ int	parse_herited_envp(t_env *env, char **envp)
 	i = -1;
 	while (++i < (int)nbr_var)
 	{
-		env_var_node = create_env_var_from_str(envp[i], i);
+		env_var_node = create_env_var_from_str(envp[i]);
 		if (!env_var_node)
 		{
 			ft_idllst_clear(&env->env_vars->list, free_env_var);
 		}
 		add_env_var(env, env_var_node);
+		env_var_to_envp(&env->envp, env_var_node, &env->nbr_exported);
 	}
 	set_parsed_vars_in_env(env);
 	return (0);
