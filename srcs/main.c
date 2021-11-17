@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 16:01:23 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/17 17:09:55 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/17 17:42:49 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ char	*get_prompt(t_env *env)
 
 	pwd = prompt_pwd(env->pwd, env->home);
 	tmp_prompt = ft_strjoin(
-			"\033[1;32mpre-historicshell\033[0;0m:\033[1;34m",
+			"\033[1;32mneolithicshell\033[0;0m:\033[1;34m",
 			pwd);
 	free(pwd);
 	user = getenv("USER");
