@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenise_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddiakova <ddiakova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/13 18:21:55 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/14 20:59:51 by ddiakova         ###   ########.fr       */
+/*   Updated: 2021/11/17 14:33:51 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,30 +20,27 @@ bool	is_quote(char c)
 	return ((bool)(c == '\'' || c == '\"'));
 }
 
-int	new_token(t_token **tokens)
+t_token	*new_token_add(t_token **tokens)
 {
-	t_token *new;
-	t_token	*tmp;
+	t_token	*new;
 
+	if (!tokens)
+		return (NULL);
 	new = (t_token *)ft_calloc(1, sizeof(t_token));
 	if (!new)
-		return (1); // CHANGE TO MALLOC ERROR CODE
-	tmp = *tokens;
-	if (!tmp)
+		return (NULL); // CHANGE TO MALLOC ERROR CODE
+	*new->list = ft_idllst_init(&new->list, new);
+	if (!*tokens)
 		*tokens = new;
 	else
-	{
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = new;
-	}
-	return (0);
+		ft_idllst_add_back(&new->list, &(*tokens)->list);
+	return (new);
 }
 
 int	search_word(char *line, t_token **tokens)
 {
-	int	i;
-	t_token *new;
+	int		i;
+	t_token	*new;
 
 	if (is_quote(line[0]))
 		return (0);
@@ -83,6 +80,8 @@ t_token	*tokenise_line(t_sh_dat *shdat, char *line)
 	t_token	*tokens;
 	int		i;
 
+	tokens = NULL;
+	i = 0;
 	while (line[i])
 	{
 		while (ft_isspace(line[i]))
