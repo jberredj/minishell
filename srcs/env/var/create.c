@@ -6,25 +6,26 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 12:38:50 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/12 15:46:39 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/17 12:11:42 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "structs/t_env.h"
 #include "env.h"
-#include "../libft/includes/ft_string.h"
+#include "../libft/includes/libft.h"
 
 t_env_var	*create_env_var(char *name, char *value, int id)
 {
-	t_env_var	*env_var;
+	t_env_var	*env_var_node;
 
-	env_var = (t_env_var *)ft_calloc(1, sizeof(t_env_var));
-	if (!env_var)
+	env_var_node = (t_env_var *)ft_calloc(1, sizeof(t_env_var));
+	if (!env_var_node)
 		return (NULL);
-	env_var->id = id;
-	update_env_var_name(env_var, name);
-	update_env_var_value(env_var, value);
-	return (env_var);
+	env_var_node->list = ft_idllst_init(&env_var_node->list, env_var_node);
+	env_var_node->id = id;
+	update_env_var_name(env_var_node, name);
+	update_env_var_value(env_var_node, value);
+	return (env_var_node);
 }
 
 t_env_var	*create_env_var_from_str(char *str, int id)

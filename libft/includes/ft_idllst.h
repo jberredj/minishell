@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 10:01:28 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/17 08:58:34 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/17 11:02:10 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ typedef struct s_idllist
 {
 	struct s_idllist	*prev;
 	struct s_idllist	*next;
-	ptrdiff_t			struct_offset;
+	void				*struct_addr;
 }				t_idllist;
 
 t_idllist	ft_idllst_init(t_idllist *list, void *struct_addr);

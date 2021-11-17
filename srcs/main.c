@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 16:01:23 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/15 11:03:47 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/17 12:15:19 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,18 @@ char	*get_prompt(t_env *env)
 	return (prompt);
 }
 
+void	pseudo_env(t_env *env)
+{
+	t_env_var	*env_var_node;
+
+	env_var_node = env->env_vars;
+	while (env_var_node)
+	{
+		printf("%s=%s\n", env_var_node->name, env_var_node->value);
+		env_var_node = ft_idllst_next_content(&env_var_node->list);
+	}
+}
+
 void prompt(t_sh_dat *sh_dat)
 {
 	char		**split;
@@ -113,6 +125,11 @@ void prompt(t_sh_dat *sh_dat)
 					ft_free_split(split, ft_split_size(split));
 					continue ;
 				}
+				else if (ft_strncmp(str, "env", 3) == 0)
+				{
+					pseudo_env(&sh_dat->env);
+					continue ;
+				}
 				elem = create_env_var_from_str(str, sh_dat->env.nbr_vars + 1);
 				add_env_var(&sh_dat->env, elem);
 			}
@@ -141,6 +158,6 @@ int	main(int argc, char **argv, char **envp)
 	parse_herited_envp(&sh_dat.env, envp);
 	print_motd();
 	prompt(&sh_dat);
-	ft_lstclear(&sh_dat.env.elems, free_env_var);
+	ft_idllst_clear(&sh_dat.env.env_vars->list, free_env_var);
 	return (0);
 }
