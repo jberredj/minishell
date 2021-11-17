@@ -1,20 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_idllst_get_content.c                            :+:      :+:    :+:   */
+/*   ft_idllst_is_init.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/16 16:42:50 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/16 16:44:24 by jberredj         ###   ########.fr       */
+/*   Created: 2021/11/17 08:26:00 by jberredj          #+#    #+#             */
+/*   Updated: 2021/11/17 10:47:30 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdbool.h>
 #include "ft_idllst.h"
 
-void	*ft_idllst_get_content(t_idllist *node)
+bool	ft_idllst_is_init(t_idllist *node)
 {
-	if (!node)
-		return (NULL);
-	return ((void *)(node - node->struct_offset));
+	if (!node || !node->prev || !node->next)
+		return (false);
+	return (true);
 }

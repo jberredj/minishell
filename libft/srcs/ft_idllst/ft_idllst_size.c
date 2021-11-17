@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 15:50:47 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/16 16:47:27 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/17 08:56:38 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 size_t	ft_idllst_size(t_idllist *node)
 {
-	if (!node)
+	if (!ft_idllst_is_init(node))
 		return (0);
 	return (1 + ft_idllst_nbr_to_head(node) + ft_idllst_nbr_to_tail(node));
 }

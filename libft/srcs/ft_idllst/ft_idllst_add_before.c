@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 14:46:23 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/16 16:45:22 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/17 08:35:58 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	ft_idllst_add_before(t_idllist *new, t_idllist *node)
 {
-	if (!node || !new)
+	if (!ft_idllst_is_init(node) || !ft_idllst_is_init(new))
 		return ;
-	if (node->prev != node)
+	if (!ft_idllst_is_head(node))
 		return (ft_idllst_add_after(new, node->prev));
 	new->next = node;
 	node->prev = new;

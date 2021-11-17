@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/06 16:04:18 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/06 16:16:02 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/17 10:47:40 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	ft_lstpop(t_list **alst, t_list *elem, void (*del)(void*))
 			if (*alst == current)
 				*alst = current->next;
 			else
-				last->next =current->next;
+				last->next = current->next;
 			ft_lstdelone(current, del);
 			return (0);
 		}

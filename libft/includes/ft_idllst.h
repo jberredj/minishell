@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 10:01:28 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/16 18:03:52 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/17 08:58:34 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct s_idllist
 	struct s_idllist	*next;
 	ptrdiff_t			struct_offset;
 }				t_idllist;
+
 t_idllist	ft_idllst_init(t_idllist *list, void *struct_addr);
 void		ft_idllst_add_after(t_idllist *new, t_idllist *node);
 void		ft_idllst_add_before(t_idllist *new, t_idllist *node);
@@ -53,5 +54,8 @@ void		ft_idllst_clear_before(t_idllist *node, void (*del)(void*),
 				bool include_current);
 t_idllist	*ft_idllst_del(t_idllist *node, void (*del)(void*));
 void		ft_idllst_clear(t_idllist *node, void (*del)(void*));
-void		*ft_idllst_get_content(t_idllist *node);
+void		*ft_idllst_prev_content(t_idllist *node);
+void		*ft_idllst_content(t_idllist *node);
+void		*ft_idllst_next_content(t_idllist *node);
+bool		ft_idllst_is_init(t_idllist *node);
 #endif

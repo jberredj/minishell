@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 16:56:54 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/16 17:39:00 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/17 08:40:04 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_idllst_clear_after(t_idllist *node, void (*del)(void*),
 	t_idllist	*next;
 	t_idllist	*to_pop;
 
-	if (!node || !del)
+	if (!ft_idllst_is_init(node) || !del)
 		return ;
 	if (include_current)
 		to_pop = node;
