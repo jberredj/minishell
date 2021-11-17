@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 16:01:23 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/17 12:15:19 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/17 17:42:49 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ char	*get_prompt(t_env *env)
 
 	pwd = prompt_pwd(env->pwd, env->home);
 	tmp_prompt = ft_strjoin(
-			"\033[1;32mpre-historicshell\033[0;0m:\033[1;34m",
+			"\033[1;32mneolithicshell\033[0;0m:\033[1;34m",
 			pwd);
 	free(pwd);
 	user = getenv("USER");
@@ -81,15 +81,12 @@ char	*get_prompt(t_env *env)
 	return (prompt);
 }
 
-void	pseudo_env(t_env *env)
+void	pseudo_env(char **envp)
 {
-	t_env_var	*env_var_node;
-
-	env_var_node = env->env_vars;
-	while (env_var_node)
+	while (*envp)
 	{
-		printf("%s=%s\n", env_var_node->name, env_var_node->value);
-		env_var_node = ft_idllst_next_content(&env_var_node->list);
+		ft_putendl_fd(*envp, 1);
+		envp++;
 	}
 }
 
@@ -125,12 +122,24 @@ void prompt(t_sh_dat *sh_dat)
 					ft_free_split(split, ft_split_size(split));
 					continue ;
 				}
-				else if (ft_strncmp(str, "env", 3) == 0)
+				else if (ft_strncmp(str, "export", 6) == 0)
 				{
-					pseudo_env(&sh_dat->env);
+					t_env_var	*node;
+
+					split = ft_split(str, ' ');
+					node = find_env_var_in_lst(sh_dat->env.env_vars, split[1]);
+					ft_free_split(split, ft_split_size(split));
+					if (!node)
+						continue ;
+					env_var_to_envp(&sh_dat->env.envp, node, &sh_dat->env.nbr_exported);
 					continue ;
 				}
-				elem = create_env_var_from_str(str, sh_dat->env.nbr_vars + 1);
+				else if (ft_strncmp(str, "env", 3) == 0)
+				{
+					pseudo_env(sh_dat->env.envp);
+					continue ;
+				}
+				elem = create_env_var_from_str(str);
 				add_env_var(&sh_dat->env, elem);
 			}
 		}
@@ -158,6 +167,7 @@ int	main(int argc, char **argv, char **envp)
 	parse_herited_envp(&sh_dat.env, envp);
 	print_motd();
 	prompt(&sh_dat);
+	free(sh_dat.env.envp);
 	ft_idllst_clear(&sh_dat.env.env_vars->list, free_env_var);
 	return (0);
 }
