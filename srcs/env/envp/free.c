@@ -6,15 +6,14 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 16:43:16 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/17 17:06:14 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/17 17:36:59 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 #include "../libft/includes/ft_idllst.h"
 
-int	remove_from_envp(char ***envp, t_env_var *env_var_node,
-	size_t *nbr_exported)
+int	remove_from_envp(char ***envp, size_t *nbr_exported)
 {
 	char	**tofree;
 	char	**new_envp;
@@ -27,7 +26,7 @@ int	remove_from_envp(char ***envp, t_env_var *env_var_node,
 	i = -1;
 	if (*envp)
 	{
-		while (++i < *(size_t *)nbr_exported)
+		while (++i < *(int *)nbr_exported)
 		{
 			if ((*envp)[i])
 				new_envp[i] = (*envp)[i];

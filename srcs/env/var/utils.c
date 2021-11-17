@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 12:39:31 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/17 16:53:32 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/17 17:36:31 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	pop_env_var_from_env(t_env *env, char *name)
 	if (node_to_pop->flags & ENV_VAR_EXPORTED)
 	{
 		env->envp[node_to_pop->id] = NULL;
-		remove_from_envp(&env->envp, node_to_pop, &env->nbr_exported);
+		remove_from_envp(&env->envp, &env->nbr_exported);
 	}
 	ft_idllst_pop(&node_to_pop->list, free_env_var);
 	return (0);
