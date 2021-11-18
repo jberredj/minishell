@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+         #
+#    By: ddiakova <ddiakova@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 15:10:49 by jberredj          #+#    #+#              #
-#    Updated: 2021/11/17 16:55:01 by jberredj         ###   ########.fr        #
+#    Updated: 2021/11/18 14:50:20 by ddiakova         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,13 +35,14 @@ ENV				=	var/create.c var/free.c var/update.c var/utils.c \
 
 MAIN			=	main.c 
 
-
+PARSER			= 	tokenise_line.c
 
 STRUCTS			=	
 HEADERS			=
 
 SRCS			=	$(addprefix srcs/, $(MAIN)) \
-					$(addprefix srcs/env/, $(ENV))
+					$(addprefix srcs/env/, $(ENV)) \
+					$(addprefix srcs/parser/, $(PARSER))
 OBJS			=	$(addprefix objs/, $(subst /,., $(subst srcs/,, $(SRCS:.c=.o))))
 
 ###############################################################################

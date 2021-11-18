@@ -1,25 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   t_token.h                                          :+:      :+:    :+:   */
+/*   tokeniser.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ddiakova <ddiakova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/13 16:31:40 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/18 14:52:52 by ddiakova         ###   ########.fr       */
+/*   Created: 2021/11/18 14:28:58 by ddiakova          #+#    #+#             */
+/*   Updated: 2021/11/18 14:31:42 by ddiakova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef T_TOKEN_H
-# define T_TOKEN_H
-# include "../../libft/includes/ft_idllst.h"
-# define PIPE 1
+#ifndef TOKENISER_H
+# define TOKENISER_H
+# include "minishell.h"
+# include "structs/t_token.h"
+# include "../libft/includes/libft.h"
+# include <stdbool.h>
 
-typedef struct s_token
-{
-	int			type;
-	char		*content;
-	t_idllist	list;
-}				t_token;
+t_token	*tokenise_line(t_sh_dat *shdat, char *line);
 
 #endif

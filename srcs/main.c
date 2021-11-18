@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ddiakova <ddiakova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 16:01:23 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/17 17:42:49 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/18 14:39:53 by ddiakova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 #include "../libft/includes/libft.h"
 #include "env.h"
 #include "minishell.h"
+#include "tokeniser.h"
 
 typedef struct s_command
 {
@@ -90,6 +91,15 @@ void	pseudo_env(char **envp)
 	}
 }
 
+void	print_token(t_token *token)
+{
+	while (token)
+	{
+		printf("current token: %s\n", token->content);
+		token = ft_idllst_next_content(&token->list);
+	}
+}
+
 void prompt(t_sh_dat *sh_dat)
 {
 	char		**split;
@@ -115,32 +125,34 @@ void prompt(t_sh_dat *sh_dat)
 					rl_clear_history();
 					continue ;
 				}
-				else if (ft_strncmp(str, "unset", 4) == 0)
-				{
-					split = ft_split(str, ' ');
-					pop_env_var_from_env(&sh_dat->env, split[1]);
-					ft_free_split(split, ft_split_size(split));
-					continue ;
-				}
-				else if (ft_strncmp(str, "export", 6) == 0)
-				{
-					t_env_var	*node;
+				t_token *tok;
+				tok = tokenise_line(&sh_dat, str);
+				// else if (ft_strncmp(str, "unset", 4) == 0)
+				// {
+				// 	split = ft_split(str, ' ');
+				// 	pop_env_var_from_env(&sh_dat->env, split[1]);
+				// 	ft_free_split(split, ft_split_size(split));
+				// 	continue ;
+				// }
+				// else if (ft_strncmp(str, "export", 6) == 0)
+				// {
+				// 	t_env_var	*node;
 
-					split = ft_split(str, ' ');
-					node = find_env_var_in_lst(sh_dat->env.env_vars, split[1]);
-					ft_free_split(split, ft_split_size(split));
-					if (!node)
-						continue ;
-					env_var_to_envp(&sh_dat->env.envp, node, &sh_dat->env.nbr_exported);
-					continue ;
-				}
-				else if (ft_strncmp(str, "env", 3) == 0)
-				{
-					pseudo_env(sh_dat->env.envp);
-					continue ;
-				}
-				elem = create_env_var_from_str(str);
-				add_env_var(&sh_dat->env, elem);
+				// 	split = ft_split(str, ' ');
+				// 	node = find_env_var_in_lst(sh_dat->env.env_vars, split[1]);
+				// 	ft_free_split(split, ft_split_size(split));
+				// 	if (!node)
+				// 		continue ;
+				// 	env_var_to_envp(&sh_dat->env.envp, node, &sh_dat->env.nbr_exported);
+				// 	continue ;
+				// }
+				// else if (ft_strncmp(str, "env", 3) == 0)
+				// {
+				// 	pseudo_env(sh_dat->env.envp);
+				// 	continue ;
+				// }
+				// elem = create_env_var_from_str(str);
+			// 	add_env_var(&sh_dat->env, elem);
 			}
 		}
 		else

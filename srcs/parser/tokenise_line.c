@@ -6,7 +6,7 @@
 /*   By: ddiakova <ddiakova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/13 18:21:55 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/17 21:41:35 by ddiakova         ###   ########.fr       */
+/*   Updated: 2021/11/18 18:43:29 by ddiakova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_token	*new_token_add(t_token **tokens)
 	new = (t_token *)ft_calloc(1, sizeof(t_token));
 	if (!new)
 		return (NULL); // CHANGE TO MALLOC ERROR CODE
-	*new->list = ft_idllst_init(&new->list, new);
+	new->list = ft_idllst_init(&new->list, new);
 	if (!*tokens)
 		*tokens = new;
 	else
@@ -63,7 +63,11 @@ int	search_word(char *line, t_token **tokens)
 	if (!word)
 		return (0);
 	if (is_quote(line[0]))
+	{
+		if (word)
+			free(word);
 		return (0);
+	}
 	while (!ft_isspace(line[i]) && !is_quote(line[i])
 		&& !is_separator(line[i]) && line[i])
 	{
@@ -73,11 +77,7 @@ int	search_word(char *line, t_token **tokens)
 	new = new_token(tokens);
 	if (new == NULL)
 		return (1);
-	new->content = ft_strdup(word); //FAIRE FREE 
-	if (new->content == NULL)
-		return (1);
-	if (word)
-		free (word);
+	new->content = word; //FAIRE FREE 
 	return (0);
 }
 
@@ -98,7 +98,34 @@ int	is_separator(char *line)
 int	search_separator(char *line, t_token **tokens)
 {
 	int			i;
+	int			len;
 	t_token		*new;
+	char		*sep;
+
+	i = 0;
+	new = NULL;
+	sep = NULL;
+	len = get_sep_len(line);
+	sep = ft_calloc(sizeof(char), (len + 1));
+	if (!sep)
+		return (0);
+	if (is_quote(line[0]))
+	{
+		if (sep)
+			free(sep);
+		return (0);
+	}
+	while (!ft_isspace(line[i]) && !is_quote(line[i])
+		&& !is_separator(line[i]) && line[i])
+	{
+		word[i] = line[i];
+		i++;
+	}
+	new = new_token(tokens);
+	if (new == NULL)
+		return (1);
+	new->content = word; //FAIRE FREE 
+	return (0);
 
 	i = 0;
 	new = NULL;
@@ -106,6 +133,7 @@ int	search_separator(char *line, t_token **tokens)
 	{
 		if (is_separator(line))
 		{
+			// remplacer par le searh word - adapte au sep, tant que sep j'avance
 			new = new_token(tokens);
 			new->content = ft_strdup(line[i]);
 		}
@@ -119,6 +147,7 @@ int	search_s_quote(char *line, t_token **tokens)
 	int			i;
 	t_token		*new;
 
+	// quote_len function
 	i = 0;
 	new = NULL;
 	while (line[i])
@@ -126,7 +155,7 @@ int	search_s_quote(char *line, t_token **tokens)
 		if (line[i] == '\'')
 		{
 			new = new_token(tokens);
-			new->content = ft_strdup("\'");
+			new->content = NULL; // toute une phrase entre les quotes;
 		}
 		i++;
 	}
@@ -145,7 +174,7 @@ int	search_d_quote(char *line, t_token **tokens)
 		if (line[i] == '\"')
 		{
 			new = new_token(tokens);
-			new->content = ft_strdup("\"");
+			new->content = //same squote
 		}
 		i++;
 	}
@@ -161,6 +190,7 @@ int	search_backslash(char *line, t_token **tokens)
 	new = NULL;
 	while (line[i])
 	{
+		//ignorer lespace
 		if (line[i] == '\\')
 		{
 			new = new_token(tokens);
