@@ -6,7 +6,7 @@
 /*   By: ddiakova <ddiakova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/13 18:21:55 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/18 18:43:29 by ddiakova         ###   ########.fr       */
+/*   Updated: 2021/11/20 19:59:03 by ddiakova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,20 @@
 bool	is_quote(char c)
 {
 	return ((bool)(c == '\'' || c == '\"'));
+}
+
+static int	is_separator(char *line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i])
+	{
+		if ((ft_strchr("|<>;&()", line[i])))
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
 t_token	*new_token_add(t_token **tokens)
@@ -37,28 +51,40 @@ t_token	*new_token_add(t_token **tokens)
 	return (new);
 }
 
-int	get_word_len(char *line)
+static int	get_word_len(char *line)
 {
 	int	len;
 
 	len = 0;
 	while (line[len] && !ft_isspace(line[len] && !is_quote(line[len])
-			&& !is_separator(line[len])))
+			&& !is_separator(&line[len]) && line[len] != '\\'))
 		len++;
 	return (len);
 }
 
-int	search_word(char *line, t_token **tokens)
+static int	get_sep_len(char *line)
 {
-	int			i;
+	int	len;
+
+	len = 0;
+	while (line[len] && !ft_isspace(line[len]) && line[len] != is_separator(&line[len]))
+		len++;
+	return (len);
+}
+
+static int	search_word(char *line, t_token **tokens, int *i)
+{
 	int			len;
 	t_token		*new;
 	char		*word;
+	int			j;
 
-	i = 0;
+	j = 0;
 	new = NULL;
 	word = NULL;
-	len = get_word_len(line);
+	while (ft_isspace(line[*i]))
+		(*i)++;
+	len = get_word_len(&line[*i]);
 	word = ft_calloc(sizeof(char), (len + 1));
 	if (!word)
 		return (0);
@@ -68,44 +94,34 @@ int	search_word(char *line, t_token **tokens)
 			free(word);
 		return (0);
 	}
-	while (!ft_isspace(line[i]) && !is_quote(line[i])
-		&& !is_separator(line[i]) && line[i])
+	while (line[*i] && !ft_isspace(line[*i]) && !is_quote(line[*i])
+		&& !is_separator(&line[*i]))
 	{
-		word[i] = line[i];
-		i++;
+		word[j] = line[*i];
+		(*i)++;
+		j++;
 	}
-	new = new_token(tokens);
+	new = new_token_add(tokens);
 	if (new == NULL)
 		return (1);
 	new->content = word; //FAIRE FREE 
 	return (0);
 }
 
-int	is_separator(char *line)
-{
-	int	i;
 
-	i = 0;
-	while (line[i])
-	{
-		if (!(ft_strchr("|<>;&()", line[i])))
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-int	search_separator(char *line, t_token **tokens)
+static int	search_separator(char *line, t_token **tokens, int *i)
 {
-	int			i;
 	int			len;
 	t_token		*new;
 	char		*sep;
+	int			j;
 
-	i = 0;
+	j = 0;
 	new = NULL;
 	sep = NULL;
-	len = get_sep_len(line);
+	while (ft_isspace(line[*i]))
+		(*i)++;
+	len = get_sep_len(&line[*i]);
 	sep = ft_calloc(sizeof(char), (len + 1));
 	if (!sep)
 		return (0);
@@ -115,114 +131,91 @@ int	search_separator(char *line, t_token **tokens)
 			free(sep);
 		return (0);
 	}
-	while (!ft_isspace(line[i]) && !is_quote(line[i])
-		&& !is_separator(line[i]) && line[i])
+	while (line[*i] && !ft_isspace(line[*i]) && !is_quote(line[*i])
+		&& is_separator(&line[*i]))
 	{
-		word[i] = line[i];
-		i++;
+		sep[j] = line[*i];
+		(*i)++;
+		j++;
 	}
-	new = new_token(tokens);
+	(*i)++;
+	new = new_token_add(tokens);
 	if (new == NULL)
 		return (1);
-	new->content = word; //FAIRE FREE 
-	return (0);
-
-	i = 0;
-	new = NULL;
-	while (line[i])
-	{
-		if (is_separator(line))
-		{
-			// remplacer par le searh word - adapte au sep, tant que sep j'avance
-			new = new_token(tokens);
-			new->content = ft_strdup(line[i]);
-		}
-		i++;
-	}
+	new->content = sep;
 	return (0);
 }
 
-int	search_s_quote(char *line, t_token **tokens)
+static int	get_quote_len(char *line, char quote)
 {
-	int			i;
-	t_token		*new;
+	int	len;
 
-	// quote_len function
-	i = 0;
-	new = NULL;
-	while (line[i])
-	{
-		if (line[i] == '\'')
-		{
-			new = new_token(tokens);
-			new->content = NULL; // toute une phrase entre les quotes;
-		}
-		i++;
-	}
-	return (0);
+	if (*line != quote)
+		return (-1);
+	len = 0;
+	(line)++;
+	while (line[len] && (line[len]) != quote)
+		len++;
+	if (line[len] == '\0')
+		return (-2);
+	return (len);
 }
 
-int	search_d_quote(char *line, t_token **tokens)
+static int	search_quote(char *line, t_token **tokens, int *i, char quote)
 {
-	int			i;
+	int			j;
+	int			len;
 	t_token		*new;
+	char		*squote;
 
-	i = 0;
+	j = 0;
 	new = NULL;
-	while (line[i])
+	squote = NULL;
+	while (ft_isspace(line[*i]))
+		(*i)++;
+	len = get_quote_len(&line[*i], quote);
+	if (len < 0)
+		return (len);
+	(*i)++;
+	// printf ("%d\n", len);
+	squote = ft_calloc(sizeof(char), (len + 1));
+	if (!squote)
+		return (0);
+	while (line[*i] && (line[*i]) != quote)
 	{
-		if (line[i] == '\"')
-		{
-			new = new_token(tokens);
-			new->content = //same squote
-		}
-		i++;
+		squote[j] = line[*i];
+		(*i)++;
+		j++;
 	}
-	return (0);
-}
-
-int	search_backslash(char *line, t_token **tokens)
-{
-	int			i;
-	t_token		*new;
-
-	i = 0;
-	new = NULL;
-	while (line[i])
-	{
-		//ignorer lespace
-		if (line[i] == '\\')
-		{
-			new = new_token(tokens);
-			new->content = ft_strdup("\\");
-		}
-		i++;
-	}
+	(*i)++;
+	new = new_token_add(tokens);
+	if (new == NULL)
+		return (1);
+	new->content = squote;
 	return (0);
 }
 
 t_token	*tokenise_line(t_sh_dat *shdat, char *line)
 {
 	t_token	*tokens;
-	int		i;   
+	int		i;  
 
 	tokens = NULL;
 	i = 0;
 	while (line[i])
 	{
-		while (ft_isspace(line[i]))
+		if (search_word(line, &tokens, &i))
+			return (NULL);
+		if (search_separator(line, &tokens, &i))
+			return (NULL);
+		if (search_quote(line, &tokens, &i, '\'') < -1)
 			i++;
-		if (search_word(line, &tokens))
-			return (NULL); // handle error fallback
-		if (search_separator(line, &tokens))
-			return (NULL);
-		if (search_s_quote(line, &tokens))
-			return (NULL);
-		if (search_d_quote(line, &tokens))
-			return (NULL);
-		if (search_backslash(line, &tokens))
-			return (NULL);
-		i++;
+		if (search_quote(line, &tokens, &i, '\"') < -1)
+			i++;
+		// if (search_backslash(line, &tokens))
+		// 	return (NULL);
+		if (ft_isspace(line[i]))
+			i++;
 	}
 	return (tokens);
 }
