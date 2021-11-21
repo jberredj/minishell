@@ -6,7 +6,7 @@
 #    By: ddiakova <ddiakova@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 15:10:49 by jberredj          #+#    #+#              #
-#    Updated: 2021/11/18 14:50:20 by ddiakova         ###   ########.fr        #
+#    Updated: 2021/11/21 17:36:17 by ddiakova         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,14 +35,17 @@ ENV				=	var/create.c var/free.c var/update.c var/utils.c \
 
 MAIN			=	main.c 
 
-PARSER			= 	tokenise_line.c
+PARSER			= 	tokenise_line.c word.c separator.c quote.c
+
+BUILTIN			= 	echo.c cd.c
 
 STRUCTS			=	
 HEADERS			=
 
 SRCS			=	$(addprefix srcs/, $(MAIN)) \
 					$(addprefix srcs/env/, $(ENV)) \
-					$(addprefix srcs/parser/, $(PARSER))
+					$(addprefix srcs/parser/, $(PARSER)) \
+					$(addprefix srcs/builtin/, $(BUILTIN))
 OBJS			=	$(addprefix objs/, $(subst /,., $(subst srcs/,, $(SRCS:.c=.o))))
 
 ###############################################################################

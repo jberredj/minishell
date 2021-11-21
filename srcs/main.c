@@ -6,7 +6,7 @@
 /*   By: ddiakova <ddiakova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 16:01:23 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/20 17:19:55 by ddiakova         ###   ########.fr       */
+/*   Updated: 2021/11/21 15:36:53 by ddiakova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,15 @@ void prompt(t_sh_dat *sh_dat)
 					rl_clear_history();
 					continue ;
 				}
+				// char **tab = ft_split(str, ' ');
+				// int i = 0;
+				// while (tab[i])
+				// {
+				// 	write(1, tab[i], ft_strlen(tab[i]));
+				// 	i++;
+				// }
+				
+				// echo(&tab[1]);
 				t_token *tok;
 				tok = tokenise_line(sh_dat, str);
 				print_token(tok);
