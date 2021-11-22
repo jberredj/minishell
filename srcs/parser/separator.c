@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   separator.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddiakova <ddiakova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 11:25:12 by ddiakova          #+#    #+#             */
-/*   Updated: 2021/11/21 16:06:54 by ddiakova         ###   ########.fr       */
+/*   Updated: 2021/11/22 11:38:05 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,10 @@
 #include <stdbool.h>
 #include "tokeniser.h"
 
-int	is_separator(char *line)
+int	is_separator(char c)
 {
-	int	i;
-
-	i = 0;
-	while (line[i])
-	{
-		if ((ft_strchr("|<>;&()", line[i])))
-			return (1);
-		i++;
-	}
+	if ((ft_strchr("|<>;&()", c)))
+		return (1);
 	return (0);
 }
 
@@ -35,7 +28,7 @@ static int	get_sep_len(char *line)
 	int	len;
 
 	len = 0;
-	while (line[len] && !ft_isspace(line[len]) && is_separator(&line[len]))
+	while (line[len] && !ft_isspace(line[len]) && is_separator(line[len]))
 		len++;
 	return (len);
 }
@@ -53,6 +46,8 @@ int	search_separator(char *line, t_token **tokens, int *i)
 	while (ft_isspace(line[*i]))
 		(*i)++;
 	len = get_sep_len(&line[*i]);
+	if (len < 1)
+		return (len);
 	printf ("%d\n", len);
 	sep = ft_calloc(sizeof(char), (len + 1));
 	if (!sep)
@@ -64,7 +59,7 @@ int	search_separator(char *line, t_token **tokens, int *i)
 		return (0);
 	}
 	while (line[*i] && !ft_isalnum(line[*i]) && !ft_isspace(line[*i]) 
-		&& !is_quote(line[*i]) && is_separator(&line[*i]))
+		&& !is_quote(line[*i]) && is_separator(line[*i]))
 	{
 		sep[j] = line[*i];
 		(*i)++;

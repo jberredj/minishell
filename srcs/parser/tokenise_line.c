@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenise_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddiakova <ddiakova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/13 18:21:55 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/21 15:54:02 by ddiakova         ###   ########.fr       */
+/*   Updated: 2021/11/22 11:33:31 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ t_token	*tokenise_line(t_sh_dat *shdat, char *line)
 	i = 0;
 	while (line[i])
 	{
-		// if (search_word(line, &tokens, &i))
-		// 	return (NULL);
+		if (search_word(line, &tokens, &i))
+			return (NULL);
 		if (search_separator(line, &tokens, &i))
 			return (NULL);
 		if (search_quote(line, &tokens, &i, '\'') < -1)

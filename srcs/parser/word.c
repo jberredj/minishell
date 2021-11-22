@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   word.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddiakova <ddiakova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 11:20:45 by ddiakova          #+#    #+#             */
-/*   Updated: 2021/11/21 12:04:10 by ddiakova         ###   ########.fr       */
+/*   Updated: 2021/11/22 11:42:53 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	get_word_len(char *line)
 
 	len = 0;
 	while (line[len] && !ft_isspace(line[len] && !is_quote(line[len])
-			&& !is_separator(&line[len]) && line[len] != '\\'))
+			&& !is_separator(line[len]) && line[len] != '\\'))
 		len++;
 	return (len);
 }
@@ -50,7 +50,7 @@ int	search_word(char *line, t_token **tokens, int *i)
 		return (0);
 	}
 	while (line[*i] && !ft_isspace(line[*i]) && !is_quote(line[*i])
-		&& !is_separator(&line[*i]))
+		&& !is_separator(line[*i]))
 	{
 		word[j] = line[*i];
 		(*i)++;
