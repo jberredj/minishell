@@ -1,40 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ddiakova <ddiakova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/17 17:02:31 by ddiakova          #+#    #+#             */
-/*   Updated: 2021/11/21 15:35:18 by ddiakova         ###   ########.fr       */
+/*   Created: 2021/11/17 17:02:10 by ddiakova          #+#    #+#             */
+/*   Updated: 2021/11/21 17:44:56 by ddiakova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdbool.h>
-#include "../../libft/includes/ft_string.h"
+#include "../../libft/includes/ft_io.h"
+#include "minishell.h"
+#include <limits.h>
 
-int	echo(char **argv)
-{
-	bool	n_param;
+int	cd(t_sh_dat *shdat, char **argv)
+{	
 	int		argc;
-	int		i;
+	char	path[PATH_MAX];
+	t_env_var *pwd;
 
 	argc = 0;
 	while (argv[argc])
 		argc++;
-	n_param = false;
-	if (argc > 0)
-		if (ft_strncmp(argv[0], "-n", 2))
-			n_param = true;
-	i = -1;
-	while (argv[++i])
+	if (argc > 2)
 	{
-		write(1, argv[i], ft_strlen(argv[i]));
-		if (i != argc - 1)
-			write(1, " ", 1);
+		ft_putstr_fd("cd: too many arguments\n", 2);
+		return (-1);
 	}
-	if (n_param)
-		write(1, "\n", 1);
+	if (argc == 1)
+	{
+		pwd = shdat->env.pwd;
+		if (pwd == NULL)
+			return (1);
+		getcwd(path, PATH_MAX);
+		
+	}
 	return (0);
 }
