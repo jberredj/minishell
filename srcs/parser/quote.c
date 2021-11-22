@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quote.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddiakova <ddiakova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 11:23:20 by ddiakova          #+#    #+#             */
-/*   Updated: 2021/11/21 15:47:37 by ddiakova         ###   ########.fr       */
+/*   Updated: 2021/11/22 15:17:26 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,6 @@ int	search_quote(char *line, t_token **tokens, int *i, char quote)
 	if (new == NULL)
 		return (1);
 	new->content = squote;
+	new->type = quote;
 	return (0);
 }

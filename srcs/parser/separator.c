@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 11:25:12 by ddiakova          #+#    #+#             */
-/*   Updated: 2021/11/22 11:38:05 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/22 15:17:46 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,6 @@ int	search_separator(char *line, t_token **tokens, int *i)
 	if (new == NULL)
 		return (1);
 	new->content = sep;
+	new->type = SEPARATOR;
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 11:20:45 by ddiakova          #+#    #+#             */
-/*   Updated: 2021/11/22 11:42:53 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/22 15:17:16 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,6 @@ int	search_word(char *line, t_token **tokens, int *i)
 	if (new == NULL)
 		return (1);
 	new->content = word; //FAIRE FREE 
+	new->type = WORD;
 	return (0);
 }

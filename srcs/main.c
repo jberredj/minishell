@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 16:01:23 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/22 11:00:57 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/22 17:57:32 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,6 @@
 #include "env.h"
 #include "minishell.h"
 #include "tokeniser.h"
-
-typedef struct s_command
-{
-	uint16_t	flags;
-	char		*command;
-	char		**argv;
-}				t_command;
 
 void	print_motd(void)
 {
@@ -70,7 +63,7 @@ char	*get_prompt(t_env *env)
 
 	pwd = prompt_pwd(env->pwd, env->home);
 	tmp_prompt = ft_strjoin(
-			"\033[1;32mneolithicshell\033[0;0m:\033[1;34m",
+			"\033[1;32mAnticshell\033[0;0m:\033[1;34m",
 			pwd);
 	free(pwd);
 	user = getenv("USER");
@@ -95,8 +88,193 @@ void	print_token(t_token *token)
 {
 	while (token)
 	{
-		printf("current token: %s\n", token->content);
+		printf("current token: %s\ntype : %d\n", token->content, token->type);
 		token = ft_idllst_next_content(&token->list);
+	}
+}
+
+typedef	struct s_command
+{
+	char		*path_to_cmd;
+	int			argc;	
+	char		**argv;
+	char		**envp;
+	t_idllist	list;
+}				t_command;
+
+char	*try_get_from_path(t_env_var *path, char *content)
+{
+	char	**split;
+	size_t	len;
+	size_t	i;
+	char	*try_path;
+
+	split = ft_split(path->value, ':');
+	len = ft_split_size(split);
+	i = -1;
+	while (split[++i])
+	{
+		try_path = ft_strjoin(split[i], "/");
+		ft_gnljoin(&try_path, content);
+		if (access(try_path, X_OK) == 0)
+			break ;
+		free(try_path);
+		try_path = NULL;
+	}
+	ft_free_split(split, len);
+	return (try_path);
+}
+
+char	*try_relative_access(char *content)
+{
+	if (access(content, X_OK))
+		return (ft_strdup(content));
+	return (NULL);
+}
+
+char	*get_cmd_path(t_env_var *path, t_token cmd_tok)
+{
+	char	*cmd;
+
+	if (ft_strncmp(cmd_tok.content, "./", 2) == 0
+		|| ft_strncmp(cmd_tok.content, "../", 3) == 0)
+		cmd = try_relative_access(cmd_tok.content);
+	else
+		cmd = try_get_from_path(path, cmd_tok.content);
+	return (cmd);
+}
+
+t_command	*new_command_add(t_command *command)
+{
+	t_command	*new;
+
+	new = (t_command *)ft_calloc(1, sizeof(t_command));
+	if (!new)
+		return (NULL); // CHANGE TO MALLOC ERROR CODE
+	new->list = ft_idllst_init(&new->list, new);
+	if (!command)
+		return (new);
+	else
+		ft_idllst_add_back(&new->list, &command->list);
+	return (new);
+}
+
+void	add_to_command_argv(t_command *cmd, char *content)
+{
+	char	**new_argv;
+	int		i;
+
+	if (cmd->argc == 0)
+	{
+		cmd->argv = (char **)ft_calloc(2, sizeof(char *));
+		cmd->argv[0] = content;
+		cmd->argc = 1;
+		return ;
+	}
+	new_argv = (char **)ft_calloc(cmd->argc + 2, sizeof(char *));
+	i = -1;
+	while (cmd->argv[++i])
+		new_argv[i] = cmd->argv[i];
+	cmd->argc++;
+	new_argv[i] = ft_strdup(content);
+	free(cmd->argv);
+	cmd->argv = new_argv;
+}
+
+char	**copy_envp(char **envp, int nbr)
+{
+	char	**copy;
+	int		i;
+
+	copy = (char **)ft_calloc(nbr + 1, sizeof(char *));
+	i = -1;
+	while(envp[++i])
+		copy[i] = ft_strdup(envp[i]);
+	return (copy);
+}
+t_command *generate_commands_from_tokens(t_env *env, t_token *tokens)
+{
+	t_command	*commands;
+	bool		new_command;
+
+	commands = NULL;
+	new_command = true;
+	while(tokens)
+	{
+		if (new_command)
+		{
+			commands = new_command_add(commands);
+			commands->path_to_cmd = get_cmd_path(env->path, *tokens);
+			add_to_command_argv(commands, commands->path_to_cmd);
+			commands->envp = copy_envp(env->envp, env->nbr_exported);
+			new_command = false;
+		}
+		else
+		{
+			if (tokens->type == SEPARATOR)
+			{
+				new_command = true;
+				continue ; // Implement true separator handle
+			}
+			add_to_command_argv(commands, tokens->content);
+		}
+		tokens = ft_idllst_next_content(&tokens->list);
+	}
+	return (commands);
+}
+
+void	print_commands(t_command *commands)
+{
+	int	i;
+
+	while (commands)
+	{
+		printf("command : %s \nargv : [", commands->path_to_cmd);
+		i = -1;
+		while (commands->argv[++i])
+			printf("\"%s\", ", commands->argv[i]);
+		printf("NULL]\n");
+		commands = ft_idllst_next_content(&commands->list);
+	}
+}
+
+void	free_token(void *content)
+{
+	t_token	*token;
+
+
+	token = ft_idllst_content(content);
+	if (token)
+	{
+		if (token->content)
+			free(token->content);
+		free(token);
+	}
+}
+
+void	free_command(void *content)
+{
+	t_command	*command;
+	int			i;
+
+	command = ft_idllst_content(content);
+	if (command)
+	{
+		if (command->argv)
+		{
+			i = -1;
+			while (command->argv[++i])
+				free(command->argv[i]);
+			free(command->argv);
+		}
+		if (command->envp)
+		{
+			i = -1;
+			while (command->envp[++i])
+				free(command->envp[i]);
+			free(command->envp);
+		}
+		free(command);
 	}
 }
 
@@ -106,6 +284,9 @@ void prompt(t_sh_dat *sh_dat)
 	char		*prompt_str;
 	char		*str;
 	bool		running;
+	t_command	*commands;
+	pid_t		child;
+	int			child_exit;
 
 	running = true;
 	while (running)
@@ -124,44 +305,27 @@ void prompt(t_sh_dat *sh_dat)
 					rl_clear_history();
 					continue ;
 				}
-				// char **tab = ft_split(str, ' ');
-				// int i = 0;
-				// while (tab[i])
-				// {
-				// 	write(1, tab[i], ft_strlen(tab[i]));
-				// 	i++;
-				// }
-				
-				// echo(&tab[1]);
 				t_token *tok;
 				tok = tokenise_line(sh_dat, str);
 				print_token(tok);
-				// else if (ft_strncmp(str, "unset", 4) == 0)
-				// {
-				// 	split = ft_split(str, ' ');
-				// 	pop_env_var_from_env(&sh_dat->env, split[1]);
-				// 	ft_free_split(split, ft_split_size(split));
-				// 	continue ;
-				// }
-				// else if (ft_strncmp(str, "export", 6) == 0)
-				// {
-				// 	t_env_var	*node;
-
-				// 	split = ft_split(str, ' ');
-				// 	node = find_env_var_in_lst(sh_dat->env.env_vars, split[1]);
-				// 	ft_free_split(split, ft_split_size(split));
-				// 	if (!node)
-				// 		continue ;
-				// 	env_var_to_envp(&sh_dat->env.envp, node, &sh_dat->env.nbr_exported);
-				// 	continue ;
-				// }
-				// else if (ft_strncmp(str, "env", 3) == 0)
-				// {
-				// 	pseudo_env(sh_dat->env.envp);
-				// 	continue ;
-				// }
-				// elem = create_env_var_from_str(str);
-			// 	add_env_var(&sh_dat->env, elem);
+				commands = generate_commands_from_tokens(&sh_dat->env, tok);
+				print_commands(commands);
+				ft_idllst_clear(&tok->list, free_token);
+				child = fork();
+				if (child == 0)
+				{
+					free(str);
+					free(sh_dat->env.envp);
+					ft_idllst_clear(&sh_dat->env.env_vars->list, free_env_var);
+					if (commands->path_to_cmd)
+						execve(commands->path_to_cmd, commands->argv, commands->envp);
+					ft_idllst_clear(&commands->list, free_command);
+					printf("FAILED EXECUTION\n");
+					exit(1);
+				}
+				ft_idllst_clear(&commands->list, free_command);
+				waitpid(child, &child_exit, 0);
+				printf("Child exited\n");
 			}
 		}
 		else
