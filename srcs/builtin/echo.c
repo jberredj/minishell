@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddiakova <ddiakova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 17:02:31 by ddiakova          #+#    #+#             */
-/*   Updated: 2021/11/21 15:35:18 by ddiakova         ###   ########.fr       */
+/*   Updated: 2021/11/22 22:40:24 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,13 @@
 #include <stdbool.h>
 #include "../../libft/includes/ft_string.h"
 
-int	echo(char **argv)
+int	echo(char **argv, char **envp)
 {
 	bool	n_param;
 	int		argc;
 	int		i;
 
+	(void)envp;
 	argc = 0;
 	while (argv[argc])
 		argc++;
@@ -36,5 +37,6 @@ int	echo(char **argv)
 	}
 	if (n_param)
 		write(1, "\n", 1);
+	exit(0);
 	return (0);
 }

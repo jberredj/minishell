@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 16:01:23 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/22 17:57:32 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/22 22:38:30 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,15 +75,6 @@ char	*get_prompt(t_env *env)
 	return (prompt);
 }
 
-void	pseudo_env(char **envp)
-{
-	while (*envp)
-	{
-		ft_putendl_fd(*envp, 1);
-		envp++;
-	}
-}
-
 void	print_token(t_token *token)
 {
 	while (token)
@@ -93,9 +84,20 @@ void	print_token(t_token *token)
 	}
 }
 
+int	builtin_placeholder(char **argv, char **envp)
+{
+	(void)argv;
+	(void)envp;
+	
+	printf("Oh no, looks like there's nothing here. Too bad the dev behind it such a lazyass that he still didn't implement it :(\n");
+	exit(0);
+	return (0);
+}
+
 typedef	struct s_command
 {
 	char		*path_to_cmd;
+	int		(*builtin)(char**, char**);
 	int			argc;	
 	char		**argv;
 	char		**envp;
@@ -127,7 +129,7 @@ char	*try_get_from_path(t_env_var *path, char *content)
 
 char	*try_relative_access(char *content)
 {
-	if (access(content, X_OK))
+	if (access(content, X_OK) == 0)
 		return (ft_strdup(content));
 	return (NULL);
 }
@@ -192,6 +194,27 @@ char	**copy_envp(char **envp, int nbr)
 		copy[i] = ft_strdup(envp[i]);
 	return (copy);
 }
+
+t_command	*check_builtin(t_command *commands, t_env_var *path, t_token cmd_tok)
+{
+	if (ft_strncmp(cmd_tok.content, "echo", 4) == 0)
+		commands->builtin = echo;
+	else if (ft_strncmp(cmd_tok.content, "cd", 2) == 0)
+		commands->builtin = builtin_placeholder;
+	else if (ft_strncmp(cmd_tok.content, "pwd", 3) == 0)
+		commands->builtin = builtin_placeholder;
+	else if (ft_strncmp(cmd_tok.content, "export", 6) == 0)
+		commands->builtin = builtin_placeholder;
+	else if (ft_strncmp(cmd_tok.content, "unset", 5) == 0)
+		commands->builtin = builtin_placeholder;
+	else if (ft_strncmp(cmd_tok.content, "env", 3) == 0)
+		commands->builtin = builtin_placeholder;
+	else if (ft_strncmp(cmd_tok.content, "exit", 4) == 0)
+		commands->builtin = builtin_placeholder;
+	else
+		commands->path_to_cmd = get_cmd_path(path, cmd_tok);
+}
+
 t_command *generate_commands_from_tokens(t_env *env, t_token *tokens)
 {
 	t_command	*commands;
@@ -204,7 +227,7 @@ t_command *generate_commands_from_tokens(t_env *env, t_token *tokens)
 		if (new_command)
 		{
 			commands = new_command_add(commands);
-			commands->path_to_cmd = get_cmd_path(env->path, *tokens);
+			check_builtin(commands, env->path, *tokens);
 			add_to_command_argv(commands, commands->path_to_cmd);
 			commands->envp = copy_envp(env->envp, env->nbr_exported);
 			new_command = false;
@@ -319,6 +342,8 @@ void prompt(t_sh_dat *sh_dat)
 					ft_idllst_clear(&sh_dat->env.env_vars->list, free_env_var);
 					if (commands->path_to_cmd)
 						execve(commands->path_to_cmd, commands->argv, commands->envp);
+					else if (commands->builtin)
+						commands->builtin(commands->argv, commands->envp);
 					ft_idllst_clear(&commands->list, free_command);
 					printf("FAILED EXECUTION\n");
 					exit(1);
