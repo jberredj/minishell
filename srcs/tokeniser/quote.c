@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 11:23:20 by ddiakova          #+#    #+#             */
-/*   Updated: 2021/11/22 15:17:26 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/23 16:42:06 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,37 +36,48 @@ static int	get_quote_len(char *line, char quote)
 	return (len);
 }
 
+static char	*copy_quote_content(char *line, int *i, char quote, int len)
+{
+	char	*quote_content;
+	int		j;
+
+	j = 0;
+	(*i)++;
+	quote_content = ft_calloc(sizeof(char), (len + 1));
+	if (!quote_content)
+		return (NULL);
+	while (line[*i] && (line[*i]) != quote)
+	{
+		quote_content[j] = line[*i];
+		(*i)++;
+		j++;
+	}
+	(*i)++;
+	return (quote_content);
+}
+
 int	search_quote(char *line, t_token **tokens, int *i, char quote)
 {
 	int			j;
 	int			len;
 	t_token		*new;
-	char		*squote;
+	char		*quote_content;
 
 	j = 0;
 	new = NULL;
-	squote = NULL;
+	quote_content = NULL;
 	while (ft_isspace(line[*i]))
 		(*i)++;
 	len = get_quote_len(&line[*i], quote);
 	if (len < 0)
 		return (len);
-	(*i)++;
-	// printf ("%d\n", len);
-	squote = ft_calloc(sizeof(char), (len + 1));
-	if (!squote)
-		return (0);
-	while (line[*i] && (line[*i]) != quote)
-	{
-		squote[j] = line[*i];
-		(*i)++;
-		j++;
-	}
-	(*i)++;
+	quote_content = copy_quote_content(line, i, quote, len);
+	if (!quote_content)
+		return (-1);
 	new = new_token_add(tokens);
 	if (new == NULL)
 		return (1);
-	new->content = squote;
+	new->content = quote_content;
 	new->type = quote;
 	return (0);
 }

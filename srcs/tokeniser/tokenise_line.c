@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/13 18:21:55 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/22 15:16:18 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/23 16:47:23 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,25 +33,23 @@ t_token	*new_token_add(t_token **tokens)
 	return (new);
 }
 
-t_token	*tokenise_line(t_sh_dat *shdat, char *line)
+t_token	*tokenise_line(char *line)
 {
 	t_token	*tokens;
-	int		i; 
+	int		i;
 
 	tokens = NULL;
 	i = 0;
 	while (line[i])
 	{
-		if (search_word(line, &tokens, &i))
-			return (NULL);
-		if (search_separator(line, &tokens, &i))
-			return (NULL);
 		if (search_quote(line, &tokens, &i, '\'') < -1)
 			i++;
 		if (search_quote(line, &tokens, &i, '\"') < -1)
 			i++;
-		// if (search_backslash(line, &tokens))
-		// 	return (NULL);
+		if (search_word(line, &tokens, &i))
+			return (NULL);
+		if (search_separator(line, &tokens, &i))
+			return (NULL);
 		if (ft_isspace(line[i]))
 			i++;
 	}

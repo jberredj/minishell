@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/04 16:19:05 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/23 16:52:36 by jberredj         ###   ########.fr       */
+/*   Created: 2021/11/23 15:06:35 by jberredj          #+#    #+#             */
+/*   Updated: 2021/11/23 16:35:00 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-# ifndef VERSION_NUMBER
-#  define VERSION_NUMBER "unknown"
-# endif
-# include <stdlib.h>
-# include <stdint.h>
-# include <stdbool.h>
-# include "structs/t_env.h"
+#include <stdlib.h>
+#include "structs/t_token.h"
+#include "../libft/includes/ft_idllst.h"
 
-typedef struct s_sh_dat
+void	free_token(void *content)
 {
-	t_env	env;
-}				t_sh_dat;
+	t_token	*token;
 
-#endif
+	token = ft_idllst_content(content);
+	if (token)
+	{
+		if (token->content)
+			free(token->content);
+		free(token);
+	}
+}

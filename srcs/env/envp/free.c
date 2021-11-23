@@ -6,14 +6,14 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 16:43:16 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/17 17:36:59 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/23 16:56:34 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 #include "../libft/includes/ft_idllst.h"
 
-int	remove_from_envp(char ***envp, size_t *nbr_exported)
+static char	**search_deleted_shift_envp(char ***envp, size_t *nbr_exported)
 {
 	char	**tofree;
 	char	**new_envp;
@@ -21,7 +21,7 @@ int	remove_from_envp(char ***envp, size_t *nbr_exported)
 
 	new_envp = (char **)ft_calloc(*nbr_exported, sizeof(char *));
 	if (!new_envp)
-		return (-1);
+		return (NULL);
 	tofree = *envp;
 	i = -1;
 	if (*envp)
@@ -39,6 +39,16 @@ int	remove_from_envp(char ***envp, size_t *nbr_exported)
 		}
 		free(tofree);
 	}
-	*envp = new_envp;
+	return (new_envp);
+}
+
+int	remove_from_envp(char ***envp, size_t *nbr_exported)
+{
+	char	**buff;
+
+	buff = search_deleted_shift_envp(envp, nbr_exported);
+	if (!buff)
+		return (1);
+	*envp = buff;
 	return (0);
 }

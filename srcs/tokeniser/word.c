@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 11:20:45 by ddiakova          #+#    #+#             */
-/*   Updated: 2021/11/22 15:17:16 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/23 16:52:10 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,25 @@ static int	get_word_len(char *line)
 	return (len);
 }
 
+static char	*copy_word(char *line, int *i, int len)
+{
+	char	*word;
+	int		j;
+
+	word = ft_calloc(sizeof(char), (len + 1));
+	if (!word)
+		return (NULL);
+	j = 0;
+	while (line[*i] && !ft_isspace(line[*i]) && !is_quote(line[*i])
+		&& !is_separator(line[*i]))
+	{
+		word[j] = line[*i];
+		(*i)++;
+		j++;
+	}
+	return (word);
+}
+
 int	search_word(char *line, t_token **tokens, int *i)
 {
 	int			len;
@@ -41,25 +60,13 @@ int	search_word(char *line, t_token **tokens, int *i)
 		(*i)++;
 	len = get_word_len(&line[*i]);
 	word = ft_calloc(sizeof(char), (len + 1));
+	word = copy_word(line, i, len);
 	if (!word)
-		return (0);
-	if (is_quote(line[0]))
-	{
-		if (word)
-			free(word);
-		return (0);
-	}
-	while (line[*i] && !ft_isspace(line[*i]) && !is_quote(line[*i])
-		&& !is_separator(line[*i]))
-	{
-		word[j] = line[*i];
-		(*i)++;
-		j++;
-	}
+		return (-1);
 	new = new_token_add(tokens);
 	if (new == NULL)
 		return (1);
-	new->content = word; //FAIRE FREE 
+	new->content = word;
 	new->type = WORD;
 	return (0);
 }

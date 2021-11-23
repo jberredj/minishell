@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   create.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/04 16:19:05 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/23 16:52:36 by jberredj         ###   ########.fr       */
+/*   Created: 2021/11/23 14:59:50 by jberredj          #+#    #+#             */
+/*   Updated: 2021/11/23 15:30:37 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-# ifndef VERSION_NUMBER
-#  define VERSION_NUMBER "unknown"
-# endif
-# include <stdlib.h>
-# include <stdint.h>
-# include <stdbool.h>
-# include "structs/t_env.h"
+#include "structs/t_command.h"
+#include "../libft/includes/ft_idllst.h"
 
-typedef struct s_sh_dat
+t_command	*new_command_add(t_command *command)
 {
-	t_env	env;
-}				t_sh_dat;
+	t_command	*new;
 
-#endif
+	new = (t_command *)ft_calloc(1, sizeof(t_command));
+	if (!new)
+		return (NULL); // CHANGE TO MALLOC ERROR CODE
+	new->list = ft_idllst_init(&new->list, new);
+	if (!command)
+		return (new);
+	else
+		ft_idllst_add_back(&new->list, &command->list);
+	return (new);
+}

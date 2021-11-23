@@ -1,28 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   prompt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/04 16:19:05 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/23 16:52:36 by jberredj         ###   ########.fr       */
+/*   Created: 2021/11/23 15:50:54 by jberredj          #+#    #+#             */
+/*   Updated: 2021/11/23 15:52:09 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-# ifndef VERSION_NUMBER
-#  define VERSION_NUMBER "unknown"
-# endif
-# include <stdlib.h>
-# include <stdint.h>
-# include <stdbool.h>
-# include "structs/t_env.h"
+#ifndef PROMPT_H
+# define PROMPT_H
+# include "minishell.h"
 
-typedef struct s_sh_dat
-{
-	t_env	env;
-}				t_sh_dat;
-
+void	prompt(t_sh_dat *sh_dat);
 #endif

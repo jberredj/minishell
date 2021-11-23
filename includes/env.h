@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 15:51:49 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/17 17:35:20 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/23 16:14:10 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,5 @@ char		*env_var_to_envp(char ***envp, t_env_var *env_var_node,
 				size_t *nbr_exported);
 int			add_new_envp(char ***envp, t_env_var *node, size_t *nbr_exported);
 int			remove_from_envp(char ***envp, size_t *nbr_exported);
+char		**copy_envp(char **envp, int nbr);
 #endif

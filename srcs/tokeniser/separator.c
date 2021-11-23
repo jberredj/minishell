@@ -6,14 +6,15 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 11:25:12 by ddiakova          #+#    #+#             */
-/*   Updated: 2021/11/22 15:17:46 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/23 16:51:47 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "structs/t_token.h"
-#include "../libft/includes/libft.h"
 #include <stdbool.h>
+#include <stdio.h>
+#include "structs/t_token.h"
+#include "minishell.h"
+#include "../libft/includes/libft.h"
 #include "tokeniser.h"
 
 int	is_separator(char c)
@@ -33,6 +34,25 @@ static int	get_sep_len(char *line)
 	return (len);
 }
 
+static char	*copy_separators(char *line, int *i, int len)
+{
+	char	*sep;
+	int		j;
+
+	sep = ft_calloc(sizeof(char), (len + 1));
+	if (!sep)
+		return (NULL);
+	j = 0;
+	while (line[*i] && !ft_isalnum(line[*i]) && !ft_isspace(line[*i])
+		&& !is_quote(line[*i]) && is_separator(line[*i]))
+	{
+		sep[j] = line[*i];
+		(*i)++;
+		j++;
+	}
+	return (sep);
+}
+
 int	search_separator(char *line, t_token **tokens, int *i)
 {
 	int			len;
@@ -48,24 +68,9 @@ int	search_separator(char *line, t_token **tokens, int *i)
 	len = get_sep_len(&line[*i]);
 	if (len < 1)
 		return (len);
-	printf ("%d\n", len);
-	sep = ft_calloc(sizeof(char), (len + 1));
+	sep = copy_separators(line, i, len);
 	if (!sep)
-		return (0);
-	if (is_quote(line[0]))
-	{
-		if (sep)
-			free(sep);
-		return (0);
-	}
-	while (line[*i] && !ft_isalnum(line[*i]) && !ft_isspace(line[*i]) 
-		&& !is_quote(line[*i]) && is_separator(line[*i]))
-	{
-		sep[j] = line[*i];
-		(*i)++;
-		j++;
-	}
-	// (*i)++;
+		return (-1);
 	new = new_token_add(tokens);
 	if (new == NULL)
 		return (1);

@@ -1,28 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/04 16:19:05 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/23 16:52:36 by jberredj         ###   ########.fr       */
+/*   Created: 2021/11/23 15:11:50 by jberredj          #+#    #+#             */
+/*   Updated: 2021/11/23 15:15:31 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-# ifndef VERSION_NUMBER
-#  define VERSION_NUMBER "unknown"
-# endif
-# include <stdlib.h>
-# include <stdint.h>
-# include <stdbool.h>
-# include "structs/t_env.h"
+#include "../libft/includes/ft_string.h"
 
-typedef struct s_sh_dat
+char	**copy_envp(char **envp, int nbr)
 {
-	t_env	env;
-}				t_sh_dat;
+	char	**copy;
+	int		i;
 
-#endif
+	copy = (char **)ft_calloc(nbr + 1, sizeof(char *));
+	i = -1;
+	while (envp[++i])
+		copy[i] = ft_strdup(envp[i]);
+	return (copy);
+}

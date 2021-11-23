@@ -3,6 +3,8 @@
 		"stdlib.h": "c",
 		"libft.h": "c",
 		"t_env.h": "c",
-		"minishell.h": "c"
+		"minishell.h": "c",
+		"ft_string.h": "c",
+		"t_token.h": "c"
 	}
 }

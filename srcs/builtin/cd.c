@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 17:02:10 by ddiakova          #+#    #+#             */
-/*   Updated: 2021/11/22 23:15:40 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/23 16:22:18 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,8 @@
 
 int	cd(t_sh_dat *shdat, char **argv)
 {	
-	int		argc;
-	char	path[PATH_MAX];
-	t_env_var *pwd;
+	int			argc;
+	t_env_var	*pwd;
 
 	argc = 0;
 	while (argv[argc])
@@ -35,8 +34,7 @@ int	cd(t_sh_dat *shdat, char **argv)
 		pwd = shdat->env.pwd;
 		if (pwd == NULL)
 			return (1);
-		getcwd(path, PATH_MAX);
-		
+		getcwd(0, 0);
 	}
 	return (0);
 }

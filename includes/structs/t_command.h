@@ -1,18 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   t_command.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/12 15:39:50 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/12 15:41:48 by jberredj         ###   ########.fr       */
+/*   Created: 2021/11/23 14:54:31 by jberredj          #+#    #+#             */
+/*   Updated: 2021/11/23 15:29:14 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "structs/t_env.h"
+#ifndef T_COMMAND_H
+# define T_COMMAND_H
+# include "../libft/includes/ft_idllst.h"
 
-t_env_var	init_env_var(void)
+typedef struct s_command
 {
-	return ((t_env_var){0});
-}
+	char		*path_to_cmd;
+	int			(*builtin)(char**, char**);
+	int			argc;	
+	char		**argv;
+	char		**envp;
+	t_idllist	list;
+}				t_command;
+#endif
