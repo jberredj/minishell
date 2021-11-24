@@ -107,7 +107,7 @@ re: fclean all
 ## 								Extra recipes								 ##
 ###############################################################################
 
-define COMPILE =
+define COMPILE
 	find ./objs/ -type f -exec touch {} +
 	$(foreach source,$?, \
 	printf "$(YELLOW)[..]  $(NC) $(LIGHT_PURPLE)$(subst srcs/,,$(source))\
