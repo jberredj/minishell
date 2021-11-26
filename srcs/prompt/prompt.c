@@ -25,6 +25,7 @@
 #include "tokeniser.h"
 #include "parser.h"
 #include "minishell.h"
+
 /*
 ** REMOVE HEADER
 */
@@ -91,7 +92,7 @@ void	prompt(t_sh_dat *sh_dat)
 				if (ft_strncmp(str, "exit", 4) == 0)
 				{
 					running = false;
-					rl_clear_history();
+					clear_history();
 					continue ;
 				}
 				t_token *tok;

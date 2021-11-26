@@ -39,6 +39,10 @@ ENV				=	envp/free.c envp/update.c envp/utils.c\
 ENV_SRCS		=	$(addprefix srcs/env/, $(ENV))
 ENV_OBJS		=	$(addprefix objs/env., $(subst /,., $(ENV:.c=.o)))
 
+EXPANDOR		=	expand_var.c
+EXPANDOR_SRCS	=	$(addprefix srcs/prompt/, $(EXPANDOR))
+EXPANDOR_OBJS	=	$(addprefix objs/prompt., $(subst /,., $(EXPANDOR:.c=.o)))
+
 PARSER			=	check_command_path.c create.c free.c set_argv.c \
 					tokens_to_commands.c
 PARSER_SRCS		=	$(addprefix srcs/parser/, $(PARSER))
