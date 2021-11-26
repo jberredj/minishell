@@ -1,20 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expandor.c                                         :+:      :+:    :+:   */
+/*   expandor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ddiakova <ddiakova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 11:20:45 by ddiakova          #+#    #+#             */
-/*   Updated: 2021/11/23 16:52:10 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/26 18:37:55 by ddiakova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXPANDOR_H
-# define EXPONDOR_H
+#ifndef EXPANDER_H
+# define EXPANDER_H
 # include "structs/t_env.h"
 # include "structs/t_token.h"
+# include "../libft/includes/ft_idllst.h"
 
-void    expand_var(t_token *tokens, t_env *env);
+void	expand_var(t_token *tokens, t_env *env);
 
 #endif

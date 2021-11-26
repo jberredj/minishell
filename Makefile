@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+         #
+#    By: ddiakova <ddiakova@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 15:10:49 by jberredj          #+#    #+#              #
-#    Updated: 2021/11/23 16:12:49 by jberredj         ###   ########.fr        #
+#    Updated: 2021/11/26 18:45:35 by ddiakova         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,9 +39,9 @@ ENV				=	envp/free.c envp/update.c envp/utils.c\
 ENV_SRCS		=	$(addprefix srcs/env/, $(ENV))
 ENV_OBJS		=	$(addprefix objs/env., $(subst /,., $(ENV:.c=.o)))
 
-EXPANDOR		=	expand_var.c
-EXPANDOR_SRCS	=	$(addprefix srcs/prompt/, $(EXPANDOR))
-EXPANDOR_OBJS	=	$(addprefix objs/prompt., $(subst /,., $(EXPANDOR:.c=.o)))
+EXPANDER		=	expand_var.c
+EXPANDER_SRCS	=	$(addprefix srcs/expander/, $(EXPANDER))
+EXPANDER_OBJS	=	$(addprefix objs/expander., $(subst /,., $(EXPANDER:.c=.o)))
 
 PARSER			=	check_command_path.c create.c free.c set_argv.c \
 					tokens_to_commands.c
@@ -65,14 +65,14 @@ MAIN_OBJS		=	$(addprefix objs/, $(subst /,., $(MAIN:.c=.o)))
 STRUCTS			=	t_command.h t_env.h t_token.h
 HEADERS			=	$(addprefix structs/, $(STRUCTS))\
 					builtin.h env.h error_codes.h minishell.h parser.h\
-					prompt.h tokeniser.h
+					prompt.h tokeniser.h expander.h
 
-SRCS			=	$(BUILTIN_SRCS) $(ENV_SRCS) $(PARSER_SRCS) $(PROMPT_SRCS)\
+SRCS			=	$(EXPANDER_SRCS) $(BUILTIN_SRCS) $(ENV_SRCS) $(PARSER_SRCS) $(PROMPT_SRCS)\
 					$(TOKENISER_SRCS) $(MAIN_SRCS)
-OBJS			=	$(BUILTIN_OBJS) $(ENV_OBJS) $(PARSER_OBJS) $(PROMPT_OBJS)\
+OBJS			=	$(EXPANDER_OBJS) $(BUILTIN_OBJS) $(ENV_OBJS) $(PARSER_OBJS) $(PROMPT_OBJS)\
 					$(TOKENISER_OBJS) $(MAIN_OBJS)
 
-MODULE			=	builtin env parser prompt tokeniser main
+MODULE			=	expander builtin env parser prompt tokeniser main
 
 ###############################################################################
 ##							Color output char								 ##

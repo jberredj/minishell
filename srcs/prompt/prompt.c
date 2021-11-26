@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ddiakova <ddiakova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 10:28:00 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/23 16:20:43 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/26 18:38:02 by ddiakova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 #include "env.h"
 #include "tokeniser.h"
 #include "parser.h"
+#include "expander.h"
 #include "minishell.h"
 
 /*
@@ -97,6 +98,7 @@ void	prompt(t_sh_dat *sh_dat)
 				}
 				t_token *tok;
 				tok = tokenise_line(str);
+				expand_var(&sh_dat->token, &sh_dat->env);
 				print_token(tok);
 				commands = generate_commands_from_tokens(&sh_dat->env, tok);
 				print_commands(commands);
