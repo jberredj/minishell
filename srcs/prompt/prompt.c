@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 10:28:00 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/29 22:23:49 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/29 22:31:15 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,14 +166,13 @@ void	prompt(t_sh_dat *sh_dat)
 				}
 				t_token *tok;
 				tok = tokenise_line(str);
-				print_token(tok);
 				commands = generate_commands_from_tokens(&sh_dat->env, tok);
-				print_commands(commands);
+				// print_commands(commands);
 				ft_idllst_clear(&tok->list, free_token);
 				exec_cmds(commands);
 				ft_idllst_clear(&commands->list, free_command);
 				waitpid(child, &child_exit, 0);
-				printf("Child exited\n");
+				// printf("Child exited\n");
 			}
 		}
 		else
