@@ -5,6 +5,8 @@
 		"t_env.h": "c",
 		"minishell.h": "c",
 		"ft_string.h": "c",
-		"t_token.h": "c"
+		"t_token.h": "c",
+		"limits": "cpp",
+		"*.tcc": "cpp"
 	}
 }

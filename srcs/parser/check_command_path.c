@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 15:03:12 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/23 16:48:32 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/29 19:20:12 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,9 @@
 #include "structs/t_token.h"
 #include "../libft/includes/libft.h"
 #include "env.h"
+#include "error_codes.h"
 
-static char	*try_get_from_path(t_env_var *path, char *content)
+static int	try_get_from_path(char **to_edit, t_env_var *path, char *content)
 {
 	char	**split;
 	size_t	len;
@@ -31,31 +32,50 @@ static char	*try_get_from_path(t_env_var *path, char *content)
 	{
 		try_path = ft_strjoin(split[i], "/");
 		ft_gnljoin(&try_path, content);
-		if (access(try_path, X_OK) == 0)
-			break ;
+		if (access(try_path, F_OK) == 0)
+		{
+			if (access(try_path, X_OK) == 0)
+				break ;
+			free(try_path);
+			ft_free_split(split, len);
+			return (RIGHT_ERROR | X_ERROR | FILE_ERROR);
+		}
 		free(try_path);
 		try_path = NULL;
 	}
 	ft_free_split(split, len);
-	return (try_path);
+	*to_edit = try_path;
+	if (!try_path)
+		return (NOT_EXIST_ERROR | FILE_ERROR);
+	return (SUCCESS);
 }
 
-char	*try_relative_access(char *content)
+int	try_relative_access(char **to_edit, char *content)
 {
-	if (access(content, X_OK) == 0)
-		return (ft_strdup(content));
-	return (NULL);
+	if (access(content, F_OK) == 0)
+	{
+		if (access(content, X_OK) == 0)
+		{
+			*to_edit = ft_strdup(content);
+			return (SUCCESS);
+		}
+		return (RIGHT_ERROR | X_ERROR | FILE_ERROR);
+	}
+	return (NOT_EXIST_ERROR | FILE_ERROR);
 }
 
-char	*get_cmd_path(t_env_var *path, t_token cmd_tok)
+int	get_cmd_path(char **to_update, t_env_var *path, t_token cmd_tok)
 {
-	char	*cmd;
+	char	*command_path;
+	int		error;
 
+	command_path = NULL;
 	if (ft_strncmp(cmd_tok.content, "/", 1) == 0
 		|| ft_strncmp(cmd_tok.content, "./", 2) == 0
 		|| ft_strncmp(cmd_tok.content, "../", 3) == 0)
-		cmd = try_relative_access(cmd_tok.content);
+		error = try_relative_access(&command_path, cmd_tok.content);
 	else
-		cmd = try_get_from_path(path, cmd_tok.content);
-	return (cmd);
+		error = try_get_from_path(&command_path, path, cmd_tok.content);
+	*to_update = command_path;
+	return (error);
 }

@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 10:28:00 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/23 16:20:43 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/29 22:19:12 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static char	*get_prompt(t_env *env)
 
 	pwd = prompt_pwd(env->pwd, env->home);
 	tmp_prompt = ft_strjoin(
-			"\033[1;32mAnticshell\033[0;0m:\033[1;34m",
+			"\033[1;32mMiddle Ages shell\033[0;0m:\033[1;34m",
 			pwd);
 	free(pwd);
 	user = getenv("USER");
@@ -66,6 +66,55 @@ static char	*get_prompt(t_env *env)
 		prompt = ft_strjoin(tmp_prompt, "\033[0;0m$ ");
 	free(tmp_prompt);
 	return (prompt);
+}
+
+void	exec_builtins(t_command *commands)
+{
+	int	stdin_copy;
+	int	stdout_copy;
+
+	stdin_copy = dup(0);
+	stdout_copy = dup(1);
+
+}
+
+void	exec_cmds(t_command *commands)
+{
+	int		exit_code;
+	pid_t	child;
+
+	while (commands)
+	{
+		if (commands->builtin)
+			exec_builtins(commands);
+		else
+		{
+			child = fork();
+			if (child == 0)
+			{
+				if (commands->fd_in != 0)
+				{
+					dup2(commands->fd_in, 0);
+					close(commands->fd_in);
+				}
+				if (commands->fd_out != 1)
+				{
+					dup2(commands->fd_out, 1);
+					close(commands->fd_out);
+				}
+				execve(commands->path_to_cmd, commands->argv, commands->envp);
+			}
+			else
+			{
+				if (commands->fd_in != 0)
+					close(commands->fd_in);
+				if (commands->fd_out != 1)
+					close(commands->fd_out);
+				waitpid(child, &exit_code, 0);
+			}
+		}
+		commands = ft_idllst_next_content(&commands->list);
+	}
 }
 
 void	prompt(t_sh_dat *sh_dat)
@@ -78,6 +127,7 @@ void	prompt(t_sh_dat *sh_dat)
 	int			child_exit;
 
 	running = true;
+	child = 0;
 	while (running)
 	{
 		prompt_str = get_prompt(&sh_dat->env);
@@ -100,20 +150,7 @@ void	prompt(t_sh_dat *sh_dat)
 				commands = generate_commands_from_tokens(&sh_dat->env, tok);
 				print_commands(commands);
 				ft_idllst_clear(&tok->list, free_token);
-				child = fork();
-				if (child == 0)
-				{
-					free(str);
-					free(sh_dat->env.envp);
-					ft_idllst_clear(&sh_dat->env.env_vars->list, free_env_var);
-					if (commands->path_to_cmd)
-						execve(commands->path_to_cmd, commands->argv, commands->envp);
-					else if (commands->builtin)
-						commands->builtin(commands->argv, commands->envp);
-					ft_idllst_clear(&commands->list, free_command);
-					printf("FAILED EXECUTION\n");
-					exit(1);
-				}
+				exec_cmds(commands);
 				ft_idllst_clear(&commands->list, free_command);
 				waitpid(child, &child_exit, 0);
 				printf("Child exited\n");

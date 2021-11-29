@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 15:07:42 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/23 15:31:07 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/29 19:40:30 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	add_to_command_argv(t_command *cmd, char *content)
 	if (cmd->argc == 0)
 	{
 		cmd->argv = (char **)ft_calloc(2, sizeof(char *));
-		cmd->argv[0] = content;
+		cmd->argv[0] = ft_strdup(content);
 		cmd->argc = 1;
 		return ;
 	}
