@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 17:02:31 by ddiakova          #+#    #+#             */
-/*   Updated: 2021/11/23 15:59:02 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/29 22:27:40 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,5 @@ int	echo(char **argv, char **envp)
 	}
 	if (n_param)
 		write(1, "\n", 1);
-	exit(0);
 	return (0);
 }

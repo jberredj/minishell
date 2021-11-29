@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 10:28:00 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/29 22:19:12 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/29 22:23:49 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,29 @@ void	exec_builtins(t_command *commands)
 	int	stdin_copy;
 	int	stdout_copy;
 
-	stdin_copy = dup(0);
-	stdout_copy = dup(1);
-
+	if (commands->fd_in != 0)
+	{
+		stdin_copy = dup(0);
+		dup2(commands->fd_in, 0);
+		close(commands->fd_in);
+	}
+	if (commands->fd_out != 1)
+	{
+		stdout_copy = dup(1);
+		dup2(commands->fd_out, 1);
+		close(commands->fd_out);
+	}
+	commands->builtin(commands->argv, commands->envp);
+	if (commands->fd_in != 0)
+	{
+		close(commands->fd_in);
+		dup2(stdin_copy, 0);
+	}
+	if (commands->fd_out != 1)
+	{
+		close(commands->fd_out);
+		dup2(stdout_copy, 1);
+	}
 }
 
 void	exec_cmds(t_command *commands)
