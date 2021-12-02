@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddiakova <ddiakova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dariadiakova <dariadiakova@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 10:28:00 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/26 18:38:02 by ddiakova         ###   ########.fr       */
+/*   Updated: 2021/12/02 19:52:56 by dariadiakov      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,8 @@ void	prompt(t_sh_dat *sh_dat)
 				}
 				t_token *tok;
 				tok = tokenise_line(str);
-				expand_var(&sh_dat->token, &sh_dat->env);
+				print_token(tok);
+				expand_var(tok, &sh_dat->env);
 				print_token(tok);
 				commands = generate_commands_from_tokens(&sh_dat->env, tok);
 				print_commands(commands);

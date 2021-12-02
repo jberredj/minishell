@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   word.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dariadiakova <dariadiakova@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 11:20:45 by ddiakova          #+#    #+#             */
-/*   Updated: 2021/11/23 16:52:10 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/02 18:00:20 by dariadiakov      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ int	search_word(char *line, t_token **tokens, int *i)
 	while (ft_isspace(line[*i]))
 		(*i)++;
 	len = get_word_len(&line[*i]);
-	word = ft_calloc(sizeof(char), (len + 1));
 	word = copy_word(line, i, len);
 	if (!word)
 		return (-1);

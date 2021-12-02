@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ddiakova <ddiakova@student.42.fr>          +#+  +:+       +#+         #
+#    By: dariadiakova <dariadiakova@student.42.f    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 15:10:49 by jberredj          #+#    #+#              #
-#    Updated: 2021/11/26 18:45:35 by ddiakova         ###   ########.fr        #
+#    Updated: 2021/12/02 12:26:56 by dariadiakov      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -143,6 +143,11 @@ env: $(OBJ_DIR) $(ENV_OBJS)
 $(ENV_OBJS): $(ENV_SRCS)
 	printf "$(BLUE)Compiling $(LIGHT_PURPLE)environement $(BLUE)\
 functions$(NC)\n"
+	$(COMPILE)
+
+expander: $(OBJ_DIR) $(EXPANDER_OBJS)
+$(EXPANDER_OBJS): $(EXPANDER_SRCS)
+	printf "$(BLUE)Compiling $(LIGHT_PURPLE)parser $(BLUE)functions$(NC)\n"
 	$(COMPILE)
 
 parser: $(OBJ_DIR) $(PARSER_OBJS)
