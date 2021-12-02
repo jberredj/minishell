@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 09:48:59 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/02 15:14:33 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/02 18:15:42 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,42 @@
 #include <fcntl.h>
 #include "structs/t_command.h"
 
-void	exec_builtins(t_command *commands, t_env *env)
+static void	swap_std_with_fds(t_command *command)
 {
-	commands->process = -2;
-	if (commands->fd_in != 0)
+	if (command->fd_in != 0)
 	{
 		close(0);
-		dup2(commands->fd_in, 0);
-		close(commands->fd_in);
+		dup2(command->fd_in, 0);
+		close(command->fd_in);
 	}
-	if (commands->fd_out != 1)
+	if (command->fd_out != 1)
 	{
 		close(1);
-		dup2(commands->fd_out, 1);
-		close(commands->fd_out);
+		dup2(command->fd_out, 1);
+		close(command->fd_out);
 	}
-	commands->exit_code = commands->builtin(commands->argv, env);
-	if (commands->fd_in != 0)
+}
+
+static void	restore_std(t_command *command, t_env *env)
+{
+	if (command->fd_in != 0)
 	{
 		close(0);
 		dup2(env->stdin_copy, 0);
-		commands->fd_in = 0;
+		command->fd_in = 0;
 	}
-	if (commands->fd_out != 1)
+	if (command->fd_out != 1)
 	{
 		close(1);
 		dup2(env->stdout_copy, 1);
-		commands->fd_out = 1;
+		command->fd_out = 1;
 	}
+}
+
+void	exec_builtins(t_command *commands, t_env *env)
+{
+	commands->process = -2;
+	swap_std_with_fds(commands);
+	commands->exit_code = commands->builtin(commands->argv, env);
+	restore_std(commands, env);
 }

@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 15:03:12 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/29 19:20:12 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/02 18:28:22 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,22 @@
 #include "../libft/includes/libft.h"
 #include "env.h"
 #include "error_codes.h"
+
+static char	*make_try_path(char *base_path, char *cmd)
+{
+	char	*try_path;
+
+	try_path = ft_strjoin(base_path, "/");
+	ft_gnljoin(&try_path, cmd);
+	return (try_path);
+}
+
+static int	error_wrong_rights(char *try_path, char **split, size_t len)
+{
+	free(try_path);
+	ft_free_split(split, len);
+	return (RIGHT_ERROR | X_ERROR | FILE_ERROR);
+}
 
 static int	try_get_from_path(char **to_edit, t_env_var *path, char *content)
 {
@@ -30,15 +46,12 @@ static int	try_get_from_path(char **to_edit, t_env_var *path, char *content)
 	i = -1;
 	while (split[++i])
 	{
-		try_path = ft_strjoin(split[i], "/");
-		ft_gnljoin(&try_path, content);
+		try_path = make_try_path(split[i], content);
 		if (access(try_path, F_OK) == 0)
 		{
 			if (access(try_path, X_OK) == 0)
 				break ;
-			free(try_path);
-			ft_free_split(split, len);
-			return (RIGHT_ERROR | X_ERROR | FILE_ERROR);
+			return (error_wrong_rights(try_path, split, len));
 		}
 		free(try_path);
 		try_path = NULL;

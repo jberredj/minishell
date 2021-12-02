@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/13 18:21:55 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/23 16:47:23 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/02 19:26:57 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_token	*new_token_add(t_token **tokens)
 		return (NULL);
 	new = (t_token *)ft_calloc(1, sizeof(t_token));
 	if (!new)
-		return (NULL); // CHANGE TO MALLOC ERROR CODE
+		return (NULL);
 	new->list = ft_idllst_init(&new->list, new);
 	if (!*tokens)
 		*tokens = new;

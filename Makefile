@@ -6,7 +6,7 @@
 #    By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 15:10:49 by jberredj          #+#    #+#              #
-#    Updated: 2021/12/01 15:11:45 by jberredj         ###   ########.fr        #
+#    Updated: 2021/12/02 19:35:28 by jberredj         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,16 +39,16 @@ ENV				=	envp/free.c envp/update.c envp/utils.c\
 ENV_SRCS		=	$(addprefix srcs/env/, $(ENV))
 ENV_OBJS		=	$(addprefix objs/env., $(subst /,., $(ENV:.c=.o)))
 
-EXEC			=	exec.c builtin.c
+EXEC			=	builtin.c exec.c external.c
 EXEC_SRCS		=	$(addprefix srcs/exec/, $(EXEC))
 EXEC_OBJS		=	$(addprefix objs/exec., $(subst /,., $(EXEC:.c=.o)))
 
 PARSER			=	check_command_path.c create.c free.c set_argv.c \
-					tokens_to_commands.c
+					tokens_to_commands.c heredoc.c pipes.c redirect_files.c 
 PARSER_SRCS		=	$(addprefix srcs/parser/, $(PARSER))
 PARSER_OBJS		=	$(addprefix objs/parser., $(subst /,., $(PARSER:.c=.o)))
 
-PROMPT			=	prompt.c
+PROMPT			=	prompt.c prompt_text.c
 PROMPT_SRCS		=	$(addprefix srcs/prompt/, $(PROMPT))
 PROMPT_OBJS		=	$(addprefix objs/prompt., $(subst /,., $(PROMPT:.c=.o)))
 

@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 15:26:23 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/01 15:13:39 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/02 17:36:46 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,24 @@ int	check_builtin(t_command *commands, t_env_var *path,
 	int	error;
 
 	error = SUCCESS;
-	if (ft_strncmp(cmd_tok.content, "echo", 4) == 0)
+	if (ft_strncmp(cmd_tok.content, "echo", ft_strlen(cmd_tok.content)) == 0)
 		commands->builtin = echo;
-	else if (ft_strncmp(cmd_tok.content, "cd", 2) == 0)
+	else if (ft_strncmp(cmd_tok.content, "cd", ft_strlen(cmd_tok.content)) == 0)
 		commands->builtin = builtin_placeholder;
-	else if (ft_strncmp(cmd_tok.content, "pwd", 3) == 0)
+	else if (ft_strncmp(cmd_tok.content, "pwd",
+			ft_strlen(cmd_tok.content)) == 0)
 		commands->builtin = builtin_placeholder;
-	else if (ft_strncmp(cmd_tok.content, "export", 6) == 0)
+	else if (ft_strncmp(cmd_tok.content, "export",
+			ft_strlen(cmd_tok.content)) == 0)
 		commands->builtin = builtin_placeholder;
-	else if (ft_strncmp(cmd_tok.content, "unset", 5) == 0)
+	else if (ft_strncmp(cmd_tok.content, "unset",
+			ft_strlen(cmd_tok.content)) == 0)
 		commands->builtin = builtin_placeholder;
-	else if (ft_strncmp(cmd_tok.content, "env", 3) == 0)
+	else if (ft_strncmp(cmd_tok.content, "env",
+			ft_strlen(cmd_tok.content)) == 0)
 		commands->builtin = builtin_placeholder;
-	else if (ft_strncmp(cmd_tok.content, "exit", 4) == 0)
+	else if (ft_strncmp(cmd_tok.content, "exit",
+			ft_strlen(cmd_tok.content)) == 0)
 		commands->builtin = minish_exit;
 	else
 		error = get_cmd_path(&commands->path_to_cmd, path, cmd_tok);

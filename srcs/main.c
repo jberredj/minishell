@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 16:01:23 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/02 14:36:47 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/02 19:34:55 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
+#ifdef DEBUG
+
 void	print_motd(void)
 {
 	printf("\033[0;32m|\\/| .  _  .  _ |_   _ | |\033[0;0m");
@@ -27,20 +29,33 @@ void	print_motd(void)
 	printf("\n");
 	printf("\033[0;32m|  | | | | | _) | | (- | |\033[0;0m");
 	printf(" Authors : ddiakova & jberredj\n");
-#ifdef DEBUG
-	printf("\033[1;33m/!\\ WARNING THIS A DEBUG BUILD, PERFORMANCE MAY BE BAD, OR EVERYTHING CAN JUST COLLASPE ON ITSELF OUT OF NOWHERE /!\\\033[0;0m\n");
-#endif
+	printf("\033[1;33m/!\\ WARNING THIS A DEBUG BUILD, PERFORMANCE MAY BE BAD,\
+OR EVERYTHING CAN JUST COLLASPE ON ITSELF OUT OF NOWHERE /!\\\033[0;0m\n");
 }
+#else
+
+void	print_motd(void)
+{
+	printf("\033[0;32m|\\/| .  _  .  _ |_   _ | |\033[0;0m");
+	printf(" Version : " VERSION_NUMBER);
+	printf("\n");
+	printf("\033[0;32m|  | | | | | _) | | (- | |\033[0;0m");
+	printf(" Authors : ddiakova & jberredj\n");
+}
+#endif
 
 void	ctrl_c(int sig, siginfo_t *info, void *ctx)
 {
+	(void)sig;
+	(void)info;
+	(void)ctx;
 	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
 }
 
-void	setup_signal()
+void	setup_signal(void)
 {
 	struct sigaction	sigquit_act;
 	struct sigaction	sigint_act;

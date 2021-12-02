@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 13:08:17 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/01 15:24:05 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/02 18:01:56 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-bool	check_num_valid(char *str)
+static bool	check_num_valid(char *str)
 {
 	while (ft_isspace(*str))
 		str++;
@@ -28,17 +28,11 @@ bool	check_num_valid(char *str)
 	return (true);
 }
 
-int	minish_exit(char **argv, t_env *env)
+static int	treat_exit(int ac, char **argv, t_env *env)
 {
-	int		ac;
-	bool	num_valid;
-	int		exit_code;
+	int	num_valid;
+	int	exit_code;
 
-	ac = 0;
-	while (argv[ac])
-		ac++;
-	if (ac == 1)
-		env->running = false;
 	num_valid = check_num_valid(argv[1]);
 	if (num_valid && ac == 2)
 	{
@@ -58,5 +52,23 @@ int	minish_exit(char **argv, t_env *env)
 		exit_code = 1;
 		ft_putendl_fd("minishell: exit: too many arguments", 2);
 	}
+	return (exit_code);
+}
+
+int	minish_exit(char **argv, t_env *env)
+{
+	int		ac;
+	int		exit_code;
+
+	ac = 0;
+	while (argv[ac])
+		ac++;
+	if (ac == 1)
+	{
+		env->running = false;
+		exit_code = env->exit_code;
+	}
+	else
+		exit_code = treat_exit(ac, argv, env);
 	return (exit_code);
 }

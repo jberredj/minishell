@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 14:59:50 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/23 15:30:37 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/02 18:30:25 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_command	*new_command_add(t_command *command)
 
 	new = (t_command *)ft_calloc(1, sizeof(t_command));
 	if (!new)
-		return (NULL); // CHANGE TO MALLOC ERROR CODE
+		return (NULL);
 	new->list = ft_idllst_init(&new->list, new);
 	if (!command)
 		return (new);
