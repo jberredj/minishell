@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 14:54:31 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/02 13:50:37 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/02 20:03:54 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define T_COMMAND_H
 # include "structs/t_env.h"
 # include "../libft/includes/ft_idllst.h"
-
+# include <sys/types.h>
 # define PIPE_IN 1
 # define PIPE_OUT 2
 
@@ -26,7 +26,6 @@ typedef struct s_command
 	char		**argv;
 	char		**envp;
 	int			fd_in;
-	int			is_pipe;
 	int			fd_out;
 	char		*error;
 	pid_t		process;
