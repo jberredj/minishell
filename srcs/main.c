@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 16:01:23 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/23 19:35:06 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/02 14:36:47 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 #include "env.h"
 #include "minishell.h"
 #include "prompt.h"
+#include <readline/readline.h>
+#include <readline/history.h>
 
 void	print_motd(void)
 {
@@ -30,23 +32,44 @@ void	print_motd(void)
 #endif
 }
 
+void	ctrl_c(int sig, siginfo_t *info, void *ctx)
+{
+	write(1, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
 
-int	main(int argc, char **argv, char **envp)
+void	setup_signal()
 {
 	struct sigaction	sigquit_act;
-	t_sh_dat			sh_dat;
+	struct sigaction	sigint_act;
 
-	(void)argc;
-	(void)argv;
 	ft_bzero(&sigquit_act, sizeof(struct sigaction));
 	sigquit_act.sa_sigaction = NULL;
 	sigquit_act.sa_handler = SIG_IGN;
 	sigaction(SIGQUIT, &sigquit_act, NULL);
-	ft_bzero(&sh_dat, sizeof(t_sh_dat));
-	parse_herited_envp(&sh_dat.env, envp);
+	ft_bzero(&sigint_act, sizeof(struct sigaction));
+	sigint_act.sa_sigaction = ctrl_c;
+	sigaction(SIGINT, &sigint_act, NULL);
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	t_env				env;
+
+	(void)argc;
+	(void)argv;
+	ft_bzero(&env, sizeof(t_env));
+	setup_signal();
+	env.stdin_copy = dup(0);
+	env.stdout_copy = dup(1);
+	parse_herited_envp(&env, envp);
 	print_motd();
-	prompt(&sh_dat);
-	free(sh_dat.env.envp);
-	ft_idllst_clear(&sh_dat.env.env_vars->list, free_env_var);
-	return (0);
+	prompt(&env);
+	free(env.envp);
+	ft_idllst_clear(&env.env_vars->list, free_env_var);
+	close(env.stdin_copy);
+	close(env.stdout_copy);
+	return (env.exit_code);
 }

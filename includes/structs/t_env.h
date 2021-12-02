@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 12:51:28 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/17 12:04:55 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/01 15:05:27 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,10 @@ typedef struct s_env
 	t_env_var	*old_pwd;
 	t_env_var	*home;
 	char		**envp;
+	bool		running;
+	uint8_t		exit_code;
+	int			stdin_copy;
+	int			stdout_copy;
 }				t_env;
 
 #endif

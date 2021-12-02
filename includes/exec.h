@@ -1,36 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   t_command.h                                        :+:      :+:    :+:   */
+/*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/23 14:54:31 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/02 13:50:37 by jberredj         ###   ########.fr       */
+/*   Created: 2021/12/01 10:59:15 by jberredj          #+#    #+#             */
+/*   Updated: 2021/12/01 11:05:14 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef T_COMMAND_H
-# define T_COMMAND_H
+#ifndef EXEC_H
+# define EXEC_H
 # include "structs/t_env.h"
-# include "../libft/includes/ft_idllst.h"
+# include "structs/t_command.h"
 
-# define PIPE_IN 1
-# define PIPE_OUT 2
+void	exec_cmds(t_command *commands, t_env *env);
+void	exec_builtins(t_command *commands, t_env *env);
 
-typedef struct s_command
-{
-	char		*path_to_cmd;
-	int			(*builtin)(char**, t_env *);
-	int			argc;
-	char		**argv;
-	char		**envp;
-	int			fd_in;
-	int			is_pipe;
-	int			fd_out;
-	char		*error;
-	pid_t		process;
-	int			exit_code;
-	t_idllist	list;
-}				t_command;
 #endif

@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 15:26:23 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/29 19:19:12 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/01 15:13:39 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	check_builtin(t_command *commands, t_env_var *path,
 	else if (ft_strncmp(cmd_tok.content, "env", 3) == 0)
 		commands->builtin = builtin_placeholder;
 	else if (ft_strncmp(cmd_tok.content, "exit", 4) == 0)
-		commands->builtin = builtin_placeholder;
+		commands->builtin = minish_exit;
 	else
 		error = get_cmd_path(&commands->path_to_cmd, path, cmd_tok);
 	return (error);

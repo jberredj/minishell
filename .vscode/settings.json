@@ -7,6 +7,7 @@
 		"ft_string.h": "c",
 		"t_token.h": "c",
 		"limits": "cpp",
-		"*.tcc": "cpp"
+		"*.tcc": "cpp",
+		"cstdlib": "c"
 	}
 }

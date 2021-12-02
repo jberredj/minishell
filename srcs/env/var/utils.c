@@ -6,15 +6,13 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 12:39:31 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/17 17:36:31 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/01 11:27:47 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "structs/t_env.h"
 #include "env.h"
-#include "../libft/includes/ft_lst.h"
-#include "../libft/includes/ft_idllst.h"
-#include "../libft/includes/ft_string.h"
+#include "../libft/includes/libft.h"
 
 t_env_var	*find_env_var_in_lst(t_env_var *env_vars, char *name)
 {
@@ -47,6 +45,18 @@ int	pop_env_var_from_env(t_env *env, char *name)
 	return (0);
 }
 
+void	check_special_var(t_env *env, t_env_var *env_var_node)
+{
+	if (ft_strncmp(env_var_node->name, "PATH", 4) == 0)
+		env->path = env_var_node;
+	if (ft_strncmp(env_var_node->name, "PWD", 3) == 0)
+		env->pwd = env_var_node;
+	if (ft_strncmp(env_var_node->name, "OLDPWD", 6) == 0)
+		env->old_pwd = env_var_node;
+	if (ft_strncmp(env_var_node->name, "HOME", 4) == 0)
+		env->home = env_var_node;
+}
+
 int	add_env_var(t_env *env, t_env_var *env_var_node)
 {
 	if (!env->env_vars)
@@ -54,5 +64,6 @@ int	add_env_var(t_env *env, t_env_var *env_var_node)
 	else
 		ft_idllst_add_back(&env_var_node->list, &env->env_vars->list);
 	env->nbr_vars++;
+	check_special_var(env, env_var_node);
 	return (0);
 }

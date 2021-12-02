@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 15:21:31 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/29 22:34:48 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/11/29 23:57:26 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,13 @@ static t_command	*init_new_command(t_env *env, t_command *commands)
 
 int	create_pipe(t_env *env, t_command **command, t_token *tokens, int *new_command)
 {
-	int	fds[2];
+	int		fds[2];
+	t_token	*next;
 
-	if (ft_idllst_is_head(&tokens->list) || ft_idllst_is_tail(&tokens->list))
+	next = ft_idllst_next_content(&tokens->list);
+
+	if ((next && next->type == SEPARATOR)
+		|| ft_idllst_is_head(&tokens->list) || ft_idllst_is_tail(&tokens->list))
 		return (SYNTAX_ERROR | PIPE_ERROR);
 	if (pipe(fds))
 		return (CREATE_ERROR | PIPE_ERROR);

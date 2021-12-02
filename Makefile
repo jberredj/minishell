@@ -6,7 +6,7 @@
 #    By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 15:10:49 by jberredj          #+#    #+#              #
-#    Updated: 2021/11/23 16:12:49 by jberredj         ###   ########.fr        #
+#    Updated: 2021/12/01 15:11:45 by jberredj         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ LIBS			=	libft.a
 ##								Source files								 ##
 ###############################################################################
 
-BUILTIN			= 	builtin_selector.c cd.c echo.c placeholder.c
+BUILTIN			= 	builtin_selector.c cd.c echo.c placeholder.c exit.c
 BUILTIN_SRCS	=	$(addprefix srcs/builtin/, $(BUILTIN))
 BUILTIN_OBJS	=	$(addprefix objs/builtin., $(subst /,., $(BUILTIN:.c=.o)))
 
@@ -38,6 +38,10 @@ ENV				=	envp/free.c envp/update.c envp/utils.c\
 					env_var_to_envp.c parse_herited.c
 ENV_SRCS		=	$(addprefix srcs/env/, $(ENV))
 ENV_OBJS		=	$(addprefix objs/env., $(subst /,., $(ENV:.c=.o)))
+
+EXEC			=	exec.c builtin.c
+EXEC_SRCS		=	$(addprefix srcs/exec/, $(EXEC))
+EXEC_OBJS		=	$(addprefix objs/exec., $(subst /,., $(EXEC:.c=.o)))
 
 PARSER			=	check_command_path.c create.c free.c set_argv.c \
 					tokens_to_commands.c
@@ -63,12 +67,12 @@ HEADERS			=	$(addprefix structs/, $(STRUCTS))\
 					builtin.h env.h error_codes.h minishell.h parser.h\
 					prompt.h tokeniser.h
 
-SRCS			=	$(BUILTIN_SRCS) $(ENV_SRCS) $(PARSER_SRCS) $(PROMPT_SRCS)\
+SRCS			=	$(BUILTIN_SRCS) $(ENV_SRCS) $(EXEC_SRCS) $(PARSER_SRCS) $(PROMPT_SRCS)\
 					$(TOKENISER_SRCS) $(MAIN_SRCS)
-OBJS			=	$(BUILTIN_OBJS) $(ENV_OBJS) $(PARSER_OBJS) $(PROMPT_OBJS)\
+OBJS			=	$(BUILTIN_OBJS) $(ENV_OBJS) $(EXEC_OBJS) $(PARSER_OBJS) $(PROMPT_OBJS)\
 					$(TOKENISER_OBJS) $(MAIN_OBJS)
 
-MODULE			=	builtin env parser prompt tokeniser main
+MODULE			=	builtin env exec parser prompt tokeniser main
 
 ###############################################################################
 ##							Color output char								 ##
@@ -138,6 +142,12 @@ $(BUILTIN_OBJS): $(BUILTIN_SRCS)
 env: $(OBJ_DIR) $(ENV_OBJS)
 $(ENV_OBJS): $(ENV_SRCS)
 	printf "$(BLUE)Compiling $(LIGHT_PURPLE)environement $(BLUE)\
+functions$(NC)\n"
+	$(COMPILE)
+
+exec: $(OBJ_DIR) $(EXEC_OBJS)
+$(EXEC_OBJS): $(EXEC_SRCS)
+	printf "$(BLUE)Compiling $(LIGHT_PURPLE)executer $(BLUE)\
 functions$(NC)\n"
 	$(COMPILE)
 

@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 10:28:00 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/29 22:31:15 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/01 15:26:07 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,32 +25,57 @@
 #include "tokeniser.h"
 #include "parser.h"
 #include "minishell.h"
+#include "exec.h"
 /*
 ** REMOVE HEADER
 */
 #include "_debug.h"
 
+char	*prompt_cwd(t_env_var *pwd)
+{
+	char	*cwd;
+
+	if (pwd)
+		return (ft_strdup(pwd->value));
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
+		return (ft_strdup("."));
+	return (cwd);
+}
+
+char	*get_home_str(t_env_var *home)
+{
+	if (!home)
+		return (NULL);
+	return (home->value);
+}
+
 static char	*prompt_pwd(t_env_var *pwd, t_env_var *home)
 {
-	char	*pwd_str;
+	char	*cwd;
 	char	*home_str;
 	char	*prompt_pwd;
 	size_t	home_lenght;
 
-	pwd_str = pwd->value;
-	home_str = home->value;
-	home_lenght = ft_strlen(home_str);
-	if (ft_strncmp(home_str, pwd_str, home_lenght) == 0)
-		prompt_pwd = ft_strjoin("~", pwd_str + home_lenght);
+	cwd = prompt_cwd(pwd);
+	home_str = get_home_str(home);
+	if (home_str)
+	{
+		home_lenght = ft_strlen(home_str);
+		if (ft_strncmp(home_str, cwd, home_lenght) == 0)
+			prompt_pwd = ft_strjoin("~", cwd + home_lenght);
+		else
+			prompt_pwd = ft_strdup(cwd);
+	}
 	else
-		prompt_pwd = ft_strdup(pwd->value);
+		prompt_pwd = ft_strdup(cwd);
+	free(cwd);
 	return (prompt_pwd);
 }
 
 static char	*get_prompt(t_env *env)
 {
 	char	*pwd;
-	char	*user;
 	char	*tmp_prompt;
 	char	*prompt;
 
@@ -59,98 +84,24 @@ static char	*get_prompt(t_env *env)
 			"\033[1;32mMiddle Ages shell\033[0;0m:\033[1;34m",
 			pwd);
 	free(pwd);
-	user = getenv("USER");
-	if (ft_strncmp(user, "root", 5) == 0)
-		prompt = ft_strjoin(tmp_prompt, "\033[0;31m#\033[0;0m ");
+	if (env->exit_code == 0)
+		prompt = ft_strjoin(tmp_prompt, "\033[0;0m> ");
 	else
-		prompt = ft_strjoin(tmp_prompt, "\033[0;0m$ ");
+		prompt = ft_strjoin(tmp_prompt, "\033[0;31m>\033[0m ");
 	free(tmp_prompt);
 	return (prompt);
 }
 
-void	exec_builtins(t_command *commands)
-{
-	int	stdin_copy;
-	int	stdout_copy;
-
-	if (commands->fd_in != 0)
-	{
-		stdin_copy = dup(0);
-		dup2(commands->fd_in, 0);
-		close(commands->fd_in);
-	}
-	if (commands->fd_out != 1)
-	{
-		stdout_copy = dup(1);
-		dup2(commands->fd_out, 1);
-		close(commands->fd_out);
-	}
-	commands->builtin(commands->argv, commands->envp);
-	if (commands->fd_in != 0)
-	{
-		close(commands->fd_in);
-		dup2(stdin_copy, 0);
-	}
-	if (commands->fd_out != 1)
-	{
-		close(commands->fd_out);
-		dup2(stdout_copy, 1);
-	}
-}
-
-void	exec_cmds(t_command *commands)
-{
-	int		exit_code;
-	pid_t	child;
-
-	while (commands)
-	{
-		if (commands->builtin)
-			exec_builtins(commands);
-		else
-		{
-			child = fork();
-			if (child == 0)
-			{
-				if (commands->fd_in != 0)
-				{
-					dup2(commands->fd_in, 0);
-					close(commands->fd_in);
-				}
-				if (commands->fd_out != 1)
-				{
-					dup2(commands->fd_out, 1);
-					close(commands->fd_out);
-				}
-				execve(commands->path_to_cmd, commands->argv, commands->envp);
-			}
-			else
-			{
-				if (commands->fd_in != 0)
-					close(commands->fd_in);
-				if (commands->fd_out != 1)
-					close(commands->fd_out);
-				waitpid(child, &exit_code, 0);
-			}
-		}
-		commands = ft_idllst_next_content(&commands->list);
-	}
-}
-
-void	prompt(t_sh_dat *sh_dat)
+void	prompt(t_env *env)
 {
 	char		*prompt_str;
 	char		*str;
-	bool		running;
 	t_command	*commands;
-	pid_t		child;
-	int			child_exit;
 
-	running = true;
-	child = 0;
-	while (running)
+	env->running = true;
+	while (env->running)
 	{
-		prompt_str = get_prompt(&sh_dat->env);
+		prompt_str = get_prompt(env);
 		str = readline(prompt_str);
 		free(prompt_str);
 		if (str)
@@ -158,28 +109,22 @@ void	prompt(t_sh_dat *sh_dat)
 			if (*str)
 			{
 				add_history(str);
-				if (ft_strncmp(str, "exit", 4) == 0)
-				{
-					running = false;
-					rl_clear_history();
-					continue ;
-				}
 				t_token *tok;
 				tok = tokenise_line(str);
-				commands = generate_commands_from_tokens(&sh_dat->env, tok);
+				commands = generate_commands_from_tokens(env, tok);
 				// print_commands(commands);
 				ft_idllst_clear(&tok->list, free_token);
-				exec_cmds(commands);
+				exec_cmds(commands, env);
 				ft_idllst_clear(&commands->list, free_command);
-				waitpid(child, &child_exit, 0);
 				// printf("Child exited\n");
 			}
 		}
 		else
 		{
 			write(1, "exit\n", 5);
-			running = false;
+			env->running = false;
 		}
 		free(str);
 	}
+	rl_clear_history();
 }

@@ -6,24 +6,47 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 12:41:15 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/17 16:11:10 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/01 12:22:34 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
+#include "unistd.h"
 
-void	set_parsed_vars_in_env(t_env *env)
+void	check_path(t_env *env)
 {
-	t_env_var	*env_var_node;
+	t_env_var	*node;
 
-	env_var_node = find_env_var_in_lst(env->env_vars, "PATH");
-	env->path = env_var_node;
-	env_var_node = find_env_var_in_lst(env->env_vars, "PWD");
-	env->pwd = env_var_node;
-	env_var_node = find_env_var_in_lst(env->env_vars, "OLDPWD");
-	env->old_pwd = env_var_node;
-	env_var_node = find_env_var_in_lst(env->env_vars, "HOME");
-	env->home = env_var_node;
+	if (!env->path)
+	{
+		node = create_env_var("PATH",
+				"/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin");
+		add_env_var(env, node);
+		env_var_to_envp(&env->envp, node, &env->nbr_exported);
+	}
+}
+
+void	check_pwd(t_env *env)
+{
+	t_env_var	*node;
+	char		*cwd;
+
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
+	{
+		write(2, "minishell : getcwd() failed: No such file or directory\n", 55);
+		cwd = ft_strdup(".");
+	}
+	if (!env->pwd)
+	{
+		node = create_env_var("PWD", cwd);
+		add_env_var(env, node);
+		env_var_to_envp(&env->envp, node, &env->nbr_exported);
+	}
+	else
+		if (ft_strncmp(cwd, ".", 1) != 0)
+			update_env_var_value(env->pwd, cwd);
+	free(cwd);
 }
 
 int	parse_herited_envp(t_env *env, char **envp)
@@ -47,6 +70,7 @@ int	parse_herited_envp(t_env *env, char **envp)
 		add_env_var(env, env_var_node);
 		env_var_to_envp(&env->envp, env_var_node, &env->nbr_exported);
 	}
-	set_parsed_vars_in_env(env);
+	check_path(env);
+	check_pwd(env);
 	return (0);
 }

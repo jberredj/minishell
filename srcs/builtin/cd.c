@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 17:02:10 by ddiakova          #+#    #+#             */
-/*   Updated: 2021/11/23 16:22:18 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/01 11:06:41 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "minishell.h"
 #include <limits.h>
 
-int	cd(t_sh_dat *shdat, char **argv)
+int	cd(t_env *env, char **argv)
 {	
 	int			argc;
 	t_env_var	*pwd;
@@ -31,7 +31,7 @@ int	cd(t_sh_dat *shdat, char **argv)
 	}
 	if (argc == 1)
 	{
-		pwd = shdat->env.pwd;
+		pwd = env->pwd;
 		if (pwd == NULL)
 			return (1);
 		getcwd(0, 0);
