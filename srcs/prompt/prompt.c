@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 10:28:00 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/02 19:45:53 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/03 14:11:16 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 #include "env.h"
 #include "tokeniser.h"
 #include "parser.h"
+#include "expander.h"
 #include "minishell.h"
 #include "exec.h"
 #include "prompt.h"

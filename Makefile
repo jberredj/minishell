@@ -6,7 +6,7 @@
 #    By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 15:10:49 by jberredj          #+#    #+#              #
-#    Updated: 2021/12/02 19:35:28 by jberredj         ###   ########.fr        #
+#    Updated: 2021/12/03 14:14:10 by jberredj         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,10 @@ EXEC			=	builtin.c exec.c external.c
 EXEC_SRCS		=	$(addprefix srcs/exec/, $(EXEC))
 EXEC_OBJS		=	$(addprefix objs/exec., $(subst /,., $(EXEC:.c=.o)))
 
+EXPANDER		=	expand_var.c search_var.c search_content.c
+EXPANDER_SRCS	=	$(addprefix srcs/expander/, $(EXPANDER))
+EXPANDER_OBJS	=	$(addprefix objs/expander., $(subst /,., $(EXPANDER:.c=.o)))
+
 PARSER			=	check_command_path.c create.c free.c set_argv.c \
 					tokens_to_commands.c heredoc.c pipes.c redirect_files.c 
 PARSER_SRCS		=	$(addprefix srcs/parser/, $(PARSER))
@@ -65,14 +69,14 @@ MAIN_OBJS		=	$(addprefix objs/, $(subst /,., $(MAIN:.c=.o)))
 STRUCTS			=	t_command.h t_env.h t_token.h
 HEADERS			=	$(addprefix structs/, $(STRUCTS))\
 					builtin.h env.h error_codes.h minishell.h parser.h\
-					prompt.h tokeniser.h
+					prompt.h tokeniser.h expander.h
 
-SRCS			=	$(BUILTIN_SRCS) $(ENV_SRCS) $(EXEC_SRCS) $(PARSER_SRCS) $(PROMPT_SRCS)\
+SRCS			=	$(EXPANDER_SRCS) $(BUILTIN_SRCS) $(ENV_SRCS) $(EXEC_SRCS) $(PARSER_SRCS) $(PROMPT_SRCS)\
 					$(TOKENISER_SRCS) $(MAIN_SRCS)
-OBJS			=	$(BUILTIN_OBJS) $(ENV_OBJS) $(EXEC_OBJS) $(PARSER_OBJS) $(PROMPT_OBJS)\
+OBJS			=	$(EXPANDER_OBJS) $(BUILTIN_OBJS) $(ENV_OBJS) $(EXEC_OBJS) $(PARSER_OBJS) $(PROMPT_OBJS)\
 					$(TOKENISER_OBJS) $(MAIN_OBJS)
 
-MODULE			=	builtin env exec parser prompt tokeniser main
+MODULE			=	expander builtin env exec parser prompt tokeniser main
 
 ###############################################################################
 ##							Color output char								 ##
@@ -149,6 +153,10 @@ exec: $(OBJ_DIR) $(EXEC_OBJS)
 $(EXEC_OBJS): $(EXEC_SRCS)
 	printf "$(BLUE)Compiling $(LIGHT_PURPLE)executer $(BLUE)\
 functions$(NC)\n"
+
+expander: $(OBJ_DIR) $(EXPANDER_OBJS)
+$(EXPANDER_OBJS): $(EXPANDER_SRCS)
+	printf "$(BLUE)Compiling $(LIGHT_PURPLE)parser $(BLUE)functions$(NC)\n"
 	$(COMPILE)
 
 parser: $(OBJ_DIR) $(PARSER_OBJS)
