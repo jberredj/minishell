@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 12:39:31 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/01 11:27:47 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/03 14:34:03 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_env_var	*find_env_var_in_lst(t_env_var *env_vars, char *name)
 	env_vars = ft_idllst_content(ft_idllst_get_head(&env_vars->list));
 	while (env_vars)
 	{
-		if (ft_strncmp(env_vars->name, name, ft_strlen(name)) == 0)
+		if (ft_strncmp(env_vars->name, name, ft_strlen(name) + 1) == 0)
 			return (env_vars);
 		env_vars = ft_idllst_next_content(&env_vars->list);
 	}

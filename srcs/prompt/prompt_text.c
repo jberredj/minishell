@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 19:15:41 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/02 19:35:34 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/03 14:45:37 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ char	*get_prompt(t_env *env)
 
 	pwd = prompt_pwd(env->pwd, env->home);
 	tmp_prompt = ft_strjoin(
-			"\033[1;32mMiddle Ages shell\033[0;0m:\033[1;34m",
+			"\033[1;32mEarly Modern Period shell\033[0;0m:\033[1;34m",
 			pwd);
 	free(pwd);
 	if (env->exit_code == 0)

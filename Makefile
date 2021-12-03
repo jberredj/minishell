@@ -6,7 +6,7 @@
 #    By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 15:10:49 by jberredj          #+#    #+#              #
-#    Updated: 2021/12/03 14:14:10 by jberredj         ###   ########.fr        #
+#    Updated: 2021/12/03 14:30:02 by jberredj         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -93,7 +93,7 @@ RED				=\033[0;31m
 
 all: $(NAME)
 
-$(NAME): $(LIBS) $(MODULE)
+$(NAME): $(LIBS) $(OBJS)
 	printf "$(BLUE)Linking $(LIGHT_PURPLE)$(NAME) $(BLUE)executable$(NC)\n"
 	$(CC) $(CFLAGS) -I $(INC_DIR) $(OBJS) $(LIBS) $(LDFLAGS) -o $(NAME)
 	printf "$(GREEN)Completed$(NC)\n"
@@ -117,7 +117,7 @@ re: fclean all
 
 define COMPILE
 	find ./objs/ -type f -exec touch {} +
-	$(foreach source,$?, \
+	$(foreach source,$(subst $(OBJ_DIR),,$?), \
 	printf "$(YELLOW)[..]  $(NC) $(LIGHT_PURPLE)$(subst srcs/,,$(source))\
 $(NC)\n"; \
 	$(CC) -I $(INC_DIR) $(CFLAGS) $(CODE_VERSION) -c $(source) -o \
@@ -138,44 +138,45 @@ $(subst srcs/,,$(source))$(NC)\n";\
 	mv *.o objs/
 endef
 
-builtin: $(OBJ_DIR) $(BUILTIN_OBJS)
-$(BUILTIN_OBJS): $(BUILTIN_SRCS)
+builtin: $(BUILTIN_OBJS)
+$(BUILTIN_OBJS): $(OBJ_DIR) $(BUILTIN_SRCS)
 	printf "$(BLUE)Compiling $(LIGHT_PURPLE)builtin $(BLUE)functions$(NC)\n"
 	$(COMPILE)
 
-env: $(OBJ_DIR) $(ENV_OBJS)
-$(ENV_OBJS): $(ENV_SRCS)
+env: $(ENV_OBJS)
+$(ENV_OBJS): $(OBJ_DIR) $(ENV_SRCS)
 	printf "$(BLUE)Compiling $(LIGHT_PURPLE)environement $(BLUE)\
 functions$(NC)\n"
 	$(COMPILE)
 
-exec: $(OBJ_DIR) $(EXEC_OBJS)
-$(EXEC_OBJS): $(EXEC_SRCS)
+exec: $(EXEC_OBJS)
+$(EXEC_OBJS): $(OBJ_DIR) $(EXEC_SRCS)
 	printf "$(BLUE)Compiling $(LIGHT_PURPLE)executer $(BLUE)\
 functions$(NC)\n"
+	$(COMPILE)
 
-expander: $(OBJ_DIR) $(EXPANDER_OBJS)
-$(EXPANDER_OBJS): $(EXPANDER_SRCS)
+expander: $(EXPANDER_OBJS)
+$(EXPANDER_OBJS): $(OBJ_DIR) $(EXPANDER_SRCS)
+	printf "$(BLUE)Compiling $(LIGHT_PURPLE)expander $(BLUE)functions$(NC)\n"
+	$(COMPILE)
+
+parser: $(PARSER_OBJS)
+$(PARSER_OBJS): $(OBJ_DIR) $(PARSER_SRCS)
 	printf "$(BLUE)Compiling $(LIGHT_PURPLE)parser $(BLUE)functions$(NC)\n"
 	$(COMPILE)
 
-parser: $(OBJ_DIR) $(PARSER_OBJS)
-$(PARSER_OBJS): $(PARSER_SRCS)
-	printf "$(BLUE)Compiling $(LIGHT_PURPLE)parser $(BLUE)functions$(NC)\n"
-	$(COMPILE)
-
-prompt: $(OBJ_DIR) $(PROMPT_OBJS)
-$(PROMPT_OBJS): $(PROMPT_SRCS)
+prompt: $(PROMPT_OBJS)
+$(PROMPT_OBJS): $(OBJ_DIR) $(PROMPT_SRCS)
 	printf "$(BLUE)Compiling $(LIGHT_PURPLE)prompt $(BLUE)functions$(NC)\n"
 	$(COMPILE)
 
-tokeniser: $(OBJ_DIR) $(TOKENISER_OBJS)
-$(TOKENISER_OBJS): $(TOKENISER_SRCS)
+tokeniser: $(TOKENISER_OBJS)
+$(TOKENISER_OBJS): $(OBJ_DIR) $(TOKENISER_SRCS)
 	printf "$(BLUE)Compiling $(LIGHT_PURPLE)tokeniser $(BLUE)functions$(NC)\n"
 	$(COMPILE)
 
-main: $(OBJ_DIR) $(MAIN_OBJS)
-$(MAIN_OBJS): $(MAIN_SRCS)
+main: $(MAIN_OBJS)
+$(MAIN_OBJS): $(OBJ_DIR) $(MAIN_SRCS)
 	printf "$(BLUE)Compiling $(LIGHT_PURPLE)main $(BLUE)functions$(NC)\n"
 	$(COMPILE)
 
