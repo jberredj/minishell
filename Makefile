@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dariadiakova <dariadiakova@student.42.f    +#+  +:+       +#+         #
+#    By: ddiakova <ddiakova@42.student.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 15:10:49 by jberredj          #+#    #+#              #
-#    Updated: 2021/12/02 12:26:56 by dariadiakov      ###   ########.fr        #
+#    Updated: 2021/12/03 13:58:23 by ddiakova         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,7 @@ ENV				=	envp/free.c envp/update.c envp/utils.c\
 ENV_SRCS		=	$(addprefix srcs/env/, $(ENV))
 ENV_OBJS		=	$(addprefix objs/env., $(subst /,., $(ENV:.c=.o)))
 
-EXPANDER		=	expand_var.c
+EXPANDER		=	expand_var.c search_var.c search_content.c
 EXPANDER_SRCS	=	$(addprefix srcs/expander/, $(EXPANDER))
 EXPANDER_OBJS	=	$(addprefix objs/expander., $(subst /,., $(EXPANDER:.c=.o)))
 
