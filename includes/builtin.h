@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddiakova <ddiakova@42.student.fr>          +#+  +:+       +#+        */
+/*   By: ddiakova <ddiakova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 15:54:47 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/03 16:35:56 by ddiakova         ###   ########.fr       */
+/*   Updated: 2021/12/04 21:47:21 by ddiakova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTIN_H
 # define BUILTIN_H
+# define BUFFER_SIZE 1024
 # include "minishell.h"
 # include "structs/t_command.h"
 # include "structs/t_env.h"

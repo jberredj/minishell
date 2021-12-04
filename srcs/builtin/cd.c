@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddiakova <ddiakova@42.student.fr>          +#+  +:+       +#+        */
+/*   By: ddiakova <ddiakova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 17:02:10 by ddiakova          #+#    #+#             */
-/*   Updated: 2021/12/03 17:21:51 by ddiakova         ###   ########.fr       */
+/*   Updated: 2021/12/04 22:19:11 by ddiakova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 #include "error_codes.h"
 #include <fcntl.h>
 #include <stdio.h>
+#include "env.h"
+#include "builtin.h"
 
 int	check_args(char **argv)
 {
@@ -52,39 +54,64 @@ int	check_access(char *path)
 
 int	print_error(int error, char *path)
 {
-	// ecrire erreur 
+	if (error == HOME_ERROR)
+		ft_putstr_fd("cd : HOME not set\n", 2);
+	if (error == FILE_ERROR | ISDIR_ERROR)
+	{
+		ft_putstr_fd("cd : ", 2);
+		ft_putstr_fd(path, 2);
+		ft_putstr_fd(": no such file or directory\n", 2);
+	}
+	if (error == FILE_ERROR | X_ERROR)
+	{
+		ft_putstr_fd("cd : ", 2);
+		ft_putstr_fd(path, 2);
+		ft_putstr_fd(": Permission denied\n", 2);
+	}
 	return (1);
 }
 
-// int update_env
-// {
-// getcwd
-// 	return (ERROR)
-// }
+int update_env(t_env *env, char *cwd)
+{
+	char		*old_pwd;
+
+	old_pwd = getcwd(NULL, 0);
+	if (chdir(cwd) != 0)
+		return (FILE_ERROR | ISDIR_ERROR);
+	else
+	{
+		env->pwd->value = cwd;
+		env->old_pwd->value = old_pwd;
+	}	
+ 	return (0);
+}
 
 int	cd(char **argv, t_env *env)
 {	
-	t_env_var	*pwd;
+	t_env_var	*cwd;
 	int			argc;
 	int			error;
-	char		*cwd;
+	char		*pwd;
+	//static char	old_pwd_copy[BUFFER_SIZE + 1];
 
+	cwd = NULL;
 	argc = check_args(argv);
 	if (argc == -1)
 		return (1);
 	if (argc == 1)
-		return (0); // cd home a gerer
+	{
+		cwd = find_env_var_in_lst(env->env_vars, "HOME");
+		if (!cwd)
+			return (HOME_ERROR);
+		return (update_env(env, cwd->value));
+	}
 	error = check_access(argv[1]);
 	if (error)
 		return (print_error(error, argv[1]));
-	// cwd = getcwd(NULL, 0);
-	// if (!cwd)
-	// {
-		
-	// }
-	// set var d'environement - static char OLDPWD
-	if (chdir(argv[1]))
-		printf ("chdir");
+	//*old_pwd_copy = *getcwd(NULL, 0);
+	// printf ("%s\n", old_pwd_copy);
+	pwd = argv[1];
+		return (update_env(env,pwd));
 	return (0);
 }
 
