@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_codes.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddiakova <ddiakova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ddiakova <ddiakova@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 15:55:31 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/04 21:09:23 by ddiakova         ###   ########.fr       */
+/*   Updated: 2021/12/06 16:19:16 by ddiakova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@
 # define OPEN_ERROR	2048
 # define HERE_DOC_ERROR 4096
 # define UNFINISHED_LINE_ERROR 8192
-# define ISDIR_ERROR 16384
+# define ISNOTDIR_ERROR 16384
 # define HOME_ERROR 32768
-
+# define CD_ERROR 65536
 
 #endif
