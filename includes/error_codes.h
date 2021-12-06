@@ -6,7 +6,7 @@
 /*   By: ddiakova <ddiakova@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 15:55:31 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/06 16:19:16 by ddiakova         ###   ########.fr       */
+/*   Updated: 2021/12/06 17:00:11 by ddiakova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,6 @@
 # define ISNOTDIR_ERROR 16384
 # define HOME_ERROR 32768
 # define CD_ERROR 65536
+# define PWD_ERROR 131072
 
 #endif
