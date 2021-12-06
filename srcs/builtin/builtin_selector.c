@@ -6,7 +6,7 @@
 /*   By: ddiakova <ddiakova@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 15:26:23 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/06 17:22:18 by ddiakova         ###   ########.fr       */
+/*   Updated: 2021/12/06 18:05:11 by ddiakova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ int	check_builtin(t_command *commands, t_env_var *path,
 		commands->builtin = echo;
 	else if (ft_strncmp(cmd_tok.content, "cd", ft_strlen(cmd_tok.content)) == 0)
 		commands->builtin = cd;
-	else if (ft_strncmp(cmd_tok.content, "pwd", ft_strlen(cmd_tok.content)) == 0)
+	else if (ft_strncmp(cmd_tok.content, "pwd",
+			ft_strlen(cmd_tok.content)) == 0)
 		commands->builtin = pwd;
 	else if (ft_strncmp(cmd_tok.content, "export",
 			ft_strlen(cmd_tok.content)) == 0)
@@ -37,7 +38,7 @@ int	check_builtin(t_command *commands, t_env_var *path,
 		commands->builtin = builtin_placeholder;
 	else if (ft_strncmp(cmd_tok.content, "env",
 			ft_strlen(cmd_tok.content)) == 0)
-		commands->builtin = builtin_placeholder;
+		commands->builtin = env;
 	else if (ft_strncmp(cmd_tok.content, "exit",
 			ft_strlen(cmd_tok.content)) == 0)
 		commands->builtin = minish_exit;

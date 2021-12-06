@@ -6,7 +6,7 @@
 /*   By: ddiakova <ddiakova@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 15:54:47 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/06 17:35:08 by ddiakova         ###   ########.fr       */
+/*   Updated: 2021/12/06 17:54:38 by ddiakova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	check_builtin(t_command *commands, t_env_var *path, t_token cmd_tok);
 int	echo(char **argv, t_env *env);
 int	cd(char **argv, t_env *env);
 int	pwd(char **argv, t_env *env);
+int	env(char **argv, t_env *env);
 int	check_args(char **argv);
 int	check_access(char *path);
 int	print_error(int error, char *path);
