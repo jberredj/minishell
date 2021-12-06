@@ -6,7 +6,7 @@
 #    By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 15:10:49 by jberredj          #+#    #+#              #
-#    Updated: 2021/12/03 14:30:02 by jberredj         ###   ########.fr        #
+#    Updated: 2021/12/06 14:44:58 by jberredj         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,7 @@ ENV				=	envp/free.c envp/update.c envp/utils.c\
 ENV_SRCS		=	$(addprefix srcs/env/, $(ENV))
 ENV_OBJS		=	$(addprefix objs/env., $(subst /,., $(ENV:.c=.o)))
 
-EXEC			=	builtin.c exec.c external.c
+EXEC			=	builtin.c exec.c external.c utils.c
 EXEC_SRCS		=	$(addprefix srcs/exec/, $(EXEC))
 EXEC_OBJS		=	$(addprefix objs/exec., $(subst /,., $(EXEC:.c=.o)))
 
@@ -196,7 +196,7 @@ $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
 
 valgrind:
-	valgrind --suppressions=./ignoreliberror --leak-check=full ./$(NAME)
+	valgrind  --trace-children=yes --suppressions=./ignoreliberror  --leak-check=full --show-leak-kinds=all ./$(NAME)
 
 .SILENT:
 

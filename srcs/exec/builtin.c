@@ -6,31 +6,19 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 09:48:59 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/02 18:15:42 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/06 14:44:13 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <fcntl.h>
+#include "../libft/includes/ft_idllst.h"
+#include "parser.h"
+#include "env.h"
 #include "structs/t_command.h"
+#include "exec.h"
 
-static void	swap_std_with_fds(t_command *command)
-{
-	if (command->fd_in != 0)
-	{
-		close(0);
-		dup2(command->fd_in, 0);
-		close(command->fd_in);
-	}
-	if (command->fd_out != 1)
-	{
-		close(1);
-		dup2(command->fd_out, 1);
-		close(command->fd_out);
-	}
-}
-
-static void	restore_std(t_command *command, t_env *env)
+static void	restore_std_fds(t_command *command, t_env *env)
 {
 	if (command->fd_in != 0)
 	{
@@ -46,10 +34,34 @@ static void	restore_std(t_command *command, t_env *env)
 	}
 }
 
+pid_t	need_fork(t_command *commands)
+{
+	if (ft_idllst_size(&commands->list) == 1)
+		return (-2);
+	return (fork());
+}
+
+void	exit_forked_builtin(t_command *commands, t_env *env)
+{
+	int	exit_code;
+
+	exit_code = commands->exit_code;
+	clean_all_exec(commands, env);
+	exit(exit_code);
+}
+
 void	exec_builtins(t_command *commands, t_env *env)
 {
-	commands->process = -2;
-	swap_std_with_fds(commands);
-	commands->exit_code = commands->builtin(commands->argv, env);
-	restore_std(commands, env);
+	commands->process = need_fork(commands);
+	if (commands->process == 0 || commands->process == -2)
+	{
+		swap_std_with_fds(commands);
+		commands->exit_code = commands->builtin(commands->argv, env);
+		if (commands->process == -2)
+			restore_std_fds(commands, env);
+		else
+			exit_forked_builtin(commands, env);
+	}
+	else
+		closed_unused_fds(commands);
 }
