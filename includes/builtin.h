@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ddiakova <ddiakova@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 15:54:47 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/01 15:13:32 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/06 15:47:05 by ddiakova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,12 @@
 
 int	check_builtin(t_command *commands, t_env_var *path, t_token cmd_tok);
 int	echo(char **argv, t_env *env);
+int	cd(char **argv, t_env *env);
+int	check_args(char **argv);
+int	check_access(char *path);
+int	print_error(int error, char *path);
+int	set_env_var(t_env *env, t_env_var *var, char *name, char *var_to_set);
+int	update_env(t_env *env, char *cwd);
 int	minish_exit(char **argv, t_env *env);
 int	builtin_placeholder(char **argv, t_env *env);
 #endif

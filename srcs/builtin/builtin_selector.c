@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_selector.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ddiakova <ddiakova@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 15:26:23 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/02 17:36:46 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/03 16:35:28 by ddiakova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	check_builtin(t_command *commands, t_env_var *path,
 	if (ft_strncmp(cmd_tok.content, "echo", ft_strlen(cmd_tok.content)) == 0)
 		commands->builtin = echo;
 	else if (ft_strncmp(cmd_tok.content, "cd", ft_strlen(cmd_tok.content)) == 0)
-		commands->builtin = builtin_placeholder;
+		commands->builtin = cd;
 	else if (ft_strncmp(cmd_tok.content, "pwd",
 			ft_strlen(cmd_tok.content)) == 0)
 		commands->builtin = builtin_placeholder;
