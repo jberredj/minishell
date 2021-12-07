@@ -6,7 +6,7 @@
 #    By: ddiakova <ddiakova@42.student.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 15:10:49 by jberredj          #+#    #+#              #
-#    Updated: 2021/12/07 18:23:54 by ddiakova         ###   ########.fr        #
+#    Updated: 2021/12/07 19:07:57 by ddiakova         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,7 @@ EXEC			=	builtin.c exec.c external.c utils.c
 EXEC_SRCS		=	$(addprefix srcs/exec/, $(EXEC))
 EXEC_OBJS		=	$(addprefix objs/exec., $(subst /,., $(EXEC:.c=.o)))
 
-EXPANDER		=	expand_var.c search_var.c search_content.c
+EXPANDER		=	expand_var.c search_var.c search_content.c special_case.c
 EXPANDER_SRCS	=	$(addprefix srcs/expander/, $(EXPANDER))
 EXPANDER_OBJS	=	$(addprefix objs/expander., $(subst /,., $(EXPANDER:.c=.o)))
 

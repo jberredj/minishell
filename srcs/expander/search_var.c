@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   search_var.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ddiakova <ddiakova@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 12:00:01 by ddiakova          #+#    #+#             */
-/*   Updated: 2021/12/03 14:43:00 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/07 18:49:53 by ddiakova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ static int	get_var_len(char *line)
 	int	len;
 
 	len = 0;
+	if (line[0] == '?' || ft_isdigit(line[0]))
+		return (1);
 	while (line[len] && (ft_isalnum(line[len]) || line[len] == '_'))
 		len++;
 	return (len);
@@ -39,8 +41,8 @@ static char	*copy_var(char *line, int *i, int len)
 	if (!var)
 		return (NULL);
 	j = 0;
-	while (line[*i] && (ft_isalnum(line[*i]) || line[*i] == '_')
-		&& !ft_isspace(line[*i]))
+	while (line[*i] && j < len/*(ft_isalnum(line[*i]) || line[*i] == '_')
+		&& !ft_isspace(line[*i])*/)
 	{
 		var[j] = line[*i];
 		(*i)++;
