@@ -6,7 +6,7 @@
 #    By: ddiakova <ddiakova@42.student.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 15:10:49 by jberredj          #+#    #+#              #
-#    Updated: 2021/12/06 16:29:55 by ddiakova         ###   ########.fr        #
+#    Updated: 2021/12/07 18:23:54 by ddiakova         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ LIBS			=	libft.a
 ###############################################################################
 
 BUILTIN			= 	builtin_selector.c cd.c cd_utils.c echo.c placeholder.c \
-					exit.c
+					exit.c pwd.c env.c
 BUILTIN_SRCS	=	$(addprefix srcs/builtin/, $(BUILTIN))
 BUILTIN_OBJS	=	$(addprefix objs/builtin., $(subst /,., $(BUILTIN:.c=.o)))
 
