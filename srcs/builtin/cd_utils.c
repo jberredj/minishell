@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 15:41:30 by ddiakova          #+#    #+#             */
-/*   Updated: 2021/12/06 17:19:06 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/12 20:21:08 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	check_access(char *path)
 
 	if (access(path, F_OK) == 0)
 	{
-		fd = open(path, O_DIRECTORY);
+		fd = open(path, __O_DIRECTORY);
 		if (fd == -1)
 			return (FILE_ERROR | ISNOTDIR_ERROR);
 		close (fd);
