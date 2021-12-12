@@ -6,7 +6,7 @@
 /*   By: ddiakova <ddiakova@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 15:54:47 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/12 17:41:36 by ddiakova         ###   ########.fr       */
+/*   Updated: 2021/12/12 20:10:28 by ddiakova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int	cd(char **argv, t_env *env);
 int	pwd(char **argv, t_env *env);
 int	env(char **argv, t_env *env);
 int	unset(char **argv, t_env *env);
+int	export(char **argv, t_env *env);
 int	check_args(char **argv);
 int	check_access(char *path);
 int	print_error(int error, char *path);

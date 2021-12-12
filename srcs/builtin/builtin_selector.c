@@ -6,7 +6,7 @@
 /*   By: ddiakova <ddiakova@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 15:26:23 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/12 17:40:41 by ddiakova         ###   ########.fr       */
+/*   Updated: 2021/12/12 18:10:28 by ddiakova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	check_builtin(t_command *commands, t_env_var *path,
 		commands->builtin = pwd;
 	else if (ft_strncmp(cmd_tok.content, "export",
 			ft_strlen(cmd_tok.content)) == 0)
-		commands->builtin = builtin_placeholder;
+		commands->builtin = export;
 	else if (ft_strncmp(cmd_tok.content, "unset",
 			ft_strlen(cmd_tok.content)) == 0)
 		commands->builtin = unset;
