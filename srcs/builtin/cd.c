@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 17:02:10 by ddiakova          #+#    #+#             */
-/*   Updated: 2021/12/06 17:40:46 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/12 19:30:23 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,20 @@
 #include <stdio.h>
 #include "env.h"
 #include "builtin.h"
+
+int	print_error(int error, char *path)
+{
+	if (error)
+	{
+		ft_putstr_fd("minishell: cd: ", 2);
+		if (error == HOME_ERROR)
+			ft_putendl_fd("HOME not set", 2);
+		if (error & (NOT_EXIST_ERROR | ISNOTDIR_ERROR | X_ERROR))
+			perror(path);
+		return (1);
+	}
+	return (0);
+}
 
 int	cd(char **argv, t_env *env)
 {	
@@ -35,13 +49,13 @@ int	cd(char **argv, t_env *env)
 	{
 		home = env->home;
 		if (!home)
-			return (HOME_ERROR | CD_ERROR);
+			return (print_error(HOME_ERROR, NULL));
 		chdir(home->value);
-		return (update_env(env, home->value) | CD_ERROR);
+		return (print_error(update_env(env, home->value), home->value));
 	}
 	error = check_access(argv[1]);
 	if (error)
-		return (error | CD_ERROR);
+		return (print_error(error, argv[1]));
 	pwd = argv[1];
-	return (update_env(env, pwd) | CD_ERROR);
+	return (print_error(update_env(env, pwd), pwd));
 }

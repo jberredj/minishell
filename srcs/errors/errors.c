@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 17:11:56 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/07 17:17:46 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/12 19:38:55 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,28 +15,6 @@
 #include "error_codes.h"
 #include "../libft/includes/libft.h"
 #include <stdio.h>
-
-int	cd_errors(int error, char *path)
-{
-	if (error)
-	{
-		ft_putstr_fd("cd: ", 2);
-		if (error & FILE_ERROR)
-			ft_putstr_fd(path, 2);
-		if (error & HOME_ERROR)
-			ft_putstr_fd("HOME not set\n", 2);
-		if (error & (NOT_EXIST_ERROR | ISNOTDIR_ERROR | X_ERROR))
-			perror(": ");
-		// if (error & NOT_EXIST_ERROR)
-		// 	ft_putstr_fd(": no such file or directory\n", 2);
-		// if (error & ISNOTDIR_ERROR)
-		// 	ft_putstr_fd(": Not a directory\n", 2);
-		// if (error & X_ERROR)
-		// 	ft_putstr_fd(": Permission denied\n", 2);
-		return (1);
-	}
-	return (0);
-}
 
 int	exit_error(int error, char *desc)
 {
@@ -74,8 +52,6 @@ int	builtin_errors(int error, char *desc)
 	if (error)
 	{
 		print_minishell(error);
-		if (error & CD_ERROR)
-			return (cd_errors(error ^ CD_ERROR, desc));
 		if (error & EXIT)
 			return (exit_error(error ^ EXIT, desc));
 	}

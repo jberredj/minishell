@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 15:55:31 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/12 16:44:05 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/12 19:39:13 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@
 # define UNFINISHED_LINE_ERROR 8192
 # define ISNOTDIR_ERROR 16384
 # define HOME_ERROR 32768
-# define CD_ERROR 65536
 # define PWD_ERROR 131072
 # define ERROR_INVALID_VAL 262144
 # define EXIT 524288
