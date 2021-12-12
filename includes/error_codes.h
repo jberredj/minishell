@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 15:55:31 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/12 19:39:13 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/12 19:59:18 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,6 @@
 # define HOME_ERROR 32768
 # define PWD_ERROR 131072
 # define ERROR_INVALID_VAL 262144
-# define EXIT 524288
 # define ERROR_TOO_MANY 1048576
-# define BUILTIN CD_ERROR + EXIT
-# define BUILTIN_ERROR FILE_ERROR + HOME_ERROR + NOT_EXIST_ERROR + ISNOTDIR_ERROR + X_ERROR + ERROR_INVALID_VAL + ERROR_TOO_MANY
-# define EXIT_ERROR ERROR_TOO_MANY + ERROR_INVALID_VAL
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 13:08:17 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/07 10:37:13 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/12 19:51:57 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,23 @@ static bool	check_num_valid(char *str)
 	return (true);
 }
 
+int	print_exit_error(int error, char *precision)
+{
+	ft_putstr_fd("minishell: exit: ", 2);
+	if (error == ERROR_INVALID_VAL)
+	{
+		ft_putstr_fd(precision, 2);
+		ft_putendl_fd(": numeric argument required", 2);
+		return (2);
+	}
+	if (error == ERROR_TOO_MANY)
+	{
+		ft_putendl_fd("too many arguments", 2);
+		return (1);
+	}
+	return (0);
+}
+
 static int	treat_exit(int ac, char **argv, t_env *env)
 {
 	int	num_valid;
@@ -43,10 +60,10 @@ static int	treat_exit(int ac, char **argv, t_env *env)
 	else if (!num_valid)
 	{
 		env->running = false;
-		exit_code = ERROR_INVALID_VAL;
+		exit_code = print_exit_error(ERROR_INVALID_VAL, argv[1]);
 	}
 	else
-		exit_code = ERROR_TOO_MANY;
+		exit_code = print_exit_error(ERROR_TOO_MANY, NULL);
 	return (exit_code);
 }
 
@@ -65,5 +82,5 @@ int	minish_exit(char **argv, t_env *env)
 	}
 	else
 		exit_code = treat_exit(ac, argv, env);
-	return (exit_code | EXIT);
+	return (exit_code);
 }
