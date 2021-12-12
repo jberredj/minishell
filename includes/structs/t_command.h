@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 14:54:31 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/02 20:03:54 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/12 23:16:24 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ typedef struct s_command
 	char		**envp;
 	int			fd_in;
 	int			fd_out;
-	char		*error;
 	pid_t		process;
 	int			exit_code;
 	t_idllist	list;

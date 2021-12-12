@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 15:09:17 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/02 19:33:45 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/12 23:16:54 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@ void	free_command(void *content)
 			free_xv(command->argv);
 		if (command->envp)
 			free_xv(command->envp);
-		if (command->error)
-			free(command->error);
 		if (command->fd_in != 0)
 			close(command->fd_in);
 		if (command->fd_out != 1)

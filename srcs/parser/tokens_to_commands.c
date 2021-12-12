@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 15:21:31 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/12 22:44:11 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/12 23:55:30 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,19 +51,28 @@ int	treat_separator(t_env *env, t_token **tokens, t_command **command,
 	return (UNKNOW_TOKEN);
 }
 
-void	fill_error(int error, t_token *token, t_command *command)
-{
-	(void)error;
-	(void)token;
-	if (command->error)
-		free(command->error);
-	command->error = ft_strdup("CPT\n");
-}
 
 t_command	*cancel_commands(t_command *commands)
 {
 	ft_idllst_clear(&commands->list, free_command);
 	return (NULL);
+}
+
+int	print_error_pars(int error, t_token *tokens)
+{
+	if (error & HERE_DOC_ERROR)
+	{
+		if (error & CREATE_ERROR)
+			perror("minishell: cannot create pipes for here-document");
+		if (error & UNFINISHED_LINE_ERROR)
+		{
+			ft_putstr_fd("- minishell: warning : here-document delimited\
+ by end-of-file (wanted \"", 2);
+			ft_putstr_fd(tokens->content, 2);
+			ft_putendl_fd("\")", 2);
+		}
+	}
+	return (0);
 }
 
 t_command	*generate_commands_from_tokens(t_env *env, t_token *tokens)
@@ -91,7 +100,7 @@ t_command	*generate_commands_from_tokens(t_env *env, t_token *tokens)
 		if (error & CANCEL)
 			return (cancel_commands(commands));
 		else if (error)
-			fill_error(error, tokens, commands);
+			print_error_pars(error, tokens);
 		tokens = ft_idllst_next_content(&tokens->list);
 	}
 	return (ft_idllst_content(ft_idllst_get_head(&commands->list)));

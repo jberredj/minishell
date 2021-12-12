@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 09:37:43 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/12 22:54:56 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/12 23:04:24 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	heredoc(t_command *command, t_token **tokens)
 
 	*tokens = ft_idllst_next_content(&(*tokens)->list);
 	if (pipe(fds))
-		return (CREATE_ERROR | PIPE_ERROR);
+		return (HERE_DOC_ERROR | CREATE_ERROR | PIPE_ERROR);
 	setup_hd_signal(&stdin_fd);
 	delimiter_found = heredoc_prompt(fds[1], (*tokens)->content);
 	close(fds[1]);
