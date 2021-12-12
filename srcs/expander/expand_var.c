@@ -6,7 +6,7 @@
 /*   By: ddiakova <ddiakova@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 15:39:07 by ddiakova          #+#    #+#             */
-/*   Updated: 2021/12/03 14:05:27 by ddiakova         ###   ########.fr       */
+/*   Updated: 2021/12/07 19:06:48 by ddiakova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,20 @@ void	substitute_var(t_env *env, char *dollar_pos, t_token **expanded_value)
 		dollar_pos++;
 		i = 0;
 		search_var(dollar_pos, &(*expanded_value), &i);
-		existing = find_env_var_in_lst(env->env_vars,
-				(*expanded_value)->content);
-		free((*expanded_value)->content);
-		if (existing)
-			(*expanded_value)->content = ft_strdup(existing->value);
+		if (ft_strncmp((*expanded_value)->content, "?", 2) == 0)
+			exit_code_var(env, *expanded_value);
+		else if (!*(*expanded_value)->content)
+			dollar_alone(*expanded_value);
 		else
-			(*expanded_value)->content = ft_strdup("");
+		{
+			existing = find_env_var_in_lst(env->env_vars,
+					(*expanded_value)->content);
+			free((*expanded_value)->content);
+			if (existing)
+				(*expanded_value)->content = ft_strdup(existing->value);
+			else
+				(*expanded_value)->content = ft_strdup("");
+		}
 		search_content(dollar_pos, &(*expanded_value), &i);
 		dollar_pos = ft_strchr(dollar_pos, '$');
 	}
