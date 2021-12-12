@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 18:03:59 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/06 14:43:46 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/12 17:42:17 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include "exec.h"
 #include "parser.h"
 #include "env.h"
+#include <stdio.h>
 
 static t_command	*get_to_free(t_command *commands)
 {
@@ -43,6 +44,8 @@ static void	child_process(t_command *commands, t_env *env)
 	clean_all_exec(to_free, env);
 	swap_std_with_fds(to_exec);
 	execve(to_exec->path_to_cmd, to_exec->argv, to_exec->envp);
+	perror(to_exec->path_to_cmd);
+	free_command(&to_exec->list);
 	exit (1);
 }
 
