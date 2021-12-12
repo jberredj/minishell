@@ -5,14 +5,11 @@
 #                                                     +:+ +:+         +:+      #
 #    By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2021/06/07 15:10:49 by jberredj          #+#    #+#              #
-<<<<<<< HEAD
-#    Updated: 2021/12/12 16:43:38 by jberredj         ###   ########.fr        #
-=======
-#    Updated: 2021/12/07 19:07:57 by ddiakova         ###   ########.fr        #
->>>>>>> master
+#    Created: 2021/12/12 17:39:23 by jberredj          #+#    #+#              #
+#    Updated: 2021/12/12 17:39:24 by jberredj         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
 
 NAME			=	minishell
 

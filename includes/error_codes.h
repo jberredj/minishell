@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 15:55:31 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/12 20:12:46 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/12 21:18:11 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,6 @@
 # define PWD_ERROR 65536
 # define ERROR_INVALID_VAL 131072
 # define ERROR_TOO_MANY 262144
+# define CANCEL 524288
 
 #endif

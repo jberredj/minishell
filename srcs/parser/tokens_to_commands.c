@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 15:21:31 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/06 14:14:42 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/12 22:44:11 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,12 @@ int	treat_separator(t_env *env, t_token **tokens, t_command **command,
 		return (infile_redirect(*command, tokens));
 	if (ft_strncmp((*tokens)->content, "<<",
 			ft_strlen((*tokens)->content)) == 0)
-		heredoc(*command, tokens);
+		return (heredoc(*command, tokens));
 	if (ft_strncmp((*tokens)->content, ">", ft_strlen((*tokens)->content)) == 0)
-		outfile_redirect(*command, tokens, O_TRUNC);
+		return (outfile_redirect(*command, tokens, O_TRUNC));
 	if (ft_strncmp((*tokens)->content, ">>",
 			ft_strlen((*tokens)->content)) == 0)
-		outfile_redirect(*command, tokens, O_APPEND);
+		return (outfile_redirect(*command, tokens, O_APPEND));
 	if (ft_strncmp((*tokens)->content, "|", ft_strlen((*tokens)->content)) == 0)
 		return (create_pipe(env, command, *tokens, new_command));
 	return (UNKNOW_TOKEN);
@@ -60,6 +60,12 @@ void	fill_error(int error, t_token *token, t_command *command)
 	command->error = ft_strdup("CPT\n");
 }
 
+t_command	*cancel_commands(t_command *commands)
+{
+	ft_idllst_clear(&commands->list, free_command);
+	return (NULL);
+}
+
 t_command	*generate_commands_from_tokens(t_env *env, t_token *tokens)
 {
 	t_command	*commands;
@@ -72,7 +78,7 @@ t_command	*generate_commands_from_tokens(t_env *env, t_token *tokens)
 	while (tokens)
 	{	
 		if (tokens->type == SEPARATOR)
-			treat_separator(env, &tokens, &commands, &new_command);
+			error = treat_separator(env, &tokens, &commands, &new_command);
 		else
 		{
 			if (new_command != CMD)
@@ -82,7 +88,9 @@ t_command	*generate_commands_from_tokens(t_env *env, t_token *tokens)
 			}
 			add_to_command_argv(commands, tokens->content);
 		}
-		if (error)
+		if (error & CANCEL)
+			return (cancel_commands(commands));
+		else if (error)
 			fill_error(error, tokens, commands);
 		tokens = ft_idllst_next_content(&tokens->list);
 	}
