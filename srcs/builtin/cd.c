@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddiakova <ddiakova@42.student.fr>          +#+  +:+       +#+        */
+/*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 17:02:10 by ddiakova          #+#    #+#             */
-/*   Updated: 2021/12/06 16:20:01 by ddiakova         ###   ########.fr       */
+/*   Updated: 2021/12/06 17:40:46 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,13 @@ int	cd(char **argv, t_env *env)
 	{
 		home = env->home;
 		if (!home)
-			return (HOME_ERROR);
+			return (HOME_ERROR | CD_ERROR);
 		chdir(home->value);
 		return (update_env(env, home->value) | CD_ERROR);
 	}
 	error = check_access(argv[1]);
 	if (error)
-		return (print_error(error, argv[1]) | CD_ERROR);
+		return (error | CD_ERROR);
 	pwd = argv[1];
 	return (update_env(env, pwd) | CD_ERROR);
 }

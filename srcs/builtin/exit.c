@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 13:08:17 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/02 18:01:56 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/07 10:37:13 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "../libft/includes/libft.h"
 #include <stdbool.h>
 #include <stdint.h>
+#include "error_codes.h"
 
 static bool	check_num_valid(char *str)
 {
@@ -41,17 +42,11 @@ static int	treat_exit(int ac, char **argv, t_env *env)
 	}
 	else if (!num_valid)
 	{
-		ft_putstr_fd("minishell : exit: ", 2);
-		ft_putstr_fd(argv[1], 2);
-		ft_putendl_fd(": numeric argument required", 2);
 		env->running = false;
-		exit_code = 2;
+		exit_code = ERROR_INVALID_VAL;
 	}
 	else
-	{
-		exit_code = 1;
-		ft_putendl_fd("minishell: exit: too many arguments", 2);
-	}
+		exit_code = ERROR_TOO_MANY;
 	return (exit_code);
 }
 
@@ -70,5 +65,5 @@ int	minish_exit(char **argv, t_env *env)
 	}
 	else
 		exit_code = treat_exit(ac, argv, env);
-	return (exit_code);
+	return (exit_code | EXIT);
 }

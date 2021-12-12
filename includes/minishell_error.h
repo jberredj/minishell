@@ -1,29 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt_text.c                                      :+:      :+:    :+:   */
+/*   error.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/02 19:15:41 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/07 16:48:22 by jberredj         ###   ########.fr       */
+/*   Created: 2021/12/06 17:28:33 by jberredj          #+#    #+#             */
+/*   Updated: 2021/12/06 17:33:40 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <unistd.h>
-#include "structs/t_env.h"
-#include "../libft/includes/ft_string.h"
-
-char	*get_prompt(t_env *env)
-{
-	char		*pwd;
-	const char	*tmp_prompt = "\033[1;32mEarly Modern Period shell\033[0;0m";
-	char		*prompt;
-
-	if (env->exit_code == 0)
-		prompt = ft_strjoin(tmp_prompt, "\033[0;0m> ");
-	else
-		prompt = ft_strjoin(tmp_prompt, "\033[0;31m>\033[0m ");
-	return (prompt);
-}
+#ifndef ERROR_H
+# define ERROR_H
+int	minishell_error(int error, char *desc);
+#endif

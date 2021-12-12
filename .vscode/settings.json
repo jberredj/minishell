@@ -8,6 +8,7 @@
 		"t_token.h": "c",
 		"limits": "cpp",
 		"*.tcc": "cpp",
-		"cstdlib": "c"
+		"cstdlib": "c",
+		"error.h": "c"
 	}
 }

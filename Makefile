@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ddiakova <ddiakova@42.student.fr>          +#+  +:+       +#+         #
+#    By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 15:10:49 by jberredj          #+#    #+#              #
-#    Updated: 2021/12/07 18:23:54 by ddiakova         ###   ########.fr        #
+#    Updated: 2021/12/12 16:43:38 by jberredj         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ CODE_VERSION	=	-D VERSION_NUMBER=\"`git log -1 --pretty=format:'%h'`\"
 
 SRC_DIR			= 	srcs
 INC_DIR			=	includes
-OBJ_DIR			=	objs
+OBJ_DIR			=	objs/
 
 LIBS			=	libft.a
 
@@ -39,6 +39,10 @@ ENV				=	envp/free.c envp/update.c envp/utils.c\
 					env_var_to_envp.c parse_herited.c
 ENV_SRCS		=	$(addprefix srcs/env/, $(ENV))
 ENV_OBJS		=	$(addprefix objs/env., $(subst /,., $(ENV:.c=.o)))
+
+ERROR			=	errors.c
+ERROR_SRCS		=	$(addprefix srcs/errors/, $(ERROR))
+ERROR_OBJS		=	$(addprefix objs/errors., $(subst /,., $(ERROR:.c=.o)))
 
 EXEC			=	builtin.c exec.c external.c utils.c
 EXEC_SRCS		=	$(addprefix srcs/exec/, $(EXEC))
@@ -72,12 +76,12 @@ HEADERS			=	$(addprefix structs/, $(STRUCTS))\
 					builtin.h env.h error_codes.h minishell.h parser.h\
 					prompt.h tokeniser.h expander.h
 
-SRCS			=	$(EXPANDER_SRCS) $(BUILTIN_SRCS) $(ENV_SRCS) $(EXEC_SRCS) $(PARSER_SRCS) $(PROMPT_SRCS)\
+SRCS			=	$(EXPANDER_SRCS) $(BUILTIN_SRCS) $(ENV_SRCS) $(ERROR_SRCS) $(EXEC_SRCS) $(PARSER_SRCS) $(PROMPT_SRCS)\
 					$(TOKENISER_SRCS) $(MAIN_SRCS)
-OBJS			=	$(EXPANDER_OBJS) $(BUILTIN_OBJS) $(ENV_OBJS) $(EXEC_OBJS) $(PARSER_OBJS) $(PROMPT_OBJS)\
+OBJS			=	$(EXPANDER_OBJS) $(BUILTIN_OBJS) $(ENV_OBJS) $(ERROR_OBJS) $(EXEC_OBJS) $(PARSER_OBJS) $(PROMPT_OBJS)\
 					$(TOKENISER_OBJS) $(MAIN_OBJS)
 
-MODULE			=	expander builtin env exec parser prompt tokeniser main
+MODULE			=	expander builtin env error exec parser prompt tokeniser main
 
 ###############################################################################
 ##							Color output char								 ##
@@ -94,7 +98,7 @@ RED				=\033[0;31m
 
 all: $(NAME)
 
-$(NAME): $(LIBS) $(OBJS)
+$(NAME): $(OBJ_DIR) $(LIBS) $(OBJS)
 	printf "$(BLUE)Linking $(LIGHT_PURPLE)$(NAME) $(BLUE)executable$(NC)\n"
 	$(CC) $(CFLAGS) -I $(INC_DIR) $(OBJS) $(LIBS) $(LDFLAGS) -o $(NAME)
 	printf "$(GREEN)Completed$(NC)\n"
@@ -118,11 +122,11 @@ re: fclean all
 
 define COMPILE
 	find ./objs/ -type f -exec touch {} +
-	$(foreach source,$(subst $(OBJ_DIR),,$?), \
-	printf "$(YELLOW)[..]  $(NC) $(LIGHT_PURPLE)$(subst srcs/,,$(source))\
+	$(foreach source,$?, \
+	printf "$(YELLOW)[..]   $(NC) $(LIGHT_PURPLE)$(subst srcs/,,$(source))\
 $(NC)\n"; \
 	$(CC) -I $(INC_DIR) $(CFLAGS) $(CODE_VERSION) -c $(source) -o \
-$(subst /,.,$(subst srcs/,,$(source:.c=.o))) ; \
+$(addprefix $(OBJ_DIR), $(subst /,.,$(subst srcs/,,$(source:.c=.o)))) ; \
 	if [ $$? -ne "0" ];\
 	then \
 		exit 1;\
@@ -136,48 +140,53 @@ $(subst srcs/,,$(source))$(NC)\n";\
 		printf "\033[F$(GREEN)[OK]  $(NC) $(LIGHT_PURPLE)\
 $(subst srcs/,,$(source))$(NC)\n";\
 	fi;)
-	mv *.o objs/
 endef
 
-builtin: $(BUILTIN_OBJS)
-$(BUILTIN_OBJS): $(OBJ_DIR) $(BUILTIN_SRCS)
+builtin: $(OBJ_DIR) $(BUILTIN_OBJS)
+$(BUILTIN_OBJS): $(BUILTIN_SRCS)
 	printf "$(BLUE)Compiling $(LIGHT_PURPLE)builtin $(BLUE)functions$(NC)\n"
 	$(COMPILE)
 
-env: $(ENV_OBJS)
-$(ENV_OBJS): $(OBJ_DIR) $(ENV_SRCS)
+env: $(OBJ_DIR) $(ENV_OBJS)
+$(ENV_OBJS): $(ENV_SRCS)
 	printf "$(BLUE)Compiling $(LIGHT_PURPLE)environement $(BLUE)\
 functions$(NC)\n"
 	$(COMPILE)
 
-exec: $(EXEC_OBJS)
-$(EXEC_OBJS): $(OBJ_DIR) $(EXEC_SRCS)
+error: $(OBJ_DIR) $(ERROR_OBJS)
+$(ERROR_OBJS): $(ERROR_SRCS)
+	printf "$(BLUE)Compiling $(LIGHT_PURPLE)errors $(BLUE)\
+functions$(NC)\n"
+	$(COMPILE)
+
+exec: $(OBJ_DIR) $(EXEC_OBJS)
+$(EXEC_OBJS): $(EXEC_SRCS)
 	printf "$(BLUE)Compiling $(LIGHT_PURPLE)executer $(BLUE)\
 functions$(NC)\n"
 	$(COMPILE)
 
-expander: $(EXPANDER_OBJS)
-$(EXPANDER_OBJS): $(OBJ_DIR) $(EXPANDER_SRCS)
+expander: $(OBJ_DIR) $(EXPANDER_OBJS)
+$(EXPANDER_OBJS): $(EXPANDER_SRCS)
 	printf "$(BLUE)Compiling $(LIGHT_PURPLE)expander $(BLUE)functions$(NC)\n"
 	$(COMPILE)
 
-parser: $(PARSER_OBJS)
-$(PARSER_OBJS): $(OBJ_DIR) $(PARSER_SRCS)
+parser: $(OBJ_DIR) $(PARSER_OBJS)
+$(PARSER_OBJS): $(PARSER_SRCS)
 	printf "$(BLUE)Compiling $(LIGHT_PURPLE)parser $(BLUE)functions$(NC)\n"
 	$(COMPILE)
 
-prompt: $(PROMPT_OBJS)
-$(PROMPT_OBJS): $(OBJ_DIR) $(PROMPT_SRCS)
+prompt: $(OBJ_DIR) $(PROMPT_OBJS)
+$(PROMPT_OBJS): $(PROMPT_SRCS)
 	printf "$(BLUE)Compiling $(LIGHT_PURPLE)prompt $(BLUE)functions$(NC)\n"
 	$(COMPILE)
 
-tokeniser: $(TOKENISER_OBJS)
-$(TOKENISER_OBJS): $(OBJ_DIR) $(TOKENISER_SRCS)
+tokeniser: $(OBJ_DIR) $(TOKENISER_OBJS)
+$(TOKENISER_OBJS): $(TOKENISER_SRCS)
 	printf "$(BLUE)Compiling $(LIGHT_PURPLE)tokeniser $(BLUE)functions$(NC)\n"
 	$(COMPILE)
 
-main: $(MAIN_OBJS)
-$(MAIN_OBJS): $(OBJ_DIR) $(MAIN_SRCS)
+main: $(OBJ_DIR) $(MAIN_OBJS)
+$(MAIN_OBJS): $(MAIN_SRCS)
 	printf "$(BLUE)Compiling $(LIGHT_PURPLE)main $(BLUE)functions$(NC)\n"
 	$(COMPILE)
 

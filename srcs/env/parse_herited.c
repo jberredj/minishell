@@ -6,12 +6,13 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 12:41:15 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/01 12:22:34 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/07 16:07:43 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
-#include "unistd.h"
+#include <unistd.h>
+#include <stdio.h>
 
 void	check_path(t_env *env)
 {
@@ -32,6 +33,7 @@ void	check_pwd(t_env *env)
 	char		*cwd;
 
 	cwd = getcwd(NULL, 0);
+	perror("toupt :");
 	if (!cwd)
 	{
 		write(2, "minishell : getcwd() failed: No such file or directory\n", 55);

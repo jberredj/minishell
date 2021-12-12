@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 11:56:44 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/02 19:33:17 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/07 16:49:43 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	get_exit_code(t_command *command, int status)
 		}
 	}
 	else
-		command->exit_code = status;
+		command->exit_code = WEXITSTATUS(status);
 	return (0);
 }
 
@@ -48,7 +48,7 @@ void	wait_childs(t_command *commands)
 	{
 		if (commands->process > 0)
 		{
-			waitpid(-1, &status_code, WUNTRACED);
+			waitpid(commands->process, &status_code, 0);
 			get_exit_code(commands, status_code);
 		}
 		commands = ft_idllst_next_content(&commands->list);
@@ -69,4 +69,6 @@ void	exec_cmds(t_command *commands, t_env *env)
 		commands = ft_idllst_next_content(&commands->list);
 	}
 	wait_childs(monitor);
+	monitor = ft_idllst_content(ft_idllst_get_tail(&monitor->list));
+	env->exit_code = monitor->exit_code;
 }

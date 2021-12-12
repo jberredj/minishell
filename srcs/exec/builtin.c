@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 09:48:59 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/06 14:44:13 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/06 17:55:22 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 #include "env.h"
 #include "structs/t_command.h"
 #include "exec.h"
+#include "error_codes.h"
+#include "minishell_error.h"
 
 static void	restore_std_fds(t_command *command, t_env *env)
 {
@@ -57,6 +59,7 @@ void	exec_builtins(t_command *commands, t_env *env)
 	{
 		swap_std_with_fds(commands);
 		commands->exit_code = commands->builtin(commands->argv, env);
+		commands->exit_code = minishell_error(commands->exit_code, commands->argv[1]);
 		if (commands->process == -2)
 			restore_std_fds(commands, env);
 		else

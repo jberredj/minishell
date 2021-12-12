@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddiakova <ddiakova@42.student.fr>          +#+  +:+       +#+        */
+/*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 15:41:30 by ddiakova          #+#    #+#             */
-/*   Updated: 2021/12/06 16:18:27 by ddiakova         ###   ########.fr       */
+/*   Updated: 2021/12/06 17:19:06 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,20 +50,6 @@ int	check_access(char *path)
 		return (SUCCESS);
 	}
 	return (FILE_ERROR | NOT_EXIST_ERROR);
-}
-
-int	print_error(int error, char *path)
-{
-	ft_putstr_fd("cd : ", 2);
-	if (error & FILE_ERROR)
-		ft_putstr_fd(path, 2);
-	if (error & HOME_ERROR)
-		ft_putstr_fd("HOME not set\n", 2);
-	if (error & NOT_EXIST_ERROR)
-		ft_putstr_fd(": no such file or directory\n", 2);
-	if (error & X_ERROR)
-		ft_putstr_fd(": Permission denied\n", 2);
-	return (1);
 }
 
 int	set_env_var(t_env *env, t_env_var *var, char *name, char *var_to_set)
