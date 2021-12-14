@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddiakova <ddiakova@42.student.fr>          +#+  +:+       +#+        */
+/*   By: ddiakova <ddiakova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 15:23:22 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/12 23:51:11 by ddiakova         ###   ########.fr       */
+/*   Updated: 2021/12/14 19:17:59 by ddiakova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	export(char **argv, t_env *env)
 	while (argv[argc])
 		argc++;
 	if (argc == 1)
-		return (1); // export sans arguments - afficher env dans l'ordre
+		copy_envp_and_print(env);
 	while (argv[i])
 	{
 		if (check_arg_var(argv[i]))
@@ -108,3 +108,4 @@ int	export(char **argv, t_env *env)
 		i++;
 	}
 	return (0);
+}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddiakova <ddiakova@42.student.fr>          +#+  +:+       +#+        */
+/*   By: ddiakova <ddiakova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 15:54:47 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/12 20:10:28 by ddiakova         ###   ########.fr       */
+/*   Updated: 2021/12/14 19:20:04 by ddiakova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	pwd(char **argv, t_env *env);
 int	env(char **argv, t_env *env);
 int	unset(char **argv, t_env *env);
 int	export(char **argv, t_env *env);
+int	copy_envp_and_print(t_env *env);
 int	check_args(char **argv);
 int	check_access(char *path);
 int	print_error(int error, char *path);

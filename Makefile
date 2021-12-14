@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ddiakova <ddiakova@42.student.fr>          +#+  +:+       +#+         #
+#    By: ddiakova <ddiakova@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/07 15:10:49 by jberredj          #+#    #+#              #
-#    Updated: 2021/12/12 17:42:04 by ddiakova         ###   ########.fr        #
+#    Updated: 2021/12/14 19:18:30 by ddiakova         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ LIBS			=	libft.a
 ###############################################################################
 
 BUILTIN			= 	builtin_selector.c cd.c cd_utils.c echo.c placeholder.c \
-					exit.c pwd.c env.c unset.c export.c
+					exit.c pwd.c env.c unset.c export.c print_export.c
 BUILTIN_SRCS	=	$(addprefix srcs/builtin/, $(BUILTIN))
 BUILTIN_OBJS	=	$(addprefix objs/builtin., $(subst /,., $(BUILTIN:.c=.o)))
 
