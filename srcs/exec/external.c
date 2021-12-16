@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 18:03:59 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/12 20:25:44 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/16 12:29:12 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 #include "parser.h"
 #include "env.h"
 #include <stdio.h>
+#include <signal.h>
 
 static t_command	*get_to_free(t_command *commands)
 {
@@ -57,6 +58,17 @@ int	print_exec_error(char *path)
 	return (127);
 }
 
+static void	restore_signals(void)
+{
+	struct sigaction	sig;
+
+	ft_bzero(&sig, sizeof(struct sigaction));
+	sig.sa_sigaction = NULL;
+	sig.sa_handler = SIG_DFL;
+	sigaction(SIGQUIT, &sig, NULL);
+	sigaction(SIGINT, &sig, NULL);
+}
+
 static void	child_process(t_command *commands, t_env *env)
 {
 	t_command	*to_exec;
@@ -67,6 +79,7 @@ static void	child_process(t_command *commands, t_env *env)
 	to_exec = ft_idllst_content(ft_idllst_pop(&commands->list, NULL));
 	clean_all_exec(to_free, env);
 	swap_std_with_fds(to_exec);
+	restore_signals();
 	execve(to_exec->path_to_cmd, to_exec->argv, to_exec->envp);
 	error = print_exec_error(to_exec->path_to_cmd);
 	free_command(&to_exec->list);
