@@ -6,48 +6,47 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 12:41:15 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/16 12:16:36 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/17 11:16:20 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 #include <unistd.h>
 #include <stdio.h>
+#include "error_codes.h"
 
-void	check_path(t_env *env)
+int	check_path(t_env *env)
 {
 	t_env_var	*node;
 
 	if (!env->path)
-	{
-		node = create_env_var("PATH",
-				"/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin");
-		add_env_var(env, node);
-		env_var_to_envp(&env->envp, node, &env->nbr_exported);
-	}
+		if (create_exported_var(env, "PATH",
+				"/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"))
+			return (ERR_MALLOC);
+	return (SUCCESS);
 }
 
-void	check_pwd(t_env *env)
+int	check_pwd(t_env *env)
 {
-	t_env_var	*node;
+	int			error;
 	char		*cwd;
 
+	error = SUCCESS;
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 	{
 		write(2, "minishell : getcwd() failed: No such file or directory\n", 55);
 		cwd = ft_strdup(".");
+		if (!cwd)
+			return (ERR_MALLOC);
 	}
 	if (!env->pwd)
-	{
-		node = create_env_var("PWD", cwd);
-		add_env_var(env, node);
-		env_var_to_envp(&env->envp, node, &env->nbr_exported);
-	}
+		error = create_exported_var(env, "PWD", cwd);
 	else
 		if (ft_strncmp(cwd, ".", 1) != 0)
-			update_env_var_value(env->pwd, cwd);
+			error = update_env_var_value(env->pwd, cwd);
 	free(cwd);
+	return (error);
 }
 
 int	parse_herited_envp(t_env *env, char **envp)
@@ -63,15 +62,16 @@ int	parse_herited_envp(t_env *env, char **envp)
 	i = -1;
 	while (++i < (int)nbr_var)
 	{
-		env_var_node = create_env_var_from_str(envp[i]);
-		if (!env_var_node)
+		if (create_exported_var_from_str(env, envp[i]))
 		{
 			ft_idllst_clear(&env->env_vars->list, free_env_var);
+			env->env_vars = NULL;
+			return (ERR_MALLOC);
 		}
-		add_env_var(env, env_var_node);
-		env_var_to_envp(&env->envp, env_var_node, &env->nbr_exported);
 	}
-	check_path(env);
-	check_pwd(env);
+	if (check_path(env))
+		return (ERR_MALLOC);
+	else if (check_pwd(env))
+		return (ERR_MALLOC);
 	return (0);
 }

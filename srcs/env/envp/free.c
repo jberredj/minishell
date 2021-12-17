@@ -6,12 +6,13 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 16:43:16 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/23 16:56:34 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/17 10:05:12 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 #include "../libft/includes/ft_idllst.h"
+#include "error_codes.h"
 
 static char	**search_deleted_shift_envp(char ***envp, size_t *nbr_exported)
 {
@@ -48,7 +49,7 @@ int	remove_from_envp(char ***envp, size_t *nbr_exported)
 
 	buff = search_deleted_shift_envp(envp, nbr_exported);
 	if (!buff)
-		return (1);
+		return (ERR_MALLOC);
 	*envp = buff;
 	return (0);
 }

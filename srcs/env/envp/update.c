@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 15:21:19 by jberredj          #+#    #+#             */
-/*   Updated: 2021/11/17 15:58:05 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/17 10:01:39 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,11 @@ char	*update_envp_str(t_env_var *env_var_node)
 	tmp = ft_strjoin(env_var_node->name, "=");
 	if (!tmp)
 		return (NULL);
-	ft_gnljoin(&tmp, env_var_node->value);
-	if (!tmp)
+	if (ft_gnljoin(&tmp, env_var_node->value))
+	{
+		free(tmp);
 		return (NULL);
+	}
 	free(env_var_node->envp_str);
 	env_var_node->envp_str = tmp;
 	return (tmp);

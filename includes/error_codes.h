@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 15:55:31 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/12 21:18:11 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/17 10:14:17 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,6 @@
 # define ERROR_INVALID_VAL 131072
 # define ERROR_TOO_MANY 262144
 # define CANCEL 524288
+# define NOT_FOUND 1048576
 
 #endif
