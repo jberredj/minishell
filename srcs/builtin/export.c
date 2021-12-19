@@ -6,7 +6,7 @@
 /*   By: ddiakova <ddiakova@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 15:23:22 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/18 17:29:01 by ddiakova         ###   ########.fr       */
+/*   Updated: 2021/12/19 11:29:59 by ddiakova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,8 @@ int	check_arg_var(char *arg)
 	return (SUCCESS);
 }
 
-void	set_or_update(t_env *env, char *arg, int i)
+void	set_or_update(t_env *env, char *arg, int i, int j)
 {
-	int			j;
 	char		*buff;
 	t_env_var	*new;
 
@@ -57,7 +56,6 @@ void	set_or_update(t_env *env, char *arg, int i)
 	buff = ft_calloc(sizeof(char), i + 1);
 	if (!buff)
 		return ;
-	j = -1;
 	while (++j < i)
 		buff[j] = arg[j];
 	new = find_env_var_in_lst(env->env_vars, buff);
@@ -101,7 +99,7 @@ int	export(char **argv, t_env *env)
 		if (check_arg_var(argv[i]))
 		{
 			if (ft_strchr(argv[i], '='))
-				set_or_update(env, argv[i], 0);
+				set_or_update(env, argv[i], 0, -1);
 			else
 				set_new_var(env, argv[i]);
 		}

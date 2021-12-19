@@ -6,7 +6,7 @@
 /*   By: ddiakova <ddiakova@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 17:21:17 by ddiakova          #+#    #+#             */
-/*   Updated: 2021/12/18 18:44:20 by ddiakova         ###   ########.fr       */
+/*   Updated: 2021/12/19 11:28:23 by ddiakova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,29 +16,6 @@
 #include <fcntl.h>
 #include "env.h"
 #include "builtin.h"
-
-int	tab_size(char **tab)
-{	
-	int	i;
-
-	i = 0;
-	while (tab[i])
-		i++;
-	return (i);
-}
-
-void	free_tab(char **tab)
-{
-	int	i;
-
-	i = 0;
-	while (tab[i])
-	{
-		free(tab[i]);
-		i++;
-	}
-	free(tab);
-}
 
 char	**sort_copy(char **arr)
 {
@@ -53,7 +30,7 @@ char	**sort_copy(char **arr)
 		j = 0;
 		while (j < i)
 		{
-			if (ft_strncmp(arr[j], arr[j + 1], 1) > 0)
+			if (ft_strcmp(arr[j], arr[j + 1]) > 0)
 			{
 				tmp = arr[j];
 				arr[j] = arr[j + 1];
@@ -101,20 +78,18 @@ int	copy_envp_and_print(t_env *env)
 	int		i;
 	char	**copy;
 
-	size = tab_size((*env).envp);
+	size = tab_size(env->envp);
 	copy = ft_calloc(sizeof(char *), size + 1);
 	if (!copy)
 		return (1);
 	i = 0;
-	while ((*env).envp[i])
+	while (env->envp[i])
 	{
-		copy[i] = ft_calloc(sizeof(char), ft_strlen((*env).envp[i]) + 1);
+		copy[i] = ft_strdup(env->envp[i]);
 		if (!copy[i])
 			return (1);
-		copy[i] = (*env).envp[i];
 		i++;
 	}
-	copy[i] = NULL;
 	sort_copy(copy);
 	print_export(copy);
 	free_tab(copy);
