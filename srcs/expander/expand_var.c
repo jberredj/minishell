@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_var.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddiakova <ddiakova@42.student.fr>          +#+  +:+       +#+        */
+/*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 15:39:07 by ddiakova          #+#    #+#             */
-/*   Updated: 2021/12/07 19:06:48 by ddiakova         ###   ########.fr       */
+/*   Updated: 2021/12/21 14:38:06 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,27 +40,30 @@ void	substitute_var(t_env *env, char *dollar_pos, t_token **expanded_value)
 {
 	int			i;
 	t_env_var	*existing;
+	t_token		*last;
 
 	while (dollar_pos)
 	{
 		dollar_pos++;
 		i = 0;
-		search_var(dollar_pos, &(*expanded_value), &i);
-		if (ft_strncmp((*expanded_value)->content, "?", 2) == 0)
-			exit_code_var(env, *expanded_value);
-		else if (!*(*expanded_value)->content)
-			dollar_alone(*expanded_value);
+		search_content(dollar_pos, &(*expanded_value), &i, get_var_len);
+		last = ft_idllst_content(
+				ft_idllst_get_tail(&(*expanded_value)->list));
+		if (ft_strncmp(last->content, "?", 2) == 0)
+			exit_code_var(env, last);
+		else if (!*last->content)
+			dollar_alone(last);
 		else
 		{
 			existing = find_env_var_in_lst(env->env_vars,
-					(*expanded_value)->content);
-			free((*expanded_value)->content);
+					last->content);
+			free(last->content);
 			if (existing)
-				(*expanded_value)->content = ft_strdup(existing->value);
+				last->content = ft_strdup(existing->value);
 			else
-				(*expanded_value)->content = ft_strdup("");
+				last->content = ft_strdup("");
 		}
-		search_content(dollar_pos, &(*expanded_value), &i);
+		search_content(dollar_pos, &(*expanded_value), &i, get_words_len);
 		dollar_pos = ft_strchr(dollar_pos, '$');
 	}
 }
@@ -95,7 +98,7 @@ void	expand_var(t_token *tokens, t_env *env)
 		else if (tokens->type != S_QUOTE)
 			dollar_pos = ft_strchr(tokens->content, '$');
 		if (dollar_pos && dollar_pos != tokens->content)
-			search_content(tokens->content, &expanded_value, &i);
+			search_content(tokens->content, &expanded_value, &i, get_words_len);
 		substitute_var(env, dollar_pos, &expanded_value);
 		if (expanded_value)
 			to_free = replace_token_content(tokens, expanded_value);

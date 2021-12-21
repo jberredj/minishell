@@ -1,34 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expander_utils2.c                                  :+:      :+:    :+:   */
+/*   copy_content.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddiakova <ddiakova@42.student.fr>          +#+  +:+       +#+        */
+/*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/03 12:06:26 by ddiakova          #+#    #+#             */
-/*   Updated: 2021/12/03 12:18:08 by ddiakova         ###   ########.fr       */
+/*   Created: 2021/12/21 12:46:20 by jberredj          #+#    #+#             */
+/*   Updated: 2021/12/21 14:55:11 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <unistd.h>
-#include "structs/t_env.h"
+#include "minishell.h"
 #include "structs/t_token.h"
 #include "../libft/includes/libft.h"
-#include "expander.h"
-#include "env.h"
+#include <stdbool.h>
+#include "error_codes.h"
 #include "tokeniser.h"
-#include "_debug.h"
-
-static int	get_content_len(char *line)
-{
-	int	len;
-
-	len = 0;
-	while (line[len] && (line[len] != '$'))
-		len++;
-	return (len);
-}
 
 static char	*copy_content(char *line, int *i, int len)
 {
@@ -39,36 +26,35 @@ static char	*copy_content(char *line, int *i, int len)
 	if (!content)
 		return (NULL);
 	j = 0;
-	while (line[*i] && (line[*i] != '$'))
-	{
-		content[j] = line[*i];
-		(*i)++;
-		j++;
-	}
+	ft_memcpy(content, &line[*i], len);
+	(*i) += len;
 	return (content);
 }
 
-int	search_content(char *line, t_token **tokens, int *i)
+int	search_content(char *line, t_token **tokens, int *i,
+	int (*len_func)(char*, bool))
 {
 	int			len;
 	t_token		*new;
 	char		*content;
 	int			j;
-	t_token		*next;
 
 	j = 0;
 	new = NULL;
 	content = NULL;
-	len = get_content_len(&line[*i]);
+	len = len_func(&line[*i], false);
+	if (len < len_func(NULL, true))
+		return (SUCCESS);
 	content = copy_content(line, i, len);
 	if (!content)
-		return (-1);
+		return (ERR_MALLOC);
 	new = new_token_add(tokens);
 	if (new == NULL)
-		return (1);
+	{
+		free(content);
+		return (ERR_MALLOC);
+	}
 	new->content = content;
-	next = ft_idllst_next_content(&(*tokens)->list);
-	if (next)
-		*tokens = next;
-	return (0);
+	new->type = WORD;
+	return (SUCCESS);
 }
