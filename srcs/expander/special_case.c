@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   special_case.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddiakova <ddiakova@42.student.fr>          +#+  +:+       +#+        */
+/*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 19:05:55 by ddiakova          #+#    #+#             */
-/*   Updated: 2021/12/07 19:06:29 by ddiakova         ###   ########.fr       */
+/*   Updated: 2021/12/21 15:08:55 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,28 @@
 #include "tokeniser.h"
 #include <stdio.h>
 #include "_debug.h"
+#include "error_codes.h"
 
-void	exit_code_var(t_env *env, t_token *expanded_value)
+int	exit_code_var(t_env *env, t_token *expanded_value)
 {
 	char	*tmp;
 
 	tmp = ft_itoa(env->exit_code);
-	free (expanded_value->content);
+	if (!tmp)
+		return (ERR_MALLOC);
+	free(expanded_value->content);
 	expanded_value->content = tmp;
+	return (SUCCESS);
 }
 
-void	dollar_alone(t_token *expanded_value)
+int	dollar_alone(t_token *expanded_value)
 {
 	char	*tmp;
 
 	tmp = ft_strdup("$");
-	free (expanded_value->content);
+	if (!tmp)
+		return (ERR_MALLOC);
+	free(expanded_value->content);
 	expanded_value->content = tmp;
+	return (SUCCESS);
 }

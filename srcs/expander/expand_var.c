@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 15:39:07 by ddiakova          #+#    #+#             */
-/*   Updated: 2021/12/21 14:38:06 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/21 15:28:46 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,91 +20,54 @@
 #include "tokeniser.h"
 #include <stdio.h>
 #include "_debug.h"
+#include "error_codes.h"
 
-char	*expanded_to_str(t_token *expanded)
+int	panic_expand_var(t_token *tokens, t_token *expanded_value)
 {
-	char	*expanded_str;
-
-	expanded = ft_idllst_content(ft_idllst_get_head(&expanded->list));
-	expanded_str = ft_strdup("");
-	while (expanded)
-	{
-		if (*expanded->content)
-			ft_gnljoin(&expanded_str, expanded->content);
-		expanded = ft_idllst_next_content(&expanded->list);
-	}
-	return (expanded_str);
+	if (tokens)
+		ft_idllst_clear(&tokens->list, free_token);
+	if (expanded_value)
+		ft_idllst_clear(&expanded_value->list, free_token);
+	ft_putendl_fd("minishell: expander: fatal error: malloc() failed", 2);
+	return (ERR_MALLOC);
 }
 
-void	substitute_var(t_env *env, char *dollar_pos, t_token **expanded_value)
+int	expand_all_tokens(t_token **tokens, int *i, t_env *env)
 {
-	int			i;
-	t_env_var	*existing;
-	t_token		*last;
-
-	while (dollar_pos)
-	{
-		dollar_pos++;
-		i = 0;
-		search_content(dollar_pos, &(*expanded_value), &i, get_var_len);
-		last = ft_idllst_content(
-				ft_idllst_get_tail(&(*expanded_value)->list));
-		if (ft_strncmp(last->content, "?", 2) == 0)
-			exit_code_var(env, last);
-		else if (!*last->content)
-			dollar_alone(last);
-		else
-		{
-			existing = find_env_var_in_lst(env->env_vars,
-					last->content);
-			free(last->content);
-			if (existing)
-				last->content = ft_strdup(existing->value);
-			else
-				last->content = ft_strdup("");
-		}
-		search_content(dollar_pos, &(*expanded_value), &i, get_words_len);
-		dollar_pos = ft_strchr(dollar_pos, '$');
-	}
-}
-
-t_token	*replace_token_content(t_token *tokens, t_token *expanded_value)
-{
-	t_token		*to_free;
-
-	to_free = NULL;
-	free(tokens->content);
-	tokens->content = expanded_to_str(expanded_value);
-	if (tokens->type != D_QUOTE && !*tokens->content)
-			to_free = ft_idllst_content(ft_idllst_pop(&tokens->list, NULL));
-	ft_idllst_clear(&expanded_value->list, free_token);
-	return (to_free);
-}
-
-void	expand_var(t_token *tokens, t_env *env)
-{
-	int			i;
 	char		*dollar_pos;
 	t_token		*expanded_value;
 	t_token		*to_free;
 
 	to_free = NULL;
+	expanded_value = NULL;
+	dollar_pos = NULL;
+	if (ft_strncmp((*tokens)->content, "<<", 2) == 0)
+		*tokens = ft_idllst_next_content(&(*tokens)->list);
+	else if ((*tokens)->type != S_QUOTE)
+		dollar_pos = ft_strchr((*tokens)->content, '$');
+	if (dollar_pos && dollar_pos != (*tokens)->content)
+		if (search_content((*tokens)->content, &expanded_value,
+				i, get_words_len))
+			return (panic_expand_var((*tokens), expanded_value));
+	substitute_var(env, dollar_pos, &expanded_value);
+	if (expanded_value)
+		if (replace_token_content(&to_free, (*tokens), expanded_value))
+			return (panic_expand_var((*tokens), expanded_value));
+	(*tokens) = ft_idllst_next_content(&(*tokens)->list);
+	if (to_free)
+		free_token(&to_free->list);
+	to_free = NULL;
+	return (SUCCESS);
+}
+
+int	expand_var(t_token *tokens, t_env *env)
+{
+	int			i;
+
 	while (tokens)
 	{
-		expanded_value = NULL;
-		dollar_pos = NULL;
-		if (ft_strncmp(tokens->content, "<<", 2) == 0)
-			tokens = ft_idllst_next_content(&tokens->list);
-		else if (tokens->type != S_QUOTE)
-			dollar_pos = ft_strchr(tokens->content, '$');
-		if (dollar_pos && dollar_pos != tokens->content)
-			search_content(tokens->content, &expanded_value, &i, get_words_len);
-		substitute_var(env, dollar_pos, &expanded_value);
-		if (expanded_value)
-			to_free = replace_token_content(tokens, expanded_value);
-		tokens = ft_idllst_next_content(&tokens->list);
-		if (to_free)
-			free_token(&to_free->list);
-		to_free = NULL;
+		if (expand_all_tokens(&tokens, &i, env))
+			return (ERR_MALLOC);
 	}
+	return (SUCCESS);
 }
