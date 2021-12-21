@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   search_var.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddiakova <ddiakova@42.student.fr>          +#+  +:+       +#+        */
+/*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 12:00:01 by ddiakova          #+#    #+#             */
-/*   Updated: 2021/12/07 18:49:53 by ddiakova         ###   ########.fr       */
+/*   Updated: 2021/12/21 12:05:27 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,7 @@ static char	*copy_var(char *line, int *i, int len)
 	if (!var)
 		return (NULL);
 	j = 0;
-	while (line[*i] && j < len/*(ft_isalnum(line[*i]) || line[*i] == '_')
-		&& !ft_isspace(line[*i])*/)
+	while (line[*i] && j < len)
 	{
 		var[j] = line[*i];
 		(*i)++;

@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 10:28:00 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/03 14:16:23 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/21 11:55:10 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,12 @@ t_token	*get_tokens(char *str, t_env *env)
 		{
 			add_str_to_history(str);
 			tokens = tokenise_line(str);
+			if (!tokens)
+			{
+				env->running = false;
+				env->exit_code = 1;
+			}
 			free(str);
-			print_token(tokens);
 		}
 	}
 	else

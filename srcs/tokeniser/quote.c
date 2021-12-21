@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/21 11:23:20 by ddiakova          #+#    #+#             */
-/*   Updated: 2021/11/23 16:42:06 by jberredj         ###   ########.fr       */
+/*   Created: 2021/12/21 11:02:18 by jberredj          #+#    #+#             */
+/*   Updated: 2021/12/21 11:50:27 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,69 +15,55 @@
 #include "../libft/includes/libft.h"
 #include <stdbool.h>
 #include "tokeniser.h"
+#include "error_codes.h"
 
 bool	is_quote(char c)
 {
 	return ((bool)(c == '\'' || c == '\"'));
 }
 
-static int	get_quote_len(char *line, char quote)
+static int	prepare_replacement(t_token **replacement_token,
+	size_t len, int type)
 {
-	int	len;
-
-	if (*line != quote)
-		return (-1);
-	len = 0;
-	(line)++;
-	while (line[len] && (line[len]) != quote)
-		len++;
-	if (line[len] == '\0')
-		return (-2);
-	return (len);
-}
-
-static char	*copy_quote_content(char *line, int *i, char quote, int len)
-{
-	char	*quote_content;
-	int		j;
-
-	j = 0;
-	(*i)++;
-	quote_content = ft_calloc(sizeof(char), (len + 1));
-	if (!quote_content)
-		return (NULL);
-	while (line[*i] && (line[*i]) != quote)
+	*replacement_token = (t_token *)ft_calloc(1, sizeof(t_token));
+	if (!replacement_token)
+		return (ERR_MALLOC);
+	(*replacement_token)->list = ft_idllst_init(&(*replacement_token)->list,
+			*replacement_token);
+	(*replacement_token)->content = ft_calloc(len + 1, sizeof(char));
+	if (!(*replacement_token)->content)
 	{
-		quote_content[j] = line[*i];
-		(*i)++;
-		j++;
+		free_token(&(*replacement_token)->list);
+		return (ERR_MALLOC);
 	}
-	(*i)++;
-	return (quote_content);
+	(*replacement_token)->type = type;
+	return (SUCCESS);
 }
 
-int	search_quote(char *line, t_token **tokens, int *i, char quote)
+int	check_for_quotes(t_token **tokens)
 {
-	int			j;
-	int			len;
-	t_token		*new;
-	char		*quote_content;
+	t_token	*last_token;
+	char	*line;
+	t_token	*replacement_token;
+	size_t	len;
 
-	j = 0;
-	new = NULL;
-	quote_content = NULL;
-	while (ft_isspace(line[*i]))
-		(*i)++;
-	len = get_quote_len(&line[*i], quote);
-	if (len < 0)
-		return (len);
-	quote_content = copy_quote_content(line, i, quote, len);
-	if (!quote_content)
-		return (-1);
-	new = new_token_add(tokens);
-	if (new == NULL)
-		return (1);
-	new->content = quote_content;
-	new->type = quote;
-	return (0);
+	last_token = ft_idllst_content(ft_idllst_get_tail(&(*tokens)->list));
+	if (last_token->type != WORD)
+		return (SUCCESS);
+	line = last_token->content;
+	len = ft_strlen(line);
+	if (!(len > 1 && is_quote(line[0])
+			&& is_quote(line[len - 1])))
+		return (SUCCESS);
+	if (prepare_replacement(&replacement_token, len - 2, (int)line[0]))
+		return (ERR_MALLOC);
+	ft_memcpy(replacement_token->content, line + 1, len - 2);
+	if (!*tokens)
+		*tokens = replacement_token;
+	else
+	{
+		ft_idllst_pop(&last_token->list, free_token);
+		ft_idllst_add_back(&replacement_token->list, &(*tokens)->list);
+	}
+	return (SUCCESS);
 }

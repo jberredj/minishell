@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 11:25:12 by ddiakova          #+#    #+#             */
-/*   Updated: 2021/11/23 16:51:47 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/17 11:31:55 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "minishell.h"
 #include "../libft/includes/libft.h"
 #include "tokeniser.h"
+#include "error_codes.h"
 
 int	is_separator(char c)
 {
@@ -70,10 +71,10 @@ int	search_separator(char *line, t_token **tokens, int *i)
 		return (len);
 	sep = copy_separators(line, i, len);
 	if (!sep)
-		return (-1);
+		return (ERR_MALLOC);
 	new = new_token_add(tokens);
 	if (new == NULL)
-		return (1);
+		return (ERR_MALLOC);
 	new->content = sep;
 	new->type = SEPARATOR;
 	return (0);
