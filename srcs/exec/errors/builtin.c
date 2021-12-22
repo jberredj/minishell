@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 10:54:08 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/22 18:18:36 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/22 18:44:04 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ char	*builtin_pointer_to_name(int (*builtin)(char**, t_env *))
 		return ("cd: ");
 	else if (builtin == pwd)
 		return ("pwd: ");
-	else if (builtin == builtin_placeholder)//export)
+	else if (builtin == export)
 		return ("export: ");
-	else if (builtin == builtin_placeholder)//unset)
+	else if (builtin == unset)
 		return ("unset: ");
 	else if (builtin == env)
 		return ("env: ");
