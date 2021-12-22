@@ -6,7 +6,7 @@
 #    By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/12 17:39:23 by jberredj          #+#    #+#              #
-#    Updated: 2021/12/12 17:39:24 by jberredj         ###   ########.fr        #
+#    Updated: 2021/12/22 11:13:29 by jberredj         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,15 +41,13 @@ ENV				=	envp/free.c envp/update.c envp/utils.c\
 ENV_SRCS		=	$(addprefix srcs/env/, $(ENV))
 ENV_OBJS		=	$(addprefix objs/env., $(subst /,., $(ENV:.c=.o)))
 
-ERROR			=	errors.c
-ERROR_SRCS		=	$(addprefix srcs/errors/, $(ERROR))
-ERROR_OBJS		=	$(addprefix objs/errors., $(subst /,., $(ERROR:.c=.o)))
-
-EXEC			=	builtin.c exec.c external.c utils.c
+EXEC			=	builtin.c exec.c external.c utils.c signals.c \
+					errors/builtin.c errors/external.c errors/exec.c
 EXEC_SRCS		=	$(addprefix srcs/exec/, $(EXEC))
 EXEC_OBJS		=	$(addprefix objs/exec., $(subst /,., $(EXEC:.c=.o)))
 
-EXPANDER		=	expand_var.c search_var.c search_content.c special_case.c
+EXPANDER		=	expand_var.c get_var_len.c get_words_len.c special_case.c \
+					substitute.c
 EXPANDER_SRCS	=	$(addprefix srcs/expander/, $(EXPANDER))
 EXPANDER_OBJS	=	$(addprefix objs/expander., $(subst /,., $(EXPANDER:.c=.o)))
 
@@ -62,7 +60,7 @@ PROMPT			=	prompt.c prompt_text.c
 PROMPT_SRCS		=	$(addprefix srcs/prompt/, $(PROMPT))
 PROMPT_OBJS		=	$(addprefix objs/prompt., $(subst /,., $(PROMPT:.c=.o)))
 
-TOKENISER		= 	free.c quote.c separator.c tokenise_line.c word.c
+TOKENISER		= 	copy_content.c free.c quote.c separator.c tokenise_line.c word.c
 TOKENISER_SRCS	=	$(addprefix srcs/tokeniser/, $(TOKENISER))
 TOKENISER_OBJS	=	$(addprefix objs/tokeniser.,\
 						$(subst /,., $(TOKENISER:.c=.o)))
@@ -77,12 +75,12 @@ HEADERS			=	$(addprefix structs/, $(STRUCTS))\
 					builtin.h env.h error_codes.h minishell.h parser.h\
 					prompt.h tokeniser.h expander.h
 
-SRCS			=	$(EXPANDER_SRCS) $(BUILTIN_SRCS) $(ENV_SRCS) $(ERROR_SRCS) $(EXEC_SRCS) $(PARSER_SRCS) $(PROMPT_SRCS)\
+SRCS			=	$(EXPANDER_SRCS) $(BUILTIN_SRCS) $(ENV_SRCS) $(EXEC_SRCS) $(PARSER_SRCS) $(PROMPT_SRCS)\
 					$(TOKENISER_SRCS) $(MAIN_SRCS)
-OBJS			=	$(EXPANDER_OBJS) $(BUILTIN_OBJS) $(ENV_OBJS) $(ERROR_OBJS) $(EXEC_OBJS) $(PARSER_OBJS) $(PROMPT_OBJS)\
+OBJS			=	$(EXPANDER_OBJS) $(BUILTIN_OBJS) $(ENV_OBJS) $(EXEC_OBJS) $(PARSER_OBJS) $(PROMPT_OBJS)\
 					$(TOKENISER_OBJS) $(MAIN_OBJS)
 
-MODULE			=	expander builtin env error exec parser prompt tokeniser main
+MODULE			=	expander builtin env exec parser prompt tokeniser main
 
 ###############################################################################
 ##							Color output char								 ##
@@ -151,12 +149,6 @@ $(BUILTIN_OBJS): $(BUILTIN_SRCS)
 env: $(OBJ_DIR) $(ENV_OBJS)
 $(ENV_OBJS): $(ENV_SRCS)
 	printf "$(BLUE)Compiling $(LIGHT_PURPLE)environement $(BLUE)\
-functions$(NC)\n"
-	$(COMPILE)
-
-error: $(OBJ_DIR) $(ERROR_OBJS)
-$(ERROR_OBJS): $(ERROR_SRCS)
-	printf "$(BLUE)Compiling $(LIGHT_PURPLE)errors $(BLUE)\
 functions$(NC)\n"
 	$(COMPILE)
 

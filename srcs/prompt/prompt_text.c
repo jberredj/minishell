@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 19:15:41 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/07 16:48:22 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/21 16:17:08 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 
 char	*get_prompt(t_env *env)
 {
-	char		*pwd;
 	const char	*tmp_prompt = "\033[1;32mEarly Modern Period shell\033[0;0m";
 	char		*prompt;
 

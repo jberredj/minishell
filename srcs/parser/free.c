@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 15:09:17 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/12 23:16:54 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/21 15:58:11 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "structs/t_command.h"
 #include "../libft/includes/ft_idllst.h"
 
-static void	free_xv(char **xv)
+void	free_xv(char **xv)
 {
 	int	i;
 

@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 11:56:44 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/16 12:40:18 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/22 11:06:16 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@
 #include "parser.h"
 #include "env.h"
 #include "minish_signal.h"
+#include "error_codes.h"
 
 int	get_exit_code(t_command *command, int status)
 {
 	if (WIFSIGNALED(status) == 1)
 	{
-		int debug = WTERMSIG(status);
 		if (WTERMSIG(status) == SIGQUIT)
 			ft_putendl_fd("minishell: Quit (core dumped)", 2);
 		else if (WTERMSIG(status) == SIGSEGV)
@@ -54,48 +54,46 @@ void	wait_childs(t_command *commands)
 	}
 }
 
-void	ctrl_c_exec(int sig, siginfo_t *info, void *ctx)
+static int	process_commands(t_command *commands, t_env *env)
 {
-	(void)sig;
-	(void)info;
-	(void)ctx;
-	write(1, "\n", 1);
-}
+	int	error;
 
-static void	exec_signals(void)
-{
-	struct sigaction	sig;
-
-	ft_bzero(&sig, sizeof(struct sigaction));
-	sig.sa_sigaction = ctrl_c_exec;
-	sigaction(SIGINT, &sig, NULL);
-}
-
-void	restore_minish_ctrl_c(void)
-{
-	struct sigaction	sigint_act;
-
-	ft_bzero(&sigint_act, sizeof(struct sigaction));
-	sigint_act.sa_sigaction = ctrl_c;
-	sigaction(SIGINT, &sigint_act, NULL);
-}
-
-void	exec_cmds(t_command *commands, t_env *env)
-{
-	t_command	*monitor;
-
-	monitor = commands;
-	exec_signals();
 	while (commands)
 	{
+		error = 0;
 		if (commands->builtin)
-			exec_builtins(commands, env);
+			error = exec_builtins(commands, env);
 		else
-			exec_external(commands, env);
+			error = exec_external(commands, env);
+		if (error)
+			return (panic_exec_out(error, commands, env));
 		commands = ft_idllst_next_content(&commands->list);
 	}
+	return (SUCCESS);
+}
+
+int	exec_cmds(t_command *commands, t_env *env)
+{
+	t_command	*monitor;
+	int			error;
+
+	monitor = commands;
+	error = 0;
+	if (exec_signals())
+	{
+		ft_putstr_fd("minishell: exec: fatal error: sigaction() failed", 2);
+		return (CREATE_ERROR);
+	}
+	error = process_commands(commands, env);
+	if (error)
+		return (error);
 	wait_childs(monitor);
-	restore_minish_ctrl_c();
+	if (restore_minish_ctrl_c())
+	{
+		ft_putstr_fd("minishell: exec: fatal error: sigaction() failed", 2);
+		return (CREATE_ERROR);
+	}
 	monitor = ft_idllst_content(ft_idllst_get_tail(&monitor->list));
 	env->exit_code = monitor->exit_code;
+	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/13 18:21:55 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/21 13:07:02 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/21 18:11:17 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ int	panic_exit_tokeniser(t_token *tokens)
 
 int	tokenise_line(t_token **tokens, char *line)
 {
-	int		error;
 	int		i;
 
 	i = 0;

@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 12:46:20 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/21 14:55:11 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/21 17:15:36 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,10 @@
 static char	*copy_content(char *line, int *i, int len)
 {
 	char	*content;
-	int		j;
 
 	content = ft_calloc(sizeof(char), (len + 1));
 	if (!content)
 		return (NULL);
-	j = 0;
 	ft_memcpy(content, &line[*i], len);
 	(*i) += len;
 	return (content);

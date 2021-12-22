@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 12:41:15 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/17 11:16:20 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/21 16:16:22 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@
 
 int	check_path(t_env *env)
 {
-	t_env_var	*node;
-
 	if (!env->path)
 		if (create_exported_var(env, "PATH",
 				"/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"))
@@ -52,7 +50,6 @@ int	check_pwd(t_env *env)
 int	parse_herited_envp(t_env *env, char **envp)
 {
 	size_t		nbr_var;
-	t_env_var	*env_var_node;
 	int			i;
 
 	nbr_var = 0;

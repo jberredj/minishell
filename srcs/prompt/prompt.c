@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 10:28:00 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/21 15:31:31 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/21 17:37:59 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ void	prompt(t_env *env)
 		{
 			if (expand_var(tokens, env))
 				break ;
-			print_token(tokens);
 			commands = generate_commands_from_tokens(env, tokens);
 			ft_idllst_clear(&tokens->list, free_token);
 		}

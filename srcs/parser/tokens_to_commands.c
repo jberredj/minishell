@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 15:21:31 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/12 23:55:30 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/22 10:10:27 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@
 t_command	*init_new_command(t_env *env, t_command *commands)
 {
 	commands = new_command_add(commands);
-	commands->envp = copy_envp(env->envp, env->nbr_exported);
 	commands->fd_in = 0;
 	commands->fd_out = 1;
 	return (commands);
@@ -50,7 +49,6 @@ int	treat_separator(t_env *env, t_token **tokens, t_command **command,
 		return (create_pipe(env, command, *tokens, new_command));
 	return (UNKNOW_TOKEN);
 }
-
 
 t_command	*cancel_commands(t_command *commands)
 {

@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:34:24 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/06 14:47:43 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/22 11:14:37 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,30 @@
 #include "structs/t_env.h"
 #include "env.h"
 #include "parser.h"
+#include "error_codes.h"
 
-void	swap_std_with_fds(t_command *command)
+int	swap_std_with_fds(t_command *command)
 {
+	int	error;
+
+	error = 0;
 	if (command->fd_in != 0)
 	{
 		close(0);
-		dup2(command->fd_in, 0);
+		error = dup2(command->fd_in, 0);
 		close(command->fd_in);
+		if (error == -1)
+			return (CREATE_ERROR);
 	}
 	if (command->fd_out != 1)
 	{
 		close(1);
-		dup2(command->fd_out, 1);
+		error = dup2(command->fd_out, 1);
 		close(command->fd_out);
+		if (error == -1)
+			return (CREATE_ERROR);
 	}
+	return (SUCCESS);
 }
 
 void	closed_unused_fds(t_command *command)

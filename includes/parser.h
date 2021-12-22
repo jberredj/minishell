@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 16:00:59 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/02 19:09:59 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/21 15:58:27 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,5 @@ int			create_pipe(t_env *env, t_command **command, t_token *tokens,
 t_command	*init_new_command(t_env *env, t_command *commands);
 int			infile_redirect(t_command *command, t_token **tokens);
 int			outfile_redirect(t_command *command, t_token **tokens, int mode);
+void		free_xv(char **xv);
 #endif
