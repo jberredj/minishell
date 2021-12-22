@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 18:53:25 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/22 14:28:37 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/22 16:33:54 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 int	parse_pipe(t_env *env, t_command **command, t_token *tokens,
 	int *new_command)
 {
-	int		fds[2];
 	t_token	*next;
 
 	next = ft_idllst_next_content(&tokens->list);
@@ -30,7 +29,6 @@ int	parse_pipe(t_env *env, t_command **command, t_token *tokens,
 		return (SYNTAX_ERROR | PIPE_ERROR);
 	(*command)->piped = true;
 	(*command) = init_new_command(env, *command);
-	(*command)->fd_in = fds[0];
 	*new_command = 0;
 	return (SUCCESS);
 }

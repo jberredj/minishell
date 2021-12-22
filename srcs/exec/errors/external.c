@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   external_errors.c                                  :+:      :+:    :+:   */
+/*   external.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 16:40:34 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/22 10:59:50 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/22 17:37:56 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,12 @@ int	panic_child_out(int error, t_command *command)
 	ft_putstr_fd("minishell: ", 2);
 	if (error == FILE_ERROR)
 		perror(command->path_to_cmd);
-	if (error == CREATE_ERROR)
-	{
+	if (error & (CREATE_ERROR | ERR_MALLOC))
 		ft_putstr_fd(command->path_to_cmd, 2);
+	if (error == CREATE_ERROR)
 		ft_putstr_fd(": fatal error: sigaction() failed", 2);
-	}
+	if (error == ERR_MALLOC)
+		ft_putstr_fd(": fatal error: malloc() failed", 2);
 	free_command(&command->list);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 15:41:30 by ddiakova          #+#    #+#             */
-/*   Updated: 2021/12/12 20:21:08 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/22 15:59:55 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,13 @@ int	check_access(char *path)
 	{
 		fd = open(path, __O_DIRECTORY);
 		if (fd == -1)
-			return (FILE_ERROR | ISNOTDIR_ERROR);
+			return (FILE_ERROR | ISNOTDIR);
 		close (fd);
 		if (access(path, X_OK) != 0)
 			return (FILE_ERROR | X_ERROR);
 		return (SUCCESS);
 	}
-	return (FILE_ERROR | NOT_EXIST_ERROR);
+	return (FILE_ERROR | NOT_EXIST);
 }
 
 int	set_env_var(t_env *env, t_env_var *var, char *name, char *var_to_set)
@@ -72,7 +72,7 @@ int	update_env(t_env *env, char *cwd)
 
 	old_pwd = getcwd(NULL, 0);
 	if (chdir(cwd) != 0)
-		return (FILE_ERROR | ISNOTDIR_ERROR);
+		return (FILE_ERROR | ISNOTDIR);
 	else
 	{
 		pwd = getcwd(NULL, 0);

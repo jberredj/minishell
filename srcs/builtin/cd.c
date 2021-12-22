@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 17:02:10 by ddiakova          #+#    #+#             */
-/*   Updated: 2021/12/12 19:30:23 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/22 15:59:57 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	print_error(int error, char *path)
 		ft_putstr_fd("minishell: cd: ", 2);
 		if (error == HOME_ERROR)
 			ft_putendl_fd("HOME not set", 2);
-		if (error & (NOT_EXIST_ERROR | ISNOTDIR_ERROR | X_ERROR))
+		if (error & (NOT_EXIST | ISNOTDIR | X_ERROR))
 			perror(path);
 		return (1);
 	}

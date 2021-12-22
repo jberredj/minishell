@@ -6,7 +6,7 @@
 #    By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/12 17:39:23 by jberredj          #+#    #+#              #
-#    Updated: 2021/12/22 13:20:26 by jberredj         ###   ########.fr        #
+#    Updated: 2021/12/22 18:17:48 by jberredj         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,7 +54,8 @@ EXPANDER_SRCS	=	$(addprefix srcs/expander/, $(EXPANDER))
 EXPANDER_OBJS	=	$(addprefix objs/expander., $(subst /,., $(EXPANDER:.c=.o)))
 
 PARSER			=	check_command_path.c create.c free.c set_argv.c \
-					tokens_to_commands.c heredoc.c pipes.c redirect_files.c 
+					tokens_to_commands.c heredoc.c pipes.c redirect_files.c \
+					errors.c 
 PARSER_SRCS		=	$(addprefix srcs/parser/, $(PARSER))
 PARSER_OBJS		=	$(addprefix objs/parser., $(subst /,., $(PARSER:.c=.o)))
 
@@ -216,5 +217,5 @@ commit_all_files: ffclean
 norm:
 	printf "$(BLUE)Checking norm$(NC)\n"
 	norminette $(SRCS) $(addprefix $(INC_DIR)/, $(HEADERS)) \
-	libft ; if [ "$$?" -ne "0" ]; then printf "$(RED)NORM ERROR$(NC)\n"; \
+	; if [ "$$?" -ne "0" ]; then printf "$(RED)NORM ERROR$(NC)\n"; \
 	else printf "$(GREEN)NORM OK$(NC)\n";fi

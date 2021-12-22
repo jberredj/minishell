@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 19:06:10 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/22 13:17:02 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/22 15:59:04 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	infile_redirect(t_command *command)
 		}
 		return (R_ERROR | FILE_ERROR);
 	}
-	return (NOT_EXIST_ERROR | FILE_ERROR);
+	return (NOT_EXIST | FILE_ERROR);
 }
 
 int	outfile_redirect(t_command *command)

@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 10:28:00 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/21 17:37:59 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/22 18:23:32 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 #include "minishell.h"
 #include "exec.h"
 #include "prompt.h"
+#include "error_codes.h"
 /*
 ** REMOVE HEADER
 */
@@ -49,13 +50,12 @@ t_token	*get_tokens(char *str, t_env *env)
 		if (*str)
 		{
 			add_str_to_history(str);
-			if (tokenise_line(&tokens, str))
+			if (tokenise_line(&tokens, str) || expand_var(tokens, env))
 			{
 				env->running = false;
 				env->exit_code = 1;
 			}
 			free(str);
-			print_token(tokens);
 		}
 	}
 	else
@@ -64,6 +64,22 @@ t_token	*get_tokens(char *str, t_env *env)
 		env->running = false;
 	}
 	return (tokens);
+}
+
+t_command	*get_commands(t_env *env, t_token *tokens)
+{
+	int			error;
+	t_command	*commands;
+
+	commands = NULL;
+	error = generate_commands_from_tokens(env, tokens, &commands);
+	if (error & FATAL_ERROR)
+	{
+		env->running = false;
+		env->exit_code = 1;
+	}
+	ft_idllst_clear(&tokens->list, free_token);
+	return (commands);
 }
 
 void	prompt(t_env *env)
@@ -76,18 +92,12 @@ void	prompt(t_env *env)
 	env->running = true;
 	while (env->running)
 	{
-		commands = NULL;
 		prompt_str = get_prompt(env);
 		str = readline(prompt_str);
 		free(prompt_str);
 		tokens = get_tokens(str, env);
 		if (tokens)
-		{
-			if (expand_var(tokens, env))
-				break ;
-			commands = generate_commands_from_tokens(env, tokens);
-			ft_idllst_clear(&tokens->list, free_token);
-		}
+			commands = get_commands(env, tokens);
 		if (commands)
 		{
 			exec_cmds(commands, env);

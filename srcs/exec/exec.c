@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 11:56:44 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/22 15:16:39 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/22 18:07:46 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,11 @@ static int	process_commands(t_command *commands, t_env *env)
 			kill_launched_commands(commands);
 			return (CANCEL);
 		}
-		if (commands->builtin)
+		if (!error && commands->builtin)
 			error = exec_builtins(commands, env);
-		else
+		else if (!error)
 			error = exec_external(commands, env);
+		error = 0;
 		if (error)
 			return (panic_exec_out(error, commands, env));
 		commands = ft_idllst_next_content(&commands->list);

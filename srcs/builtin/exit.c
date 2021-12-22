@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 13:08:17 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/12 19:51:57 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/22 17:23:13 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,13 @@ static bool	check_num_valid(char *str)
 int	print_exit_error(int error, char *precision)
 {
 	ft_putstr_fd("minishell: exit: ", 2);
-	if (error == ERROR_INVALID_VAL)
+	if (error == INVALID_VAL)
 	{
 		ft_putstr_fd(precision, 2);
 		ft_putendl_fd(": numeric argument required", 2);
 		return (2);
 	}
-	if (error == ERROR_TOO_MANY)
+	if (error == TOO_MANY)
 	{
 		ft_putendl_fd("too many arguments", 2);
 		return (1);
@@ -60,10 +60,10 @@ static int	treat_exit(int ac, char **argv, t_env *env)
 	else if (!num_valid)
 	{
 		env->running = false;
-		exit_code = print_exit_error(ERROR_INVALID_VAL, argv[1]);
+		exit_code = print_exit_error(INVALID_VAL, argv[1]);
 	}
 	else
-		exit_code = print_exit_error(ERROR_TOO_MANY, NULL);
+		exit_code = print_exit_error(TOO_MANY, NULL);
 	return (exit_code);
 }
 

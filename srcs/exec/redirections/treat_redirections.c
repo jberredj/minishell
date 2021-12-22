@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 11:43:25 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/22 14:20:48 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/22 18:08:43 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,19 @@ t_redirect_func	select_func(int nbr, t_command *command)
 	return (outfile_redirect);
 }
 
-int	redirect_error(int error)
+int	redirect_error(int error, t_command *command, t_redirect_func way)
 {
-	if (error & CREATE_ERROR)
-		perror("minishell: redirection");
+	char	*file;
+
+	if (error & (FILE_ERROR | OPEN_ERROR))
+	{
+		ft_putstr_fd("minishell: ", 2);
+		if (way == infile_redirect)
+			file = command->in_file;
+		else
+			file = command->out_file;
+		perror(file);
+	}
 	return (SKIP);
 }
 
@@ -55,7 +64,7 @@ int	treat_redirection(t_command *command)
 		redirect_file = select_func(i, command);
 		error = redirect_file(command);
 		if (error)
-			return (redirect_error(error));
+			return (redirect_error(error, command, redirect_file));
 	}
 	return (SUCCESS);
 }

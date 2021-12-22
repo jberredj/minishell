@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 15:26:23 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/12 17:21:17 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/22 15:57:11 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,5 @@ int	check_builtin(t_command *commands, t_env_var *path,
 		commands->builtin = minish_exit;
 	else
 		error = get_cmd_path(&commands->path_to_cmd, path, cmd_tok);
-	if (error)
-		commands->path_to_cmd = ft_strdup(cmd_tok.content);
 	return (error);
 }

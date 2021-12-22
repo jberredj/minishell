@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 15:21:31 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/22 13:17:57 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/22 18:18:57 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 t_command	*init_new_command(t_env *env, t_command *commands)
 {
 	commands = new_command_add(commands);
+	if (!commands)
+		return (NULL);
 	commands->fd_in = 0;
 	commands->fd_out = 1;
 	return (commands);
@@ -50,56 +52,50 @@ int	treat_separator(t_env *env, t_token **tokens, t_command **command,
 	return (UNKNOW_TOKEN);
 }
 
-t_command	*cancel_commands(t_command *commands)
+int	create_commands(t_env *env, t_token *tokens, t_command **commands,
+	int *new_command)
 {
-	ft_idllst_clear(&commands->list, free_command);
-	return (NULL);
-}
+	int	error;
 
-int	print_error_pars(int error, t_token *tokens)
-{
-	if (error & HERE_DOC_ERROR)
+	error = SUCCESS;
+	if (tokens->type == SEPARATOR)
+			error = treat_separator(env, &tokens, &(*commands), new_command);
+	else
 	{
-		if (error & CREATE_ERROR)
-			perror("minishell: cannot create pipes for here-document");
-		if (error & UNFINISHED_LINE_ERROR)
+		if (*new_command != CMD)
 		{
-			ft_putstr_fd("- minishell: warning : here-document delimited\
- by end-of-file (wanted \"", 2);
-			ft_putstr_fd(tokens->content, 2);
-			ft_putendl_fd("\")", 2);
+			error = check_builtin(*commands, env->path, *tokens);
+			if (error)
+				error |= CHECK_BUILTIN;
+			*new_command = CMD;
 		}
+		if (!error)
+			error = add_to_command_argv(*commands, tokens->content);
 	}
-	return (0);
+	error = print_error_pars(error, tokens);
+	if (error)
+		if (error & CANCEL)
+			*commands = cancel_commands(*commands);
+	return (error);
 }
 
-t_command	*generate_commands_from_tokens(t_env *env, t_token *tokens)
+int	generate_commands_from_tokens(t_env *env, t_token *tokens,
+	t_command **commands)
 {
-	t_command	*commands;
 	int			new_command;
 	int			error;
 
-	commands = NULL;
-	commands = init_new_command(env, commands);
+	*commands = init_new_command(env, *commands);
+	if (!*commands)
+		return (ERR_MALLOC | FATAL_ERROR);
 	new_command = 0;
 	while (tokens)
 	{	
-		if (tokens->type == SEPARATOR)
-			error = treat_separator(env, &tokens, &commands, &new_command);
-		else
-		{
-			if (new_command != CMD)
-			{
-				error = check_builtin(commands, env->path, *tokens);
-				new_command = CMD;
-			}
-			add_to_command_argv(commands, tokens->content);
-		}
-		if (error & CANCEL)
-			return (cancel_commands(commands));
-		else if (error)
-			print_error_pars(error, tokens);
+		error = create_commands(env, tokens, commands, &new_command);
+		if (error)
+			return (error);
 		tokens = ft_idllst_next_content(&tokens->list);
 	}
-	return (ft_idllst_content(ft_idllst_get_head(&commands->list)));
+	*commands = ft_idllst_content(ft_idllst_get_head(&(*commands)->list));
+	return (SUCCESS);
 }

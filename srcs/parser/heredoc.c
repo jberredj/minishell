@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 09:37:43 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/12 23:04:24 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/22 18:19:31 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,18 @@ void	heredoc_ctrl_c(int sig, siginfo_t *info, void *ctx)
 	close(0);
 }
 
-void	setup_hd_signal(int *fd)
+int	setup_hd_signal(int *fd)
 {
 	struct sigaction	sigint_act;
 
 	*fd = dup(0);
+	if (*fd == -1)
+		return (FILE_ERROR);
 	ft_bzero(&sigint_act, sizeof(struct sigaction));
 	sigint_act.sa_sigaction = heredoc_ctrl_c;
-	sigaction(SIGINT, &sigint_act, NULL);
+	if (sigaction(SIGINT, &sigint_act, NULL) == -1)
+		return (CREATE_ERROR);
+	return (SUCCESS);
 }
 
 int	restore_signal(int fd)
@@ -75,13 +79,15 @@ int	restore_signal(int fd)
 
 	ft_bzero(&sigint_act, sizeof(struct sigaction));
 	sigint_act.sa_sigaction = ctrl_c;
-	sigaction(SIGINT, &sigint_act, NULL);
-	err = 0;
+	if (sigaction(SIGINT, &sigint_act, NULL) == -1)
+		return (CREATE_ERROR);
+	err = SUCCESS;
 	if (read(0, &c, 0) == -1)
 	{
 		write(1, "\n", 1);
 		err = CANCEL;
-		dup2(fd, 0);
+		if (dup2(fd, 0) == -1)
+			err = FILE_ERROR;
 	}
 	close(fd);
 	return (err);
@@ -92,19 +98,25 @@ int	heredoc(t_command *command, t_token **tokens)
 	int		stdin_fd;
 	int		fds[2];
 	int		delimiter_found;
+	int		error;
 
 	*tokens = ft_idllst_next_content(&(*tokens)->list);
 	if (pipe(fds))
-		return (HERE_DOC_ERROR | CREATE_ERROR | PIPE_ERROR);
-	setup_hd_signal(&stdin_fd);
+		return (HERE_DOC_ERROR | PIPE_ERROR);
+	error = setup_hd_signal(&stdin_fd);
+	if (error)
+		return (panic_hd_out(error, fds));
 	delimiter_found = heredoc_prompt(fds[1], (*tokens)->content);
 	close(fds[1]);
 	if (command->fd_in != 0)
 		close(command->fd_in);
 	command->fd_in = fds[0];
-	if (restore_signal(stdin_fd))
+	error = restore_signal(stdin_fd);
+	if (error == CANCEL)
 		return (HERE_DOC_ERROR | CANCEL);
+	else if (error)
+		return (error | HERE_DOC_ERROR);
 	if (delimiter_found != 0)
-		return (HERE_DOC_ERROR | UNFINISHED_LINE_ERROR);
+		return (HERE_DOC_ERROR | UNFINISHED_LINE);
 	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 18:03:59 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/22 10:59:43 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/22 17:38:30 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,10 @@ char	*try_exec_command(t_command *command)
 	fds[1] = command->fd_out;
 	free(command);
 	execve(path_to_cmd, argv, envp);
-	close(fds[0]);
-	close(fds[1]);
+	if (fds[0] != 0)
+		close(fds[0]);
+	if (fds[1] != 1)
+		close(fds[1]);
 	free_xv(argv);
 	free_xv(envp);
 	return (path_to_cmd);
@@ -71,6 +73,8 @@ static int	child_process(t_command *commands, t_env *env)
 	to_exec = ft_idllst_content(ft_idllst_pop(&commands->list, NULL));
 	had_env_path = (env->path && *env->path->value);
 	to_exec->envp = copy_envp(env->envp, env->nbr_exported);
+	if (!to_exec->envp)
+		return (panic_child_out(ERR_MALLOC, to_exec));
 	clean_all_exec(to_free, env);
 	if (swap_std_with_fds(to_exec))
 		return (panic_child_out(FILE_ERROR, to_exec));
