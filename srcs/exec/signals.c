@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 16:34:31 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/22 11:14:15 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/22 15:15:35 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,20 +24,13 @@
 #include "minish_signal.h"
 #include "error_codes.h"
 
-void	ctrl_c_exec(int sig, siginfo_t *info, void *ctx)
-{
-	(void)sig;
-	(void)info;
-	(void)ctx;
-	write(1, "\n", 1);
-}
-
 int	exec_signals(void)
 {
 	struct sigaction	sig;
 
 	ft_bzero(&sig, sizeof(struct sigaction));
-	sig.sa_sigaction = ctrl_c_exec;
+	sig.sa_sigaction = NULL;
+	sig.sa_handler = SIG_IGN;
 	if (sigaction(SIGINT, &sig, NULL) == -1)
 		return (CREATE_ERROR);
 	return (SUCCESS);

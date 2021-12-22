@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 11:56:44 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/22 11:06:16 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/22 15:16:39 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,10 @@ int	get_exit_code(t_command *command, int status)
 	if (WIFSIGNALED(status) == 1)
 	{
 		if (WTERMSIG(status) == SIGQUIT)
-			ft_putendl_fd("minishell: Quit (core dumped)", 2);
+			ft_putstr_fd("minishell: Quit (core dumped)", 2);
 		else if (WTERMSIG(status) == SIGSEGV)
-			ft_putendl_fd("Segmentation fault", 2);
+			ft_putstr_fd("Segmentation fault", 2);
+		write(2, "\n", 1);
 		command->exit_code = 128 + WTERMSIG(status);
 	}
 	else
@@ -61,6 +62,14 @@ static int	process_commands(t_command *commands, t_env *env)
 	while (commands)
 	{
 		error = 0;
+		error = treat_redirection(commands);
+		if (error)
+			closed_unused_fds(commands);
+		if (error == CANCEL)
+		{
+			kill_launched_commands(commands);
+			return (CANCEL);
+		}
 		if (commands->builtin)
 			error = exec_builtins(commands, env);
 		else

@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 14:54:31 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/12 23:16:24 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/22 12:13:40 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include <sys/types.h>
 # define PIPE_IN 1
 # define PIPE_OUT 2
+# define INFILE 1
+# define OUTFILE 2
 
 typedef struct s_command
 {
@@ -25,6 +27,11 @@ typedef struct s_command
 	int			argc;
 	char		**argv;
 	char		**envp;
+	char		*in_file;
+	char		*out_file;
+	int			out_mode;
+	int			last_found;
+	bool		piped;
 	int			fd_in;
 	int			fd_out;
 	pid_t		process;

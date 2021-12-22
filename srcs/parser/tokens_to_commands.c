@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 15:21:31 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/22 10:10:27 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/22 13:17:57 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,17 @@ int	treat_separator(t_env *env, t_token **tokens, t_command **command,
 	int *new_command)
 {
 	if (ft_strncmp((*tokens)->content, "<", ft_strlen((*tokens)->content)) == 0)
-		return (infile_redirect(*command, tokens));
+		return (parse_infile_redirect(*command, tokens));
 	if (ft_strncmp((*tokens)->content, "<<",
 			ft_strlen((*tokens)->content)) == 0)
 		return (heredoc(*command, tokens));
 	if (ft_strncmp((*tokens)->content, ">", ft_strlen((*tokens)->content)) == 0)
-		return (outfile_redirect(*command, tokens, O_TRUNC));
+		return (parse_outfile_redirect(*command, tokens, O_TRUNC));
 	if (ft_strncmp((*tokens)->content, ">>",
 			ft_strlen((*tokens)->content)) == 0)
-		return (outfile_redirect(*command, tokens, O_APPEND));
+		return (parse_outfile_redirect(*command, tokens, O_APPEND));
 	if (ft_strncmp((*tokens)->content, "|", ft_strlen((*tokens)->content)) == 0)
-		return (create_pipe(env, command, *tokens, new_command));
+		return (parse_pipe(env, command, *tokens, new_command));
 	return (UNKNOW_TOKEN);
 }
 

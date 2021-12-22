@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 18:53:25 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/22 14:28:37 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/22 14:29:11 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,20 @@
 #include "parser.h"
 #include "error_codes.h"
 
-int	parse_pipe(t_env *env, t_command **command, t_token *tokens,
-	int *new_command)
+int	create_pipe(t_command *command)
 {
-	int		fds[2];
-	t_token	*next;
+	int			fds[2];
+	t_command	*next_command;
 
-	next = ft_idllst_next_content(&tokens->list);
-	if (ft_idllst_is_head(&tokens->list) || ft_idllst_is_tail(&tokens->list))
-		return (SYNTAX_ERROR | PIPE_ERROR);
-	(*command)->piped = true;
-	(*command) = init_new_command(env, *command);
-	(*command)->fd_in = fds[0];
-	*new_command = 0;
+	if (!command->piped)
+		return (SUCCESS);
+	if (pipe(fds))
+		return (CREATE_ERROR | PIPE_ERROR);
+	next_command = ft_idllst_next_content(&command->list);
+	if (command->fd_out == 1)
+		command->fd_out = fds[1];
+	else
+		close(fds[1]);
+	next_command->fd_in = fds[0];
 	return (SUCCESS);
 }

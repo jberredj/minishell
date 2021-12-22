@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 19:06:10 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/22 13:17:14 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/22 13:17:02 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,33 +17,40 @@
 #include "error_codes.h"
 #include "../libft/includes/ft_idllst.h"
 
-int	parse_infile_redirect(t_command *command, t_token **tokens)
+int	infile_redirect(t_command *command)
 {
-	int	fd;
+	int		fd;
 
-	*tokens = ft_idllst_next_content(&(*tokens)->list);
-	if (!*tokens)
-		return (SYNTAX_ERROR);
-	if ((*tokens)->type == SEPARATOR)
-		return (SYNTAX_ERROR);
-	command->in_file = ft_strdup((*tokens)->content);
 	if (!command->in_file)
-		return (ERR_MALLOC);
-	return (SUCCESS);
+		return (SUCCESS);
+	if (access(command->in_file, F_OK) == 0)
+	{
+		if (access(command->in_file, R_OK) == 0)
+		{
+			fd = open(command->in_file, O_RDONLY);
+			if (fd == -1)
+				return (OPEN_ERROR | R_ERROR);
+			if (command->fd_in != 0)
+				close(command->fd_in);
+			command->fd_in = fd;
+			return (SUCCESS);
+		}
+		return (R_ERROR | FILE_ERROR);
+	}
+	return (NOT_EXIST_ERROR | FILE_ERROR);
 }
 
-int	parse_outfile_redirect(t_command *command, t_token **tokens, int mode)
+int	outfile_redirect(t_command *command)
 {
 	int	fd;
 
-	*tokens = ft_idllst_next_content(&(*tokens)->list);
-	if (!*tokens)
-		return (SYNTAX_ERROR);
-	if ((*tokens)->type == SEPARATOR)
-		return (SYNTAX_ERROR);
-	command->out_file = ft_strdup((*tokens)->content);
 	if (!command->out_file)
-		return (ERR_MALLOC);
-	command->out_mode = mode;
+		return (SUCCESS);
+	fd = open(command->out_file, O_CREAT | O_WRONLY | command->out_mode, 0644);
+	if (fd == -1)
+		return (CREATE_ERROR | FILE_ERROR);
+	if (command->fd_out != 1)
+		close(command->fd_out);
+	command->fd_out = fd;
 	return (SUCCESS);
 }

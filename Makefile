@@ -6,7 +6,7 @@
 #    By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/12 17:39:23 by jberredj          #+#    #+#              #
-#    Updated: 2021/12/22 11:13:29 by jberredj         ###   ########.fr        #
+#    Updated: 2021/12/22 13:20:26 by jberredj         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,9 @@ ENV_SRCS		=	$(addprefix srcs/env/, $(ENV))
 ENV_OBJS		=	$(addprefix objs/env., $(subst /,., $(ENV:.c=.o)))
 
 EXEC			=	builtin.c exec.c external.c utils.c signals.c \
-					errors/builtin.c errors/external.c errors/exec.c
+					errors/builtin.c errors/external.c errors/exec.c \
+					redirections/redirect_files.c redirections/pipes.c \
+					redirections/treat_redirections.c
 EXEC_SRCS		=	$(addprefix srcs/exec/, $(EXEC))
 EXEC_OBJS		=	$(addprefix objs/exec., $(subst /,., $(EXEC:.c=.o)))
 
