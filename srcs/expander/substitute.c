@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 15:26:49 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/21 17:38:16 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/22 18:32:06 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,45 @@ char	*expanded_to_str(t_token *expanded)
 	return (expanded_str);
 }
 
+int	check_special_case(t_token *last, t_env *env)
+{
+	if (ft_strncmp(last->content, "?", 2) == 0)
+	{
+		if (exit_code_var(env, last))
+			return (ERR_MALLOC);
+	}
+	else if (!*last->content)
+	{
+		if (dollar_alone(last))
+			return (ERR_MALLOC);
+	}
+	else
+		return (SUCCESS);
+	return (2);
+}
+
+int	check_normal_case(t_token *last, t_env *env)
+{
+	t_env_var	*existing;
+
+	existing = find_env_var_in_lst(env->env_vars,
+			last->content);
+	free(last->content);
+	if (existing)
+		last->content = ft_strdup(existing->value);
+	else
+		last->content = ft_strdup("");
+	if (!last->content)
+		return (ERR_MALLOC);
+	return (SUCCESS);
+}
+
 int	substitute_var(t_env *env, char *dollar_pos, t_token **expanded_value)
 {
 	int			i;
 	t_env_var	*existing;
 	t_token		*last;
+	int			error;
 
 	while (dollar_pos)
 	{
@@ -59,28 +93,12 @@ int	substitute_var(t_env *env, char *dollar_pos, t_token **expanded_value)
 			return (ERR_MALLOC);
 		last = ft_idllst_content(
 				ft_idllst_get_tail(&(*expanded_value)->list));
-		if (ft_strncmp(last->content, "?", 2) == 0)
-		{
-			if (exit_code_var(env, last))
+		error = check_special_case(last, env);
+		if (error == ERR_MALLOC)
+			return (ERR_MALLOC);
+		else if (!error)
+			if (check_normal_case(last, env))
 				return (ERR_MALLOC);
-		}
-		else if (!*last->content)
-		{
-			if (dollar_alone(last))
-				return (ERR_MALLOC);
-		}
-		else
-		{
-			existing = find_env_var_in_lst(env->env_vars,
-					last->content);
-			free(last->content);
-			if (existing)
-				last->content = ft_strdup(existing->value);
-			else
-				last->content = ft_strdup("");
-			if (!last->content)
-				return (ERR_MALLOC);
-		}
 		if (search_content(dollar_pos, &(*expanded_value), &i, get_words_len))
 			return (ERR_MALLOC);
 		dollar_pos = ft_strchr(dollar_pos, '$');
