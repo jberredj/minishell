@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 15:26:49 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/25 12:33:29 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 20:18:59 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 #include "env.h"
 #include "tokeniser.h"
 #include <stdio.h>
-#include "_debug.h"
 #include "error_codes.h"
 
 char	*expanded_to_str(t_token *expanded)

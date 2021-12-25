@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 19:05:55 by ddiakova          #+#    #+#             */
-/*   Updated: 2021/12/21 15:08:55 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 20:18:47 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 #include "env.h"
 #include "tokeniser.h"
 #include <stdio.h>
-#include "_debug.h"
 #include "error_codes.h"
 
 int	exit_code_var(t_env *env, t_token *expanded_value)

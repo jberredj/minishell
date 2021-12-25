@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 15:51:49 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/17 11:03:48 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 20:22:08 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int			add_new_envp(char ***envp, t_env_var *node, size_t *nbr_exported);
 /*
 ** Update environment variable object
 */
+void		update_envp_id(t_env_var *env_vars, int id);
 int			update_env_var_value(t_env_var *env_var_node, char *value);
 int			update_env_var_name(t_env_var *env_var_node, char *name);
 int			update_envp_var_value(t_env_var *env_var_node, char **envp,

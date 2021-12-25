@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 12:38:02 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/17 10:02:48 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 20:21:49 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,14 @@ int	update_env_var_name(t_env_var *env_var_node, char *name)
 		free(env_var_node->name);
 	env_var_node->name = tmp;
 	return (0);
+}
+
+void	update_envp_id(t_env_var *env_vars, int id)
+{
+	while (env_vars)
+	{
+		env_vars->id = id;
+		env_vars = ft_idllst_next_content(&env_vars->list);
+		id++;
+	}
 }

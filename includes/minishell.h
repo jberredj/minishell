@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 16:19:05 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/03 14:11:30 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 20:16:47 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,4 +22,5 @@
 # include "structs/t_token.h"
 # include "expander.h"
 
+int	init_sh(t_env *env, char **envp);
 #endif

@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 10:28:00 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/25 13:00:16 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 20:19:25 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,6 @@
 #include "exec.h"
 #include "prompt.h"
 #include "error_codes.h"
-/*
-** REMOVE HEADER
-*/
-#include "_debug.h"
 
 void	add_str_to_history(char *str)
 {
@@ -82,7 +78,14 @@ t_command	*get_commands(t_env *env, t_token *tokens)
 	return (commands);
 }
 
-void	prompt(t_env *env)
+int	prompt_str_error(t_env *env)
+{
+	env->exit_code = 1;
+	ft_putendl_fd("minishell: prompt_str: malloc() failed", 2);
+	return (ERR_MALLOC);
+}
+
+int	prompt(t_env *env)
 {
 	char		*prompt_str;
 	char		*str;
@@ -94,6 +97,8 @@ void	prompt(t_env *env)
 	{
 		commands = NULL;
 		prompt_str = get_prompt(env);
+		if (!prompt_str)
+			return (prompt_str_error(env));
 		str = readline(prompt_str);
 		free(prompt_str);
 		tokens = get_tokens(str, env);
@@ -106,4 +111,5 @@ void	prompt(t_env *env)
 		}
 	}
 	rl_clear_history();
+	return (SUCCESS);
 }

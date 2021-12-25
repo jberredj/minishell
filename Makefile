@@ -6,7 +6,7 @@
 #    By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/12 17:39:23 by jberredj          #+#    #+#              #
-#    Updated: 2021/12/25 19:52:14 by jberredj         ###   ########.fr        #
+#    Updated: 2021/12/25 20:17:44 by jberredj         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,7 +67,7 @@ TOKENISER_SRCS	=	$(addprefix srcs/tokeniser/, $(TOKENISER))
 TOKENISER_OBJS	=	$(addprefix objs/tokeniser.,\
 						$(subst /,., $(TOKENISER:.c=.o)))
 
-MAIN			=	main.c _debug.c
+MAIN			=	main.c init_sh.c
 MAIN_SRCS		=	$(addprefix srcs/, $(MAIN))
 MAIN_OBJS		=	$(addprefix objs/, $(subst /,., $(MAIN:.c=.o)))
 

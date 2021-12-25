@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 15:39:07 by ddiakova          #+#    #+#             */
-/*   Updated: 2021/12/21 17:44:03 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 20:18:17 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 #include "env.h"
 #include "tokeniser.h"
 #include <stdio.h>
-#include "_debug.h"
 #include "error_codes.h"
 
 int	panic_expand_var(t_token *tokens, t_token *expanded_value)

@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 12:06:26 by ddiakova          #+#    #+#             */
-/*   Updated: 2021/12/21 14:46:57 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 20:18:41 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 #include "expander.h"
 #include "env.h"
 #include "tokeniser.h"
-#include "_debug.h"
 
 int	get_words_len(char *line, bool min_val)
 {
