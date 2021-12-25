@@ -6,16 +6,15 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 15:03:12 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/25 14:21:13 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 21:11:06 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <unistd.h>
+#include "../libft/includes/libft.h"
 #include "structs/t_env.h"
 #include "structs/t_token.h"
-#include "../libft/includes/libft.h"
-#include "env.h"
 #include "error_codes.h"
 
 static char	*make_try_path(char *base_path, char *cmd)

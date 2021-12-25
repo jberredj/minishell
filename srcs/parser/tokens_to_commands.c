@@ -6,21 +6,17 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 15:21:31 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/25 12:50:10 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 21:17:52 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdbool.h>
 #include <stdlib.h>
 #include <fcntl.h>
-#include <readline/readline.h>
-#include <readline/history.h>
+#include "../libft/includes/libft.h"
 #include "structs/t_command.h"
 #include "structs/t_token.h"
 #include "structs/t_env.h"
-#include "../libft/includes/libft.h"
 #include "builtin.h"
-#include "env.h"
 #include "parser.h"
 #include "error_codes.h"
 

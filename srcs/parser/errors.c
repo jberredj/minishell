@@ -6,17 +6,16 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 17:53:16 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/22 18:20:27 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 21:11:49 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "error_codes.h"
+#include <stdio.h>
+#include "../libft/includes/libft.h"
 #include "structs/t_token.h"
 #include "structs/t_command.h"
-#include "../libft/includes/libft.h"
+#include "error_codes.h"
 #include "parser.h"
-#include "unistd.h"
-#include <stdio.h>
 
 int	panic_hd_out(int error, int fds[2])
 {

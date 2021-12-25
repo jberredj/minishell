@@ -6,14 +6,14 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 15:09:17 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/22 13:19:13 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 21:13:43 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <unistd.h>
-#include "structs/t_command.h"
 #include "../libft/includes/ft_idllst.h"
+#include "structs/t_command.h"
 
 void	free_xv(char **xv)
 {
