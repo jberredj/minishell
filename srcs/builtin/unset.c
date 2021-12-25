@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddiakova <ddiakova@42.student.fr>          +#+  +:+       +#+        */
+/*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 15:23:30 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/12 17:45:26 by ddiakova         ###   ########.fr       */
+/*   Updated: 2021/12/25 17:43:33 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,9 @@ int	unset(char **argv, t_env *env)
 		argc++;
 	while (i < argc)
 	{
-		pop_env_var_from_env(env, argv[i]);
+		env->error_in_builtin = pop_env_var_from_env(env, argv[i]);
+		if (env->error_in_builtin)
+			return (env->error_in_builtin);
 		i++;
 	}
 	return (0);

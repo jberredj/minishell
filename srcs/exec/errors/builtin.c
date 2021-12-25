@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 10:54:08 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/22 18:44:04 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 17:51:19 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,7 @@ int	panic_builtin_out(int error, t_command *command)
 		ft_putendl_fd("sigaction() failed", 2);
 	if (error == (CREATE_ERROR | 2))
 		ft_putendl_fd("fork() failed", 2);
+	if (error == ERR_MALLOC)
+		ft_putendl_fd("malloc() failed", 2);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 09:48:59 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/22 10:57:41 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 17:51:48 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,18 @@ void	exit_forked_builtin(t_command *commands, t_env *env)
 	exit(exit_code);
 }
 
+int	exec_builtin_wrapper(t_command *commands, t_env *env)
+{
+	commands->exit_code = commands->builtin(commands->argv, env);
+	if (env->error_in_builtin)
+	{
+		env->running = false;
+		panic_builtin_out(env->error_in_builtin, commands);
+		return (env->error_in_builtin);
+	}
+	return (SUCCESS);
+}
+
 int	exec_builtins(t_command *commands, t_env *env)
 {
 	int	error;
@@ -66,7 +78,7 @@ int	exec_builtins(t_command *commands, t_env *env)
 	if (commands->process == 0 || commands->process == -2)
 	{
 		if (!swap_std_with_fds(commands))
-			commands->exit_code = commands->builtin(commands->argv, env);
+			error = exec_builtin_wrapper(commands, env);
 		else
 			error = panic_builtin_out(CREATE_ERROR | 1, commands);
 		if (commands->process == -2)

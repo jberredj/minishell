@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_env.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddiakova <ddiakova@42.student.fr>          +#+  +:+       +#+        */
+/*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 12:51:28 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/06 12:22:36 by ddiakova         ###   ########.fr       */
+/*   Updated: 2021/12/25 17:42:13 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct s_env
 	t_env_var	*home;
 	char		**envp;
 	bool		running;
+	int			error_in_builtin;
 	uint8_t		exit_code;
 	int			stdin_copy;
 	int			stdout_copy;
