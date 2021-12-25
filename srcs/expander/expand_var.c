@@ -6,20 +6,16 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 15:39:07 by ddiakova          #+#    #+#             */
-/*   Updated: 2021/12/25 20:18:17 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 21:05:19 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include <unistd.h>
+#include "../libft/includes/libft.h"
 #include "structs/t_env.h"
 #include "structs/t_token.h"
-#include "../libft/includes/libft.h"
-#include "expander.h"
-#include "env.h"
-#include "tokeniser.h"
-#include <stdio.h>
 #include "error_codes.h"
+#include "tokeniser.h"
 
 int	panic_expand_var(t_token *tokens, t_token *expanded_value)
 {

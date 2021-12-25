@@ -6,18 +6,13 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 19:05:55 by ddiakova          #+#    #+#             */
-/*   Updated: 2021/12/25 20:18:47 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 21:07:37 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include "../libft/includes/libft.h"
 #include "structs/t_env.h"
 #include "structs/t_token.h"
-#include "../libft/includes/libft.h"
-#include "expander.h"
-#include "env.h"
-#include "tokeniser.h"
-#include <stdio.h>
 #include "error_codes.h"
 
 int	exit_code_var(t_env *env, t_token *expanded_value)
