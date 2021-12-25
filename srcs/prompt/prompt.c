@@ -6,26 +6,20 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 10:28:00 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/25 20:19:25 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 21:21:35 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include <stdbool.h>
-#include <unistd.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include <sys/types.h>
-#include <sys/wait.h>
 #include "../libft/includes/libft.h"
 #include "structs/t_command.h"
 #include "structs/t_env.h"
 #include "structs/t_token.h"
-#include "env.h"
 #include "tokeniser.h"
 #include "parser.h"
 #include "expander.h"
-#include "minishell.h"
 #include "exec.h"
 #include "prompt.h"
 #include "error_codes.h"
