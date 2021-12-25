@@ -6,7 +6,7 @@
 #    By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/12 17:39:23 by jberredj          #+#    #+#              #
-#    Updated: 2021/12/25 20:17:44 by jberredj         ###   ########.fr        #
+#    Updated: 2021/12/25 22:14:52 by jberredj         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -126,7 +126,7 @@ define COMPILE
 	$(foreach source,$?, \
 	printf "$(YELLOW)[..]   $(NC) $(LIGHT_PURPLE)$(subst srcs/,,$(source))\
 $(NC)\n"; \
-	$(CC) -I $(INC_DIR) $(CFLAGS) $(CODE_VERSION) -c $(source) -o \
+	$(CC) -I $(INC_DIR) $(CFLAGS) -c $(source) -o \
 $(addprefix $(OBJ_DIR), $(subst /,.,$(subst srcs/,,$(source:.c=.o)))) ; \
 	if [ $$? -ne "0" ];\
 	then \
