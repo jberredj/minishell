@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dariadiakova <dariadiakova@student.42.f    +#+  +:+       +#+        */
+/*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 15:06:35 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/02 21:38:07 by dariadiakov      ###   ########.fr       */
+/*   Updated: 2021/12/25 21:23:14 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "structs/t_token.h"
 #include "../libft/includes/ft_idllst.h"
+#include "structs/t_token.h"
 
 void	free_token(void *content)
 {

@@ -6,14 +6,13 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/13 18:21:55 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/21 18:11:17 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 21:24:16 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "structs/t_token.h"
-#include "../libft/includes/libft.h"
 #include <stdbool.h>
+#include "../libft/includes/libft.h"
+#include "structs/t_token.h"
 #include "tokeniser.h"
 #include "error_codes.h"
 
