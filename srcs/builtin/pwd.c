@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddiakova <ddiakova@42.student.fr>          +#+  +:+       +#+        */
+/*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 16:35:58 by ddiakova          #+#    #+#             */
-/*   Updated: 2021/12/06 17:36:46 by ddiakova         ###   ########.fr       */
+/*   Updated: 2021/12/25 17:59:52 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <fcntl.h>
 #include "env.h"
 #include "builtin.h"
+#include <stdio.h>
 
 int	pwd(char **argv, t_env *env)
 {
@@ -25,7 +26,11 @@ int	pwd(char **argv, t_env *env)
 	(void)env;
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
+	{
+		perror("pwd: getcwd() failed:");
 		return (PWD_ERROR);
+	}
 	ft_putendl_fd(pwd, 1);
+	free(pwd);
 	return (SUCCESS);
 }
