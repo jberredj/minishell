@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 19:06:10 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/25 20:54:29 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 21:38:33 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	outfile_redirect(t_command *command)
 		return (SUCCESS);
 	fd = open(command->out_file, O_CREAT | O_WRONLY | command->out_mode, 0644);
 	if (fd == -1)
-		return (CREATE_ERROR | FILE_ERROR);
+		return (W_ERROR | CREATE_ERROR | FILE_ERROR);
 	if (command->fd_out != 1)
 		close(command->fd_out);
 	command->fd_out = fd;

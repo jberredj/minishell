@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 14:54:31 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/22 12:13:40 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 21:27:42 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 # include "structs/t_env.h"
 # include "../libft/includes/ft_idllst.h"
 # include <sys/types.h>
-# define PIPE_IN 1
-# define PIPE_OUT 2
 # define INFILE 1
 # define OUTFILE 2
 

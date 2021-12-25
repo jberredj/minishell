@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 18:03:59 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/25 21:01:18 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 21:43:29 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static t_command	*get_to_free(t_command *commands)
 	return (next);
 }
 
-char	*try_exec_command(t_command *command)
+static char	*try_exec_command(t_command *command)
 {
 	char	*path_to_cmd;
 	char	**argv;
@@ -88,7 +88,7 @@ int	exec_external(t_command *commands, t_env *env)
 	if (commands->process == 0)
 		exit(child_process(commands, env));
 	else
-		closed_unused_fds(commands);
+		close_unused_fds(commands);
 	if (commands->process == -1)
 	{
 		ft_putstr_fd("minishell: exec: ", 2);

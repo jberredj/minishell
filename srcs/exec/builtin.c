@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 09:48:59 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/25 20:57:10 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 21:41:37 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	exec_builtins(t_command *commands, t_env *env)
 			exit_forked_builtin(commands, env);
 	}
 	else
-		closed_unused_fds(commands);
+		close_unused_fds(commands);
 	if (commands->process == -1)
 		error = panic_builtin_out(CREATE_ERROR | 2, commands);
 	return (error);

@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 11:56:44 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/25 20:58:52 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 21:41:36 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static int	process_commands(t_command *commands, t_env *env)
 		error = 0;
 		error = treat_redirection(commands);
 		if (error)
-			closed_unused_fds(commands);
+			close_unused_fds(commands);
 		if (error == CANCEL)
 		{
 			kill_launched_commands(commands);

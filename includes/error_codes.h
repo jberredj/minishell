@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 15:55:31 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/22 17:07:41 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 21:39:56 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # define CREATE_ERROR 8
 # define UNKNOW_TOKEN 16
 # define FILE_ERROR 32
-# define RIGHT_ERROR 64
 # define R_ERROR 128
 # define W_ERROR 254
 # define X_ERROR 512

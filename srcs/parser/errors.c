@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 17:53:16 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/25 21:11:49 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 22:10:08 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static int	here_docs_errors(int error, t_token *tokens)
 	return (SUCCESS);
 }
 
-int	print_error_pars(int error, t_token *tokens)
+int	print_error_parser(int error, t_token *tokens)
 {
 	if (error & HERE_DOC_ERROR)
 		return (here_docs_errors(error, tokens));

@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:34:24 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/25 21:03:14 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 21:41:35 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	swap_std_with_fds(t_command *command)
 	return (SUCCESS);
 }
 
-void	closed_unused_fds(t_command *command)
+void	close_unused_fds(t_command *command)
 {
 	if (command->fd_in != 0)
 	{

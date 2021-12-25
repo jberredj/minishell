@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 10:54:08 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/25 20:50:02 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 21:44:06 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "error_codes.h"
 #include "builtin.h"
 
-char	*builtin_pointer_to_name(int (*builtin)(char**, t_env *))
+static char	*builtin_pointer_to_name(int (*builtin)(char**, t_env *))
 {
 	if (builtin == echo)
 		return ("echo: ");

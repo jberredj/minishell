@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 16:00:59 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/25 12:49:33 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 22:10:07 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int			parse_infile_redirect(t_command *command, t_token **tokens);
 int			parse_outfile_redirect(t_command *command, t_token **tokens,
 				int mode);
 void		free_xv(char **xv);
-int			print_error_pars(int error, t_token *tokens);
+int			print_error_parser(int error, t_token *tokens);
 t_command	*cancel_commands(t_command *commands);
 int			panic_hd_out(int error, int fds[2]);
 #endif

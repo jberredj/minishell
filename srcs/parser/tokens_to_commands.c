@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 15:21:31 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/25 21:17:52 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 22:10:10 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	create_commands(t_env *env, t_token *tokens, t_command **commands,
 		if (!error)
 			error = add_to_command_argv(*commands, tokens->content);
 	}
-	error = print_error_pars(error, tokens);
+	error = print_error_parser(error, tokens);
 	if (error)
 		if (error & CANCEL)
 			*commands = cancel_commands(*commands);

@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 16:40:34 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/25 20:53:10 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 21:43:00 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "error_codes.h"
 #include "parser.h"
 
-int	check_file(char *path)
+static int	check_file(char *path)
 {
 	int	fd;
 

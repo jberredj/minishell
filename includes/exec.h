@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 10:59:15 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/22 14:27:04 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 21:45:01 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int		exec_external(t_command *commands, t_env *env);
 ** Executers Utils
 */
 void	clean_all_exec(t_command *commands, t_env *env);
-void	closed_unused_fds(t_command *command);
+void	close_unused_fds(t_command *command);
 int		swap_std_with_fds(t_command *command);
 /*
 ** Main executer error
@@ -32,14 +32,11 @@ int		panic_exec_out(int error, t_command *commands, t_env *env);
 /*
 ** External commands errors
 */
-int		check_file(char *path);
 int		print_exec_error(char *path, bool had_env_path);
-char	*try_exec_command(t_command *command);
 int		panic_child_out(int error, t_command *command);
 /*
 ** Builtin commands errors
 */
-char	*builtin_pointer_to_name(int (*builtin)(char**, t_env *));
 int		panic_builtin_out(int error, t_command *command);
 /*
 ** File redirection
