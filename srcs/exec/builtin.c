@@ -6,21 +6,16 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 09:48:59 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/25 17:51:48 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 20:57:10 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <fcntl.h>
 #include "../libft/includes/libft.h"
-#include "parser.h"
-#include "env.h"
 #include "structs/t_command.h"
-#include "exec.h"
 #include "error_codes.h"
-#include "minishell_error.h"
-#include "builtin.h"
-#include <stdio.h>
+#include "exec.h"
 
 static int	restore_std_fds(t_command *command, t_env *env)
 {

@@ -6,16 +6,16 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 19:06:10 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/22 15:59:04 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 20:54:29 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <fcntl.h>
+#include "../libft/includes/ft_idllst.h"
 #include "structs/t_command.h"
 #include "structs/t_token.h"
 #include "error_codes.h"
-#include "../libft/includes/ft_idllst.h"
 
 int	infile_redirect(t_command *command)
 {

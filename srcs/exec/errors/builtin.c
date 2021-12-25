@@ -6,21 +6,15 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 10:54:08 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/25 17:51:19 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 20:50:02 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <fcntl.h>
-#include "../libft/includes/libft.h"
-#include "parser.h"
-#include "env.h"
+#include "../libft/includes/ft_io.h"
 #include "structs/t_command.h"
-#include "exec.h"
+#include "structs/t_env.h"
 #include "error_codes.h"
-#include "minishell_error.h"
 #include "builtin.h"
-#include <stdio.h>
 
 char	*builtin_pointer_to_name(int (*builtin)(char**, t_env *))
 {

@@ -6,20 +6,16 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 11:56:44 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/22 18:07:46 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 20:58:52 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <stdbool.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <signal.h>
 #include "structs/t_command.h"
 #include "../libft/includes/libft.h"
+#include <unistd.h>
+#include <sys/wait.h>
+#include <signal.h>
 #include "exec.h"
-#include "parser.h"
 #include "env.h"
 #include "minish_signal.h"
 #include "error_codes.h"

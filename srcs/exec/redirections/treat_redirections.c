@@ -6,15 +6,15 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 11:43:25 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/25 12:34:55 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 20:55:08 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "structs/t_command.h"
-#include "exec.h"
-#include "error_codes.h"
-#include "../libft/includes/libft.h"
 #include <stdio.h>
+#include "../libft/includes/libft.h"
+#include "structs/t_command.h"
+#include "error_codes.h"
+#include "exec.h"
 
 typedef int	(*t_redirect_func)(t_command *);
 

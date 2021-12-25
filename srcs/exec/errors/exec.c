@@ -6,23 +6,13 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 11:04:34 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/22 14:26:43 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 20:51:37 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <stdbool.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
 #include <signal.h>
+#include "../libft/includes/ft_idllst.h"
 #include "structs/t_command.h"
-#include "../libft/includes/libft.h"
-#include "exec.h"
-#include "parser.h"
-#include "env.h"
-#include "minish_signal.h"
-#include "error_codes.h"
 
 void	kill_launched_commands(t_command *commands)
 {
