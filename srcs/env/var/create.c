@@ -6,14 +6,14 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 12:38:50 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/17 11:03:25 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 20:42:32 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "structs/t_env.h"
-#include "env.h"
 #include "../libft/includes/libft.h"
 #include "error_codes.h"
+#include "structs/t_env.h"
+#include "env.h"
 
 t_env_var	*create_env_var(char *name, char *value)
 {

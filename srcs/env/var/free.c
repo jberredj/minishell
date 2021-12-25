@@ -6,14 +6,14 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 12:47:43 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/25 20:25:09 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 20:42:49 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "structs/t_env.h"
-#include "env.h"
 #include "../libft/includes/ft_idllst.h"
 #include "error_codes.h"
+#include "structs/t_env.h"
+#include "env.h"
 
 void	free_env_var(void *elem)
 {

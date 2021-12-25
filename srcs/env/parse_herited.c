@@ -6,14 +6,13 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 12:41:15 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/21 16:16:22 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 20:47:33 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
 #include <unistd.h>
-#include <stdio.h>
 #include "error_codes.h"
+#include "env.h"
 
 int	check_path(t_env *env)
 {

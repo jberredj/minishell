@@ -6,12 +6,12 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 15:10:53 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/17 10:38:26 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 20:44:20 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
 #include "../libft/includes/libft.h"
+#include "env.h"
 
 int	add_new_envp(char ***envp, t_env_var *node, size_t *nbr_exported)
 {
