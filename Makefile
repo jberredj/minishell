@@ -6,7 +6,7 @@
 #    By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/12 17:39:23 by jberredj          #+#    #+#              #
-#    Updated: 2021/12/25 22:14:52 by jberredj         ###   ########.fr        #
+#    Updated: 2021/12/26 00:21:35 by jberredj         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -74,7 +74,7 @@ MAIN_OBJS		=	$(addprefix objs/, $(subst /,., $(MAIN:.c=.o)))
 
 STRUCTS			=	t_command.h t_env.h t_token.h
 HEADERS			=	$(addprefix structs/, $(STRUCTS))\
-					builtin.h env.h error_codes.h minishell.h parser.h\
+					builtin.h env.h error_codes.h exec.h minish_signal.h minishell.h parser.h\
 					prompt.h tokeniser.h expander.h
 
 SRCS			=	$(EXPANDER_SRCS) $(BUILTIN_SRCS) $(ENV_SRCS) $(EXEC_SRCS) $(PARSER_SRCS) $(PROMPT_SRCS)\
