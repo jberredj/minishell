@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_export.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddiakova <ddiakova@42.student.fr>          +#+  +:+       +#+        */
+/*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 17:21:17 by ddiakova          #+#    #+#             */
-/*   Updated: 2021/12/19 11:28:23 by ddiakova         ###   ########.fr       */
+/*   Updated: 2021/12/25 18:12:22 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,30 @@
 #include <fcntl.h>
 #include "env.h"
 #include "builtin.h"
+#include "parser.h"
 
-char	**sort_copy(char **arr)
+int	ft_strcmp(char *s1, char *s2)
+{
+	int	i;
+
+	i = 0;
+	while (s1[i] && s2[i])
+	{
+		if (s1[i] == s2[i])
+			i++;
+		if (s1[i] > s2[i] || s1[i] < s2[i])
+			return (s1[i] - s2[i]);
+	}
+	return (0);
+}
+
+char	**sort_copy(char **arr, int array_size)
 {
 	int		i;
 	int		j;
 	char	*tmp;
 
-	i = tab_size(arr) - 1;
+	i = array_size - 1;
 	tmp = NULL;
 	while (i > 0)
 	{
@@ -63,7 +79,7 @@ void	print_export(char **copy)
 				ft_putchar_fd('"', 1);
 				index++;
 			}
-			j++;	
+			j++;
 		}
 		if (index == 1)
 			ft_putchar_fd('"', 1);
@@ -74,24 +90,16 @@ void	print_export(char **copy)
 
 int	copy_envp_and_print(t_env *env)
 {
-	int		size;
-	int		i;
 	char	**copy;
 
-	size = tab_size(env->envp);
-	copy = ft_calloc(sizeof(char *), size + 1);
+	copy = copy_envp(env->envp, env->nbr_exported);
 	if (!copy)
-		return (1);
-	i = 0;
-	while (env->envp[i])
 	{
-		copy[i] = ft_strdup(env->envp[i]);
-		if (!copy[i])
-			return (1);
-		i++;
+		env->error_in_builtin = ERR_MALLOC;
+		return (ERR_MALLOC);
 	}
-	sort_copy(copy);
+	sort_copy(copy, env->nbr_exported);
 	print_export(copy);
-	free_tab(copy);
-	return (0);
+	free_xv(copy);
+	return (SUCCESS);
 }
