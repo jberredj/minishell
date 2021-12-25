@@ -6,14 +6,12 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 17:21:17 by ddiakova          #+#    #+#             */
-/*   Updated: 2021/12/25 18:12:22 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 20:36:47 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../libft/includes/libft.h"
-#include "minishell.h"
 #include "error_codes.h"
-#include <fcntl.h>
 #include "env.h"
 #include "builtin.h"
 #include "parser.h"

@@ -6,14 +6,14 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 13:08:17 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/22 17:23:13 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 20:35:13 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "structs/t_env.h"
-#include "../libft/includes/libft.h"
 #include <stdbool.h>
 #include <stdint.h>
+#include "../libft/includes/libft.h"
+#include "structs/t_env.h"
 #include "error_codes.h"
 
 static bool	check_num_valid(char *str)

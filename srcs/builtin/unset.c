@@ -6,16 +6,11 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 15:23:30 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/25 17:43:33 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 20:40:17 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../libft/includes/ft_io.h"
-#include "minishell.h"
-#include "error_codes.h"
-#include <fcntl.h>
 #include "env.h"
-#include "builtin.h"
 
 int	unset(char **argv, t_env *env)
 {

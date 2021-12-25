@@ -6,17 +6,14 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 15:41:30 by ddiakova          #+#    #+#             */
-/*   Updated: 2021/12/25 19:53:37 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 20:31:25 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdbool.h>
-#include "../../libft/includes/ft_io.h"
-#include "minishell.h"
-#include "error_codes.h"
 #include <fcntl.h>
-#include <stdio.h>
+#include <unistd.h>
+#include "../../libft/includes/ft_io.h"
+#include "error_codes.h"
 #include "env.h"
 #include "builtin.h"
 
@@ -44,7 +41,7 @@ int	check_access(char *path)
 		fd = open(path, __O_DIRECTORY);
 		if (fd == -1)
 			return (FILE_ERROR | ISNOTDIR);
-		close (fd);
+		close(fd);
 		if (access(path, X_OK) != 0)
 			return (FILE_ERROR | X_ERROR);
 		return (SUCCESS);

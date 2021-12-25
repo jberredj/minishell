@@ -6,17 +6,11 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/25 19:51:04 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/25 20:20:17 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 20:29:52 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdbool.h>
-#include "../../libft/includes/ft_io.h"
-#include "minishell.h"
 #include "error_codes.h"
-#include <fcntl.h>
-#include <stdio.h>
 #include "env.h"
 #include "builtin.h"
 

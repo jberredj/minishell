@@ -6,20 +6,20 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 17:02:31 by ddiakova          #+#    #+#             */
-/*   Updated: 2021/12/02 17:39:01 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 20:33:50 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
 #include <stdbool.h>
+#include <unistd.h>
 #include "structs/t_env.h"
-#include "../../libft/includes/ft_string.h"
+#include "../../libft/includes/libft.h"
 
 static void	echo_print(int i, int argc, char **argv)
 {
 	while (argv[++i])
 	{
-		write(1, argv[i], ft_strlen(argv[i]));
+		ft_putstr_fd(argv[i], 1);
 		if (i != argc - 1)
 			write(1, " ", 1);
 	}

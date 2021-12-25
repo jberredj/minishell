@@ -6,18 +6,15 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 17:02:10 by ddiakova          #+#    #+#             */
-/*   Updated: 2021/12/22 15:59:57 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 20:38:39 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
-#include <stdbool.h>
-#include "../../libft/includes/ft_io.h"
-#include "minishell.h"
-#include "error_codes.h"
-#include <fcntl.h>
 #include <stdio.h>
-#include "env.h"
+#include "../../libft/includes/ft_io.h"
+#include "structs/t_env.h"
+#include "error_codes.h"
 #include "builtin.h"
 
 int	print_error(int error, char *path)

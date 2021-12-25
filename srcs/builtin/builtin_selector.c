@@ -6,16 +6,16 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 15:26:23 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/22 18:41:41 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 20:31:40 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "structs/t_command.h"
 #include "structs/t_env.h"
 #include "structs/t_token.h"
+#include "error_codes.h"
 #include "builtin.h"
 #include "parser.h"
-#include "error_codes.h"
 
 int	check_builtin(t_command *commands, t_env_var *path,
 				t_token cmd_tok)

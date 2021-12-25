@@ -3,19 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddiakova <ddiakova@42.student.fr>          +#+  +:+       +#+        */
+/*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 17:42:14 by ddiakova          #+#    #+#             */
-/*   Updated: 2021/12/06 18:06:27 by ddiakova         ###   ########.fr       */
+/*   Updated: 2021/12/25 20:39:10 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../libft/includes/ft_io.h"
-#include "minishell.h"
+#include "structs/t_env.h"
 #include "error_codes.h"
-#include <fcntl.h>
-#include "env.h"
-#include "builtin.h"
 
 int	env(char **argv, t_env *env)
 {
