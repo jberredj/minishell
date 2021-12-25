@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 19:06:10 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/22 17:59:08 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 12:50:37 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@
 
 int	parse_infile_redirect(t_command *command, t_token **tokens)
 {
-	int	fd;
-
 	if (ft_idllst_is_tail(&(*tokens)->list))
 		return (SYNTAX_ERROR);
 	*tokens = ft_idllst_next_content(&(*tokens)->list);
@@ -35,8 +33,6 @@ int	parse_infile_redirect(t_command *command, t_token **tokens)
 
 int	parse_outfile_redirect(t_command *command, t_token **tokens, int mode)
 {
-	int	fd;
-
 	*tokens = ft_idllst_next_content(&(*tokens)->list);
 	if (!*tokens)
 		return (SYNTAX_ERROR);

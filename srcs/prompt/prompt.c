@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 10:28:00 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/22 18:23:32 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 13:00:16 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ void	prompt(t_env *env)
 	env->running = true;
 	while (env->running)
 	{
+		commands = NULL;
 		prompt_str = get_prompt(env);
 		str = readline(prompt_str);
 		free(prompt_str);

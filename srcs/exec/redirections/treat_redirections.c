@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 11:43:25 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/22 18:08:43 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 12:34:55 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	pipe_error(int error)
 t_redirect_func	select_func(int nbr, t_command *command)
 {
 	if ((nbr == 1 && command->last_found == OUTFILE)
-		|| nbr == 2 && command->last_found == INFILE)
+		|| (nbr == 2 && command->last_found == INFILE))
 		return (infile_redirect);
 	return (outfile_redirect);
 }

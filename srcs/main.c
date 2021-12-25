@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 16:01:23 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/06 15:59:48 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 15:27:38 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,8 @@ int	main(int argc, char **argv, char **envp)
 	print_motd();
 	prompt(&env);
 	free(env.envp);
-	ft_idllst_clear(&env.env_vars->list, free_env_var);
+	if (env.env_vars)
+		ft_idllst_clear(&env.env_vars->list, free_env_var);
 	close(env.stdin_copy);
 	close(env.stdout_copy);
 	return (env.exit_code);

@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 15:26:49 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/22 18:32:06 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 12:33:29 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ int	check_normal_case(t_token *last, t_env *env)
 int	substitute_var(t_env *env, char *dollar_pos, t_token **expanded_value)
 {
 	int			i;
-	t_env_var	*existing;
 	t_token		*last;
 	int			error;
 

@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 15:21:31 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/22 18:18:57 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 12:50:10 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 #include "parser.h"
 #include "error_codes.h"
 
-t_command	*init_new_command(t_env *env, t_command *commands)
+t_command	*init_new_command(t_command *commands)
 {
 	commands = new_command_add(commands);
 	if (!commands)
@@ -34,7 +34,7 @@ t_command	*init_new_command(t_env *env, t_command *commands)
 	return (commands);
 }
 
-int	treat_separator(t_env *env, t_token **tokens, t_command **command,
+int	treat_separator(t_token **tokens, t_command **command,
 	int *new_command)
 {
 	if (ft_strncmp((*tokens)->content, "<", ft_strlen((*tokens)->content)) == 0)
@@ -48,7 +48,7 @@ int	treat_separator(t_env *env, t_token **tokens, t_command **command,
 			ft_strlen((*tokens)->content)) == 0)
 		return (parse_outfile_redirect(*command, tokens, O_APPEND));
 	if (ft_strncmp((*tokens)->content, "|", ft_strlen((*tokens)->content)) == 0)
-		return (parse_pipe(env, command, *tokens, new_command));
+		return (parse_pipe(command, *tokens, new_command));
 	return (UNKNOW_TOKEN);
 }
 
@@ -59,7 +59,7 @@ int	create_commands(t_env *env, t_token *tokens, t_command **commands,
 
 	error = SUCCESS;
 	if (tokens->type == SEPARATOR)
-			error = treat_separator(env, &tokens, &(*commands), new_command);
+			error = treat_separator(&tokens, &(*commands), new_command);
 	else
 	{
 		if (*new_command != CMD)
@@ -85,7 +85,7 @@ int	generate_commands_from_tokens(t_env *env, t_token *tokens,
 	int			new_command;
 	int			error;
 
-	*commands = init_new_command(env, *commands);
+	*commands = init_new_command(*commands);
 	if (!*commands)
 		return (ERR_MALLOC | FATAL_ERROR);
 	new_command = 0;

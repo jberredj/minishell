@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 15:03:12 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/22 17:50:50 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 14:21:13 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,9 @@ int	get_cmd_path(char **to_update, t_env_var *path, t_token cmd_tok)
 
 	command_path = NULL;
 	is_a_path = !ft_strncmp(cmd_tok.content, "/", 1);
-	if (!is_a_path)
+	if (!is_a_path && path)
 		error = try_get_from_path(&command_path, path, cmd_tok.content);
-	if (is_a_path || error == NOT_EXIST)
+	if (!path || is_a_path || error == NOT_EXIST)
 	{
 		command_path = ft_strdup(cmd_tok.content);
 		if (!command_path)

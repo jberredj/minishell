@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 09:37:43 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/22 18:19:31 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 12:37:23 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include <signal.h>
 #include "minish_signal.h"
 #include <stdio.h>
+#include "parser.h"
 
 int	heredoc_prompt(int fd, char *delimiter)
 {

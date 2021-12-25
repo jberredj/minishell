@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 16:00:59 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/22 18:20:09 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 12:49:33 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ int			generate_commands_from_tokens(t_env *env, t_token *tokens,
 				t_command **commands);
 void		free_command(void *content);
 int			heredoc(t_command *command, t_token **tokens);
-int			parse_pipe(t_env *env, t_command **command, t_token *tokens,
+int			parse_pipe(t_command **command, t_token *tokens,
 				int *new_command);
-t_command	*init_new_command(t_env *env, t_command *commands);
+t_command	*init_new_command(t_command *commands);
 int			parse_infile_redirect(t_command *command, t_token **tokens);
 int			parse_outfile_redirect(t_command *command, t_token **tokens,
 				int mode);

@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 15:11:50 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/17 10:06:45 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 14:13:14 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	**copy_envp(char **envp, int nbr)
 	if (!copy)
 		return (NULL);
 	i = -1;
-	while (envp[++i])
+	while (envp && envp[++i])
 	{
 		copy[i] = ft_strdup(envp[i]);
 		if (!copy[i])

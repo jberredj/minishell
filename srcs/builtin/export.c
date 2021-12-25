@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddiakova <ddiakova@42.student.fr>          +#+  +:+       +#+        */
+/*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 15:23:22 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/19 11:29:59 by ddiakova         ###   ########.fr       */
+/*   Updated: 2021/12/25 12:34:14 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	check_arg_var(char *arg)
 	int	error;
 
 	i = 0;
+	error = 0;
 	if (!arg || !ft_isalpha(arg[0]) || arg[0] != '_')
 		return (1);
 	while (arg[i] && arg[i] != '=')

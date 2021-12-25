@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:34:24 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/22 11:14:37 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 14:14:50 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ void	clean_all_exec(t_command *commands, t_env *env)
 	close(env->stdout_copy);
 	if (commands)
 		ft_idllst_clear(&commands->list, free_command);
-	ft_idllst_clear(&env->env_vars->list, free_env_var);
+	if (env->env_vars)
+		ft_idllst_clear(&env->env_vars->list, free_env_var);
 	free(env->envp);
 	rl_clear_history();
 }
