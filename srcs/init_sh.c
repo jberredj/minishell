@@ -6,19 +6,17 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/25 20:09:49 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/25 20:17:19 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 21:25:44 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
+#include <readline/history.h>
+#include <readline/readline.h>
 #include "../libft/includes/libft.h"
 #include "env.h"
-#include "minishell.h"
-#include "prompt.h"
-#include <readline/readline.h>
-#include <readline/history.h>
 #include "error_codes.h"
 
 void	ctrl_c(int sig, siginfo_t *info, void *ctx)

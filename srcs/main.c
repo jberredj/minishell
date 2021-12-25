@@ -6,19 +6,19 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 16:01:23 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/25 20:25:53 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/25 21:26:10 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 #include "../libft/includes/libft.h"
 #include "env.h"
 #include "minishell.h"
 #include "prompt.h"
-#include <readline/readline.h>
-#include <readline/history.h>
 #include "error_codes.h"
 
 void	print_motd(void)
