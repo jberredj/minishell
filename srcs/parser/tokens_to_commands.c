@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 15:21:31 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/25 22:10:10 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/28 22:46:24 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,27 +48,27 @@ int	treat_separator(t_token **tokens, t_command **command,
 	return (UNKNOW_TOKEN);
 }
 
-int	create_commands(t_env *env, t_token *tokens, t_command **commands,
+int	create_commands(t_env *env, t_token **tokens, t_command **commands,
 	int *new_command)
 {
 	int	error;
 
 	error = SUCCESS;
-	if (tokens->type == SEPARATOR)
-			error = treat_separator(&tokens, &(*commands), new_command);
+	if ((*tokens)->type == SEPARATOR)
+			error = treat_separator(tokens, &(*commands), new_command);
 	else
 	{
 		if (*new_command != CMD)
 		{
-			error = check_builtin(*commands, env->path, *tokens);
+			error = check_builtin(*commands, env->path, *(*tokens));
 			if (error)
 				error |= CHECK_BUILTIN;
 			*new_command = CMD;
 		}
 		if (!error)
-			error = add_to_command_argv(*commands, tokens->content);
+			error = add_to_command_argv(*commands, (*tokens)->content);
 	}
-	error = print_error_parser(error, tokens);
+	error = print_error_parser(error, *tokens);
 	if (error)
 		if (error & CANCEL)
 			*commands = cancel_commands(*commands);
@@ -87,7 +87,7 @@ int	generate_commands_from_tokens(t_env *env, t_token *tokens,
 	new_command = 0;
 	while (tokens)
 	{	
-		error = create_commands(env, tokens, commands, &new_command);
+		error = create_commands(env, &tokens, commands, &new_command);
 		if (error)
 			return (error);
 		tokens = ft_idllst_next_content(&tokens->list);
