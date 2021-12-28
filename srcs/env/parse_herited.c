@@ -6,11 +6,12 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 12:41:15 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/25 20:47:33 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/29 00:26:06 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
+#include "../libft/includes/ft_to.h"
 #include "error_codes.h"
 #include "env.h"
 
@@ -46,6 +47,29 @@ int	check_pwd(t_env *env)
 	return (error);
 }
 
+int	check_shlvl(t_env *env)
+{
+	t_env_var	*shlvl;
+	int			value;
+	char		*new_val;
+	int			error;
+
+	error = 0;
+	shlvl = find_env_var_in_lst(env->env_vars, "SHLVL");
+	if (!shlvl)
+		error = create_exported_var(env, "SHLVL", "1");
+	else
+	{
+		value = ft_atoi(shlvl->value);
+		value++;
+		new_val = ft_itoa(value);
+		if (!new_val)
+			return (ERR_MALLOC);
+		error = update_envp_var_value(shlvl, env->envp, new_val);
+	}
+	return (error);
+}
+
 int	parse_herited_envp(t_env *env, char **envp)
 {
 	size_t		nbr_var;
@@ -68,6 +92,8 @@ int	parse_herited_envp(t_env *env, char **envp)
 	if (check_path(env))
 		return (ERR_MALLOC);
 	else if (check_pwd(env))
+		return (ERR_MALLOC);
+	else if (check_shlvl(env))
 		return (ERR_MALLOC);
 	return (0);
 }
