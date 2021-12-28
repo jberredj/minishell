@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 10:28:00 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/25 21:21:35 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/28 23:51:30 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,54 +24,6 @@
 #include "prompt.h"
 #include "error_codes.h"
 
-void	add_str_to_history(char *str)
-{
-	if (*str != ' ')
-		add_history(str);
-}
-
-t_token	*get_tokens(char *str, t_env *env)
-{
-	t_token	*tokens;
-
-	tokens = NULL;
-	if (str)
-	{
-		if (*str)
-		{
-			add_str_to_history(str);
-			if (tokenise_line(&tokens, str) || expand_var(tokens, env))
-			{
-				env->running = false;
-				env->exit_code = 1;
-			}
-			free(str);
-		}
-	}
-	else
-	{
-		write(1, "exit\n", 5);
-		env->running = false;
-	}
-	return (tokens);
-}
-
-t_command	*get_commands(t_env *env, t_token *tokens)
-{
-	int			error;
-	t_command	*commands;
-
-	commands = NULL;
-	error = generate_commands_from_tokens(env, tokens, &commands);
-	if (error & FATAL_ERROR)
-	{
-		env->running = false;
-		env->exit_code = 1;
-	}
-	ft_idllst_clear(&tokens->list, free_token);
-	return (commands);
-}
-
 int	prompt_str_error(t_env *env)
 {
 	env->exit_code = 1;
@@ -79,9 +31,42 @@ int	prompt_str_error(t_env *env)
 	return (ERR_MALLOC);
 }
 
-int	prompt(t_env *env)
+int	ctrl_c_prompt(char **str, t_env *env)
+{
+	if (dup2(env->stdin_copy, 0))
+	{
+		env->exit_code = 1;
+		ft_putendl_fd("minishell: prompt: fatal error: dup2() failed", 2);
+		return (CREATE_ERROR);
+	}
+	*str = ft_strdup("");
+	if (!*str)
+	{
+		env->exit_code = 1;
+		ft_putendl_fd("minishell: prompt: fatal error: malloc() failed", 2);
+		return (ERR_MALLOC);
+	}
+	return (SUCCESS);
+}
+
+int	get_user_str(char **str, t_env *env)
 {
 	char		*prompt_str;
+
+	prompt_str = get_prompt(env);
+	if (!prompt_str)
+		return (prompt_str_error(env));
+	*str = readline(prompt_str);
+	if (read(0, NULL, 0) == -1)
+		if (ctrl_c_prompt(str, env))
+			return (SUCCESS);
+	free(prompt_str);
+	return (SUCCESS);
+}
+
+int	prompt(t_env *env)
+{
+	int			error;
 	char		*str;
 	t_command	*commands;
 	t_token		*tokens;
@@ -90,11 +75,10 @@ int	prompt(t_env *env)
 	while (env->running)
 	{
 		commands = NULL;
-		prompt_str = get_prompt(env);
-		if (!prompt_str)
-			return (prompt_str_error(env));
-		str = readline(prompt_str);
-		free(prompt_str);
+		str = NULL;
+		error = get_user_str(&str, env);
+		if (error)
+			return (error);
 		tokens = get_tokens(str, env);
 		if (tokens)
 			commands = get_commands(env, tokens);

@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/25 20:09:49 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/25 21:25:44 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/28 23:03:57 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,7 @@ void	ctrl_c(int sig, siginfo_t *info, void *ctx)
 	(void)info;
 	(void)ctx;
 	write(1, "\n", 1);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
+	close(0);
 }
 
 int	setup_signal(void)
