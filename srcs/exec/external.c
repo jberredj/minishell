@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 18:03:59 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/25 21:43:29 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/29 00:30:38 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ static int	child_process(t_command *commands, t_env *env)
 	to_free = get_to_free(commands);
 	to_exec = ft_idllst_content(ft_idllst_pop(&commands->list, NULL));
 	had_env_path = (env->path && *env->path->value);
+	if (create_exported_var(env, "_", commands->path_to_cmd))
+		return (panic_child_out(ERR_MALLOC, to_exec));
 	to_exec->envp = copy_envp(env->envp, env->nbr_exported);
 	if (!to_exec->envp)
 		return (panic_child_out(ERR_MALLOC, to_exec));
