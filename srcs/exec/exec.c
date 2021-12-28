@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 11:56:44 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/25 21:41:36 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/29 00:15:44 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,11 @@ int	get_exit_code(t_command *command, int status)
 	if (WIFSIGNALED(status) == 1)
 	{
 		if (WTERMSIG(status) == SIGQUIT)
-			ft_putstr_fd("minishell: Quit (core dumped)", 2);
+			ft_putendl_fd("minishell: Quit (core dumped)", 2);
 		else if (WTERMSIG(status) == SIGSEGV)
-			ft_putstr_fd("Segmentation fault", 2);
-		write(2, "\n", 1);
+			ft_putendl_fd("Segmentation fault", 2);
+		else if (WTERMSIG(status) == SIGINT)
+			write(2, "\n", 1);
 		command->exit_code = 128 + WTERMSIG(status);
 	}
 	else

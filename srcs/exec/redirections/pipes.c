@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 18:53:25 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/25 20:54:02 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/29 00:00:57 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,9 @@ int	create_pipe(t_command *command)
 		command->fd_out = fds[1];
 	else
 		close(fds[1]);
-	next_command->fd_in = fds[0];
+	if (next_command->fd_in == 0)
+		next_command->fd_in = fds[0];
+	else
+		close(fds[0]);
 	return (SUCCESS);
 }
