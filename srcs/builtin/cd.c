@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 17:02:10 by ddiakova          #+#    #+#             */
-/*   Updated: 2021/12/25 20:38:39 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/29 00:32:42 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ int	cd(char **argv, t_env *env)
 		home = env->home;
 		if (!home)
 			return (print_error(HOME_ERROR, NULL));
-		chdir(home->value);
 		return (print_error(update_env(env, home->value), home->value));
 	}
 	error = check_access(argv[1]);
