@@ -6,7 +6,7 @@
 #    By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/12 17:39:23 by jberredj          #+#    #+#              #
-#    Updated: 2021/12/29 19:12:38 by jberredj         ###   ########.fr        #
+#    Updated: 2021/12/30 00:42:12 by jberredj         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,7 +63,7 @@ PROMPT_SRCS		=	$(addprefix srcs/prompt/, $(PROMPT))
 PROMPT_OBJS		=	$(addprefix objs/prompt., $(subst /,., $(PROMPT:.c=.o)))
 
 TOKENISER		= 	copy_content.c free.c quote.c separator.c tokenise_line.c word.c\
-					combine_tokens.c
+					combine_tokens.c combine_utils.c
 TOKENISER_SRCS	=	$(addprefix srcs/tokeniser/, $(TOKENISER))
 TOKENISER_OBJS	=	$(addprefix objs/tokeniser.,\
 						$(subst /,., $(TOKENISER:.c=.o)))
