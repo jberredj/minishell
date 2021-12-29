@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 12:46:20 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/25 21:22:54 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/29 23:18:29 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,5 @@ int	search_content(char *line, t_token **tokens, int *i,
 	}
 	new->content = content;
 	new->type = WORD;
-	return (SUCCESS);
+	return (SUCCESS | FOUND);
 }

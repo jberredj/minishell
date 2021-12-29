@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/13 18:21:55 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/29 22:21:35 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/29 23:20:21 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int	panic_exit_tokeniser(t_token *tokens)
 int	tokenise_line(t_token **tokens, char *line)
 {
 	int		i;
+	int		error;
 	bool	first;
 
 	i = 0;
@@ -54,10 +55,12 @@ int	tokenise_line(t_token **tokens, char *line)
 	{
 		while (ft_isspace(line[i]))
 			i++;
-		if (search_content(line, tokens, &i, get_word_len))
+		error = search_content(line, tokens, &i, get_word_len);
+		if (error == ERR_MALLOC)
 			return (panic_exit_tokeniser(*tokens));
-		if (search_content(line, tokens, &i, get_sep_len))
-			return (panic_exit_tokeniser(*tokens));
+		else if (error != FOUND)
+			if (search_content(line, tokens, &i, get_sep_len) == ERR_MALLOC)
+				return (panic_exit_tokeniser(*tokens));
 		if (!check_separator(tokens))
 			if (check_for_quotes(tokens, &line[i], first))
 				return (panic_exit_tokeniser(*tokens));

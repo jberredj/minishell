@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 15:39:07 by ddiakova          #+#    #+#             */
-/*   Updated: 2021/12/25 22:07:36 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/29 23:17:23 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	expand_all_tokens(t_token **tokens, int *i, t_env *env)
 		dollar_pos = ft_strchr((*tokens)->content, '$');
 	if (dollar_pos && dollar_pos != (*tokens)->content)
 		if (search_content((*tokens)->content, &expanded_value,
-				i, get_words_len))
+				i, get_words_len) == ERR_MALLOC)
 			return (panic_expand_var((*tokens), expanded_value));
 	if (substitute_var(env, dollar_pos, &expanded_value))
 		return (panic_expand_var((*tokens), expanded_value));

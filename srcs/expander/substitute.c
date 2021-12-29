@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 15:26:49 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/29 19:43:45 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/29 23:17:44 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,8 @@ int	substitute_var(t_env *env, char *dollar_pos, t_token **expanded_value)
 	{
 		dollar_pos++;
 		i = 0;
-		if (search_content(dollar_pos, &(*expanded_value), &i, get_var_len))
+		if (search_content(dollar_pos, &(*expanded_value), &i, get_var_len)
+			== ERR_MALLOC)
 			return (ERR_MALLOC);
 		last = ft_idllst_content(
 				ft_idllst_get_tail(&(*expanded_value)->list));
@@ -96,7 +97,8 @@ int	substitute_var(t_env *env, char *dollar_pos, t_token **expanded_value)
 		else if (!error)
 			if (check_normal_case(last, env))
 				return (ERR_MALLOC);
-		if (search_content(dollar_pos, &(*expanded_value), &i, get_words_len))
+		if (search_content(dollar_pos, &(*expanded_value), &i, get_words_len)
+			== ERR_MALLOC)
 			return (ERR_MALLOC);
 		dollar_pos = ft_strchr(dollar_pos, '$');
 	}

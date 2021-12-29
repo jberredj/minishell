@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 18:35:44 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/29 22:19:34 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/29 23:33:21 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	remove_tokens_from_list(t_token **tokens)
 	bool	is_first;
 
 	is_first = ft_idllst_is_head(&(*tokens)->list);
-	if (!is_first)
+	if (!is_first && (*tokens)->type != SEPARATOR)
 		*tokens = ft_idllst_prev_content(&(*tokens)->list);
 	ft_idllst_clear_after(&(*tokens)->list, free_token, false);
 	if (is_first)
@@ -88,7 +88,7 @@ int	create_combined_token(t_token **tokens, t_token **new_list)
 	if (!str)
 		return (ERR_MALLOC);
 	*tokens = ft_idllst_prev_content(&(*tokens)->list);
-	while (*tokens)
+	while (*tokens && (*tokens)->type != SEPARATOR)
 	{
 		dollar_case(*tokens);
 		tmp = ft_strjoin((*tokens)->content, str);
@@ -120,7 +120,7 @@ int	combine_tokens(t_token **tokens)
 	*tokens = ft_idllst_content(ft_idllst_get_tail(&(*tokens)->list));
 	while (*tokens)
 	{
-		if (ft_idllst_is_head(&(*tokens)->list) || (*tokens)->had_a_space_before)
+		if (ft_idllst_is_head(&(*tokens)->list) || (*tokens)->type == SEPARATOR || (*tokens)->had_a_space_before)
 			add_current_token_to_new(tokens, &new_list);
 		else
 		{
