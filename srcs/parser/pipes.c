@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 18:53:25 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/25 21:15:19 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/29 22:28:23 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ int	check_if_valid_command_after(t_token *tokens)
 	type = 0;
 	while (tokens)
 	{
-		if (tokens->type == WORD)
+		if (tokens->type != SEPARATOR)
 			return (SUCCESS);
-		if (tokens->type == SEPARATOR)
+		else
 		{
 			if (check_valid_next_separator(tokens->content))
 				return (SYNTAX_ERROR);

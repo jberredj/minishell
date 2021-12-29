@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 11:25:12 by ddiakova          #+#    #+#             */
-/*   Updated: 2021/12/25 21:23:52 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/29 22:45:16 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ bool	check_separator(t_token **tokens)
 	last_token = ft_idllst_content(ft_idllst_get_tail(&(*tokens)->list));
 	line = last_token->content;
 	sep = false;
+	if (!is_separator(*line))
+		return (false);
 	while (*line)
 		if (is_separator(*line++))
 			sep = true;

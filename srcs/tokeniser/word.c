@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 11:20:45 by ddiakova          #+#    #+#             */
-/*   Updated: 2021/12/29 17:23:57 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/29 22:38:49 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static int	find_len(char *line)
 	quotes_nbr = 0;
 	quote = '\0';
 	while (line[++len] && (!ft_isspace(line[len]) || quotes_nbr)
-		&& !is_separator(line[len]) && quotes_nbr < 2)
+		&& (!is_separator(line[len]) || quotes_nbr) && quotes_nbr < 2)
 	{
 		if (is_quote(line[len]))
 		{
