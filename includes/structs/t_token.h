@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/13 16:31:40 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/25 21:28:42 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/29 17:43:52 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 typedef struct s_token
 {
 	int			type;
+	bool		had_a_space_before;
 	char		*content;
 	t_idllist	list;
 }				t_token;

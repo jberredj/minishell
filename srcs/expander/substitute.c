@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 15:26:49 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/25 22:07:56 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/29 19:43:45 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ int	replace_token_content(t_token **to_free, t_token *tokens,
 	t_token *expanded_value)
 {
 	char	*tmp;
+	t_token	*debug;
 
 	*to_free = NULL;
 	tmp = expanded_to_str(expanded_value);
@@ -114,6 +115,12 @@ int	replace_token_content(t_token **to_free, t_token *tokens,
 		return (ERR_MALLOC);
 	free(tokens->content);
 	tokens->content = tmp;
+	if (!*tokens->content && !ft_idllst_is_tail(&tokens->list))
+	{
+		debug = ((t_token *)(tokens->list.next->struct_addr));
+		((t_token *)(tokens->list.next->struct_addr))->had_a_space_before
+			= true;
+	}
 	if (tokens->type != D_QUOTE && !*tokens->content)
 			*to_free = ft_idllst_content(ft_idllst_pop(&tokens->list, NULL));
 	ft_idllst_clear(&expanded_value->list, free_token);

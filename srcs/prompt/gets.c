@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 23:10:10 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/28 23:10:48 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/29 20:04:06 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ t_token	*get_tokens(char *str, t_env *env)
 		if (*str)
 		{
 			add_str_to_history(str);
-			if (tokenise_line(&tokens, str) || expand_var(tokens, env))
+			if (tokenise_line(&tokens, str) || expand_var(tokens, env)
+				|| combine_tokens(&tokens))
 			{
 				env->running = false;
 				env->exit_code = 1;

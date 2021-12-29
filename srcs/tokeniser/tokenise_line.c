@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/13 18:21:55 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/25 21:24:16 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/29 22:21:35 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ t_token	*new_token_add(t_token **tokens)
 		*tokens = new;
 	else
 		ft_idllst_add_back(&new->list, &(*tokens)->list);
+	new->had_a_space_before = true;
 	return (new);
 }
 
@@ -43,8 +44,10 @@ int	panic_exit_tokeniser(t_token *tokens)
 int	tokenise_line(t_token **tokens, char *line)
 {
 	int		i;
+	bool	first;
 
 	i = 0;
+	first = true;
 	while (ft_isspace(line[i]))
 		i++;
 	while (line[i])
@@ -56,8 +59,9 @@ int	tokenise_line(t_token **tokens, char *line)
 		if (search_content(line, tokens, &i, get_sep_len))
 			return (panic_exit_tokeniser(*tokens));
 		if (!check_separator(tokens))
-			if (check_for_quotes(tokens))
+			if (check_for_quotes(tokens, &line[i], first))
 				return (panic_exit_tokeniser(*tokens));
+		first = false;
 	}
 	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 12:41:15 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/29 00:26:06 by jberredj         ###   ########.fr       */
+/*   Updated: 2021/12/29 21:36:51 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ int	check_shlvl(t_env *env)
 		if (!new_val)
 			return (ERR_MALLOC);
 		error = update_envp_var_value(shlvl, env->envp, new_val);
+		free(new_val);
 	}
 	return (error);
 }
