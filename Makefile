@@ -6,7 +6,7 @@
 #    By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/12 17:39:23 by jberredj          #+#    #+#              #
-#    Updated: 2022/01/02 13:26:25 by jberredj         ###   ########.fr        #
+#    Updated: 2022/01/02 15:11:41 by jberredj         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,8 +16,6 @@ CC				=	clang
 OPTI			=	-O2
 CFLAGS			=	-Wall -Werror -Wextra $(OPTI)
 LDFLAGS			=	-Llibft -lreadline
-
-CODE_VERSION	=	-D VERSION_NUMBER=\"`git log -1 --pretty=format:'%h'`\"
 
 SRC_DIR			= 	srcs
 INC_DIR			=	includes
