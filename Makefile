@@ -6,7 +6,7 @@
 #    By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/12 17:39:23 by jberredj          #+#    #+#              #
-#    Updated: 2021/12/30 00:42:12 by jberredj         ###   ########.fr        #
+#    Updated: 2022/01/02 13:26:25 by jberredj         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,7 @@ EXEC_SRCS		=	$(addprefix srcs/exec/, $(EXEC))
 EXEC_OBJS		=	$(addprefix objs/exec., $(subst /,., $(EXEC:.c=.o)))
 
 EXPANDER		=	expand_var.c get_var_len.c get_words_len.c special_case.c \
-					substitute.c
+					substitute.c subtoken.c
 EXPANDER_SRCS	=	$(addprefix srcs/expander/, $(EXPANDER))
 EXPANDER_OBJS	=	$(addprefix objs/expander., $(subst /,., $(EXPANDER:.c=.o)))
 

@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 15:39:07 by ddiakova          #+#    #+#             */
-/*   Updated: 2021/12/29 23:17:23 by jberredj         ###   ########.fr       */
+/*   Updated: 2022/01/02 14:33:36 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,29 @@ int	panic_expand_var(t_token *tokens, t_token *expanded_value)
 	return (ERR_MALLOC);
 }
 
-int	expand_all_tokens(t_token **tokens, int *i, t_env *env)
+void	try_get_next(t_token **tokens)
+{
+	if (*tokens)
+		*tokens = ft_idllst_next_content(&(*tokens)->list);
+}
+
+void	secure_to_free(t_token *to_free,
+	t_token **tokens, t_token **copy_tokens)
+{
+	bool	is_head;
+
+	is_head = ft_idllst_is_head(&(*tokens)->list);
+	if (is_head && to_free == *tokens)
+	{
+		secure_token_remove(tokens, copy_tokens);
+	}
+	else if (to_free)
+		free_token(&to_free->list);
+	try_get_next(tokens);
+}
+
+int	expand_all_tokens(t_token **tokens,
+	t_token **copy_tokens, int *i, t_env *env)
 {
 	char		*dollar_pos;
 	t_token		*expanded_value;
@@ -48,24 +70,26 @@ int	expand_all_tokens(t_token **tokens, int *i, t_env *env)
 	if (substitute_var(env, dollar_pos, &expanded_value))
 		return (panic_expand_var((*tokens), expanded_value));
 	if (expanded_value)
-		if (replace_token_content(&to_free, (*tokens), expanded_value))
+		if (replace_token_content(&to_free, tokens, expanded_value,
+				copy_tokens))
 			return (panic_expand_var((*tokens), expanded_value));
-	(*tokens) = ft_idllst_next_content(&(*tokens)->list);
-	if (to_free)
-		free_token(&to_free->list);
+	secure_to_free(to_free, tokens, copy_tokens);
 	to_free = NULL;
 	return (SUCCESS);
 }
 
-int	expand_var(t_token *tokens, t_env *env)
+int	expand_var(t_token **tokens, t_env *env)
 {
-	int			i;
+	t_token	*copy_tokens;
+	int		i;
 
 	i = 0;
-	while (tokens)
+	copy_tokens = *tokens;
+	while (*tokens)
 	{
-		if (expand_all_tokens(&tokens, &i, env))
+		if (expand_all_tokens(tokens, &copy_tokens, &i, env))
 			return (ERR_MALLOC);
 	}
+	*tokens = copy_tokens;
 	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 18:35:44 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/30 00:41:49 by jberredj         ###   ########.fr       */
+/*   Updated: 2022/01/02 14:21:12 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ int	combine_tokens(t_token **tokens)
 	t_token	*new_list;
 
 	new_list = NULL;
+	if (!*tokens)
+		return (SUCCESS);
 	*tokens = ft_idllst_content(ft_idllst_get_tail(&(*tokens)->list));
 	while (*tokens)
 	{
