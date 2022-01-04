@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 11:25:12 by ddiakova          #+#    #+#             */
-/*   Updated: 2022/01/04 18:41:40 by jberredj         ###   ########.fr       */
+/*   Updated: 2022/01/04 20:09:44 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 int	is_separator(char c)
 {
-	if ((ft_strchr("|<>;&()", c)))
+	if ((ft_strchr("|<>", c)))
 		return (1);
 	return (0);
 }
