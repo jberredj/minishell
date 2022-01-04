@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 16:40:34 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/25 21:43:00 by jberredj         ###   ########.fr       */
+/*   Updated: 2022/01/04 18:54:29 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ static int	check_file(char *path)
 
 int	print_exec_error(char *path, bool had_env_path)
 {
+	if (!path)
+		return (0);
 	if (access(path, F_OK) == 0)
 		return (check_file(path));
 	else if (!had_env_path || ft_strchr(path, '/'))

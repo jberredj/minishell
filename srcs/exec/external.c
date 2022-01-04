@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 18:03:59 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/29 00:30:38 by jberredj         ###   ########.fr       */
+/*   Updated: 2022/01/04 19:04:12 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,13 @@ static char	*try_exec_command(t_command *command)
 	envp = command->envp;
 	fds[0] = command->fd_in;
 	fds[1] = command->fd_out;
+	if (command->in_file)
+		free(command->in_file);
+	if (command->out_file)
+		free(command->out_file);
 	free(command);
-	execve(path_to_cmd, argv, envp);
+	if (path_to_cmd)
+		execve(path_to_cmd, argv, envp);
 	if (fds[0] != 0)
 		close(fds[0]);
 	if (fds[1] != 1)
@@ -68,8 +73,9 @@ static int	child_process(t_command *commands, t_env *env)
 	to_free = get_to_free(commands);
 	to_exec = ft_idllst_content(ft_idllst_pop(&commands->list, NULL));
 	had_env_path = (env->path && *env->path->value);
-	if (create_exported_var(env, "_", commands->path_to_cmd))
-		return (panic_child_out(ERR_MALLOC, to_exec));
+	if (commands->path_to_cmd)
+		if (create_exported_var(env, "_", commands->path_to_cmd))
+			return (panic_child_out(ERR_MALLOC, to_exec));
 	to_exec->envp = copy_envp(env->envp, env->nbr_exported);
 	if (!to_exec->envp)
 		return (panic_child_out(ERR_MALLOC, to_exec));

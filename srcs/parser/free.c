@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 15:09:17 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/25 21:13:43 by jberredj         ###   ########.fr       */
+/*   Updated: 2022/01/04 18:58:50 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,12 @@ void	free_xv(char **xv)
 	int	i;
 
 	i = -1;
-	while (xv[++i])
-		free(xv[i]);
-	free(xv);
+	if (xv)
+	{
+		while (xv[++i])
+			free(xv[i]);
+		free(xv);
+	}
 }
 
 void	free_command(void *content)
