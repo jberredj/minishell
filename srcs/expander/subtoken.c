@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 13:18:04 by jberredj          #+#    #+#             */
-/*   Updated: 2022/01/02 14:32:13 by jberredj         ###   ########.fr       */
+/*   Updated: 2022/01/04 18:25:10 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	secure_token_remove(t_token **tokens, t_token **copy_tokens)
 	size_t	size;
 	bool	is_head;
 
+	to_set = NULL;
 	is_head = ft_idllst_is_head(&(*tokens)->list);
 	size = ft_idllst_size(&(*tokens)->list);
 	if (is_head && size == 1)

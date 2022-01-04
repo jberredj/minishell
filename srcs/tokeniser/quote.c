@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 11:02:18 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/29 22:21:56 by jberredj         ###   ########.fr       */
+/*   Updated: 2022/01/04 18:27:03 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ int	check_for_quotes(t_token **tokens, char *user_str, bool first)
 		return (SUCCESS);
 	line = last_token->content;
 	len = ft_strlen(line);
-	if (first || !ft_isspace(*(user_str - len - 1)))
+	if (first || (!ft_isspace(*(user_str - len - 1))
+			&& !is_separator(*(user_str - len - 1))))
 		last_token->had_a_space_before = false;
 	if (!(len > 1 && is_quote(line[0])
 			&& is_quote(line[len - 1])))

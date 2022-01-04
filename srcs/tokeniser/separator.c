@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 11:25:12 by ddiakova          #+#    #+#             */
-/*   Updated: 2021/12/29 23:02:55 by jberredj         ###   ########.fr       */
+/*   Updated: 2022/01/04 18:41:40 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,30 @@ int	is_separator(char c)
 	return (0);
 }
 
+int	implemented_sep(char *line)
+{
+	if (ft_strncmp(line, ">>", 2) == 0)
+		return (2);
+	if (ft_strncmp(line, "<<", 2) == 0)
+		return (2);
+	if (ft_strncmp(line, "<", 1) == 0)
+		return (1);
+	if (ft_strncmp(line, ">", 1) == 0)
+		return (1);
+	if (ft_strncmp(line, "|", 1) == 0)
+		return (1);
+	return (0);
+}
+
 int	get_sep_len(char *line, bool min_val)
 {
 	int	len;
 
 	if (min_val)
 		return (1);
-	len = 0;
+	len = implemented_sep(line);
+	if (len)
+		return (len);
 	while (line[len] && !ft_isspace(line[len]) && is_separator(line[len]))
 		len++;
 	return (len);
