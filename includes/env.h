@@ -6,14 +6,14 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 15:51:49 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/25 21:34:59 by jberredj         ###   ########.fr       */
+/*   Updated: 2022/01/05 22:20:07 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ENV_H
 # define ENV_H
 # define ENV_VAR_EXPORTED 1
-# define ENV_VAR_UPDATED 2
+# define NOT_SET_EXPORTED 2
 # include "../libft/includes/ft_lst.h"
 # include "structs/t_env.h"
 

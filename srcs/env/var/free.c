@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 12:47:43 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/25 20:42:49 by jberredj         ###   ########.fr       */
+/*   Updated: 2022/01/05 22:20:34 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	pop_env_var_from_env(t_env *env, char *name)
 	if (!node_to_pop)
 		return (NOT_FOUND);
 	env->nbr_vars--;
-	if (node_to_pop->flags & ENV_VAR_EXPORTED)
+	if (node_to_pop->flags == ENV_VAR_EXPORTED)
 	{
 		env->envp[node_to_pop->id] = NULL;
 		if (remove_from_envp(&env->envp, &env->nbr_exported))

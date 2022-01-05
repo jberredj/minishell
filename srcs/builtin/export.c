@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 15:23:22 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/25 20:36:21 by jberredj         ###   ########.fr       */
+/*   Updated: 2022/01/05 22:06:52 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,14 @@ int	set_new_var(t_env *env, char *arg)
 			env->error_in_builtin = ERR_MALLOC;
 			return (ERR_MALLOC);
 		}
+	}
+	else
+	{
+		new = create_env_var(arg, "");
+		if (!new)
+			return (ERR_MALLOC);
+		add_env_var(env, new);
+		new->flags = NOT_SET_EXPORTED;
 	}
 	return (SUCCESS);
 }

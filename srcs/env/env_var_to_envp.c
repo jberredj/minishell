@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 15:10:53 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/25 20:44:20 by jberredj         ###   ########.fr       */
+/*   Updated: 2022/01/05 22:20:20 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	add_new_envp(char ***envp, t_env_var *node, size_t *nbr_exported)
 	*nbr_exported += 1;
 	node->id = *nbr_exported - 1;
 	new_envp[node->id] = node->envp_str;
-	node->flags ^= ENV_VAR_EXPORTED;
+	node->flags = ENV_VAR_EXPORTED;
 	return (0);
 }
 
@@ -49,7 +49,7 @@ char	*env_var_to_envp(char ***envp, t_env_var *env_var_node,
 		return (NULL);
 	if (!update_envp_str(env_var_node))
 		return (NULL);
-	if (!(env_var_node->flags & ENV_VAR_EXPORTED))
+	if (env_var_node->flags != ENV_VAR_EXPORTED)
 	{
 		if (add_new_envp(envp, env_var_node, nbr_exported))
 			return (NULL);

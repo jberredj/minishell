@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 17:21:17 by ddiakova          #+#    #+#             */
-/*   Updated: 2021/12/25 20:36:47 by jberredj         ###   ########.fr       */
+/*   Updated: 2022/01/05 22:27:18 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,17 +86,49 @@ void	print_export(char **copy)
 	}
 }
 
+char	**copy_envp_not_set_exported(t_env_var *env_vars, char **envp,
+	size_t *nbr)
+{
+	char	**export_envp;
+	int		error;
+
+	export_envp = copy_envp(envp, *nbr);
+	if (!export_envp)
+		return (NULL);
+	error = 0;
+	while (env_vars)
+	{
+		if (env_vars->flags == NOT_SET_EXPORTED)
+		{
+			env_vars->envp_str = env_vars->name;
+			if (add_new_envp(&export_envp, env_vars, nbr))
+				error = ERR_MALLOC;
+			env_vars->id = -1;
+			env_vars->envp_str = NULL;
+		}
+		if (error)
+		{
+			free_xv(export_envp);
+			return (NULL);
+		}
+		env_vars = ft_idllst_next_content(&env_vars->list);
+	}
+	return (export_envp);
+}
+
 int	copy_envp_and_print(t_env *env)
 {
 	char	**copy;
+	size_t	nbr_var;
 
-	copy = copy_envp(env->envp, env->nbr_exported);
+	nbr_var = env->nbr_exported;
+	copy = copy_envp_not_set_exported(env->env_vars, env->envp, &nbr_var);
 	if (!copy)
 	{
 		env->error_in_builtin = ERR_MALLOC;
 		return (ERR_MALLOC);
 	}
-	sort_copy(copy, env->nbr_exported);
+	sort_copy(copy, nbr_var);
 	print_export(copy);
 	free_xv(copy);
 	return (SUCCESS);
