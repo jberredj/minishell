@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 15:23:22 by jberredj          #+#    #+#             */
-/*   Updated: 2022/01/06 00:16:15 by jberredj         ###   ########.fr       */
+/*   Updated: 2022/01/06 00:31:18 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ int	set_or_update(t_env *env, char *arg)
 	}
 	else
 	{
-		if (update_envp_var_value(found, env->envp, equal + 1))
+		if (update_envp_var_value(found, env->envp, equal + 1)
+			|| !env_var_to_envp(&env->envp, found, &env->nbr_exported))
 			error = ERR_MALLOC;
 	}
 	if (error)
