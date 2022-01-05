@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 15:23:22 by jberredj          #+#    #+#             */
-/*   Updated: 2022/01/05 22:06:52 by jberredj         ###   ########.fr       */
+/*   Updated: 2022/01/05 23:52:02 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ int	set_new_var(t_env *env, char *arg)
 	new = find_env_var_in_lst(env->env_vars, arg);
 	if (new)
 	{
-		if (!env_var_to_envp(&env->envp, new, &env->nbr_exported))
+		if (new->flags != NOT_SET_EXPORTED
+			&& !env_var_to_envp(&env->envp, new, &env->nbr_exported))
 		{
 			env->error_in_builtin = ERR_MALLOC;
 			return (ERR_MALLOC);
@@ -106,7 +107,7 @@ int	export(char **argv, t_env *env)
 		argc++;
 	error = SUCCESS;
 	if (argc == 1)
-		error = copy_envp_and_print(env);
+		return (copy_envp_and_print(env));
 	while (argv[i])
 	{
 		if (!check_arg_var(argv[i]))
