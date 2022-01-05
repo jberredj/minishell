@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 13:08:17 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/25 20:35:13 by jberredj         ###   ########.fr       */
+/*   Updated: 2022/01/05 17:07:21 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ static int	treat_exit(int ac, char **argv, t_env *env)
 	int	exit_code;
 
 	num_valid = check_num_valid(argv[1]);
+	ft_putendl_fd("exit", 2);
 	if (num_valid && ac == 2)
 	{
 		exit_code = (uint8_t)ft_atoi(argv[1]);
