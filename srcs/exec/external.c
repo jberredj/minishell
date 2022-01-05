@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 18:03:59 by jberredj          #+#    #+#             */
-/*   Updated: 2022/01/04 19:04:12 by jberredj         ###   ########.fr       */
+/*   Updated: 2022/01/06 00:20:23 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,20 @@ static char	*try_exec_command(t_command *command)
 	return (path_to_cmd);
 }
 
+static int	underscore_var(t_env *env, char *path_to_cmd)
+{
+	t_env_var	*node;
+
+	node = find_env_var_in_lst(env->env_vars, "_");
+	if (!node)
+		return (create_exported_var(env, "_", path_to_cmd));
+	if (update_env_var_value(node, path_to_cmd))
+		return (ERR_MALLOC);
+	if (!env_var_to_envp(&env->envp, node, &env->nbr_exported))
+		return (ERR_MALLOC);
+	return (SUCCESS);
+}
+
 static int	child_process(t_command *commands, t_env *env)
 {
 	t_command	*to_exec;
@@ -74,7 +88,7 @@ static int	child_process(t_command *commands, t_env *env)
 	to_exec = ft_idllst_content(ft_idllst_pop(&commands->list, NULL));
 	had_env_path = (env->path && *env->path->value);
 	if (commands->path_to_cmd)
-		if (create_exported_var(env, "_", commands->path_to_cmd))
+		if (underscore_var(env, commands->path_to_cmd))
 			return (panic_child_out(ERR_MALLOC, to_exec));
 	to_exec->envp = copy_envp(env->envp, env->nbr_exported);
 	if (!to_exec->envp)
