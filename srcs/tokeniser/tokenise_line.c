@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/13 18:21:55 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/29 23:20:21 by jberredj         ###   ########.fr       */
+/*   Updated: 2022/01/07 17:36:47 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,6 @@ int	tokenise_line(t_token **tokens, char *line)
 		i++;
 	while (line[i])
 	{
-		while (ft_isspace(line[i]))
-			i++;
 		error = search_content(line, tokens, &i, get_word_len);
 		if (error == ERR_MALLOC)
 			return (panic_exit_tokeniser(*tokens));
@@ -64,6 +62,8 @@ int	tokenise_line(t_token **tokens, char *line)
 		if (!check_separator(tokens))
 			if (check_for_quotes(tokens, &line[i], first))
 				return (panic_exit_tokeniser(*tokens));
+		while (ft_isspace(line[i]))
+			i++;
 		first = false;
 	}
 	return (SUCCESS);
