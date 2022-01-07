@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 15:54:47 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/25 21:34:21 by jberredj         ###   ########.fr       */
+/*   Updated: 2022/01/07 15:05:17 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,6 @@ int		set_env_var(t_env *env, t_env_var *var, char *name, char *var_to_set);
 int		update_env(t_env *env, char *cwd);
 int		set_pwd(t_env *env);
 char	*get_cwd_err_protected(t_env *env);
+char	**copy_envp_not_set_exported(t_env_var *env_vars, char **envp,
+			size_t *nbr);
 #endif

@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 15:26:49 by jberredj          #+#    #+#             */
-/*   Updated: 2022/01/02 14:29:32 by jberredj         ###   ########.fr       */
+/*   Updated: 2022/01/07 15:05:55 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int	replace_token_content(t_token **to_free, t_token **tokens,
 		((t_token *)((*tokens)->list.next->struct_addr))->had_a_space_before
 			= true;
 	if ((*tokens)->type != D_QUOTE && !*(*tokens)->content)
-			*to_free = ft_idllst_content(ft_idllst_pop(&(*tokens)->list, NULL));
+		*to_free = ft_idllst_content(ft_idllst_pop(&(*tokens)->list, NULL));
 	ft_idllst_clear(&expanded_value->list, free_token);
 	if ((*tokens)->type == WORD)
 		return (create_subtokens(tokens, copy_tokens));

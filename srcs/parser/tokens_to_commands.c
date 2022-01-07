@@ -6,7 +6,7 @@
 /*   By: jberredj <jberredj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 15:21:31 by jberredj          #+#    #+#             */
-/*   Updated: 2021/12/28 22:46:24 by jberredj         ###   ########.fr       */
+/*   Updated: 2022/01/07 15:06:11 by jberredj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	create_commands(t_env *env, t_token **tokens, t_command **commands,
 
 	error = SUCCESS;
 	if ((*tokens)->type == SEPARATOR)
-			error = treat_separator(tokens, &(*commands), new_command);
+		error = treat_separator(tokens, &(*commands), new_command);
 	else
 	{
 		if (*new_command != CMD)
