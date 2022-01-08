@@ -1,4 +1,4 @@
 # minishell
--- Basic shell
+- Basic shell
 
 Final score : 101%
